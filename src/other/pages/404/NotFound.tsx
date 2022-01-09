@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { Surface } from '../../../common/components'
+
 export function NotFound(): JSX.Element {
-  return <div>404</div>
+  return <Surface>404</Surface>
 }
 
 export default NotFound
