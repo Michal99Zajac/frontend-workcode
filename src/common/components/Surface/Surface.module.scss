@@ -1,12 +1,11 @@
 @import '../../../common/styles/colors.scss';
 
 .surface {
-  padding: 0.8rem;
   width: min-content;
 }
 .surfaceDark {
-  background-color: $primary-bg--dark;
+  background-color: $surface-bg--dark;
 }
 .surfaceLight {
-  background-color: $primary-bg--light;
+  background-color: $surface-bg--light;
 }

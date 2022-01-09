@@ -1,0 +1,9 @@
+@import '../../styles/colors.scss';
+
+.bar {}
+.barDark {
+  background-color: $bar-bg--dark;
+}
+.barLight {
+  background-color: $bar-bg--light;
+}

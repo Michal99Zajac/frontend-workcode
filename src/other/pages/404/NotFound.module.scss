@@ -1,0 +1,19 @@
+.windowContent {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFoundPage {
+  height: 100%;
+}
+
+.returnDiv {
+  position: absolute;
+  right: 0;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
