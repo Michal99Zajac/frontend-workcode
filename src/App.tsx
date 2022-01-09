@@ -1,7 +1,7 @@
-import Editor from './editor/components/Editor'
+import React from 'react'
 
-function App(): JSX.Element {
-  return <Editor />
+function App(): React.ReactNode {
+  return <div></div>
 }
 
 export default App
