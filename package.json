@@ -1,6 +1,6 @@
 {
   "name": "frontend-workcode",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
@@ -14,7 +14,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@workcode/components": "git+https://github.com/Michal99Zajac/components-workcode.git",
-    "framer-motion": "^5",
+    "framer-motion": "^4",
     "immer": "^9.0.7",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
@@ -35,7 +35,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint 'src/**/*.{ts,tsx}'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "minor": ""
   },
   "eslintConfig": {
     "extends": [
