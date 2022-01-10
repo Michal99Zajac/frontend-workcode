@@ -24,7 +24,7 @@ export function NotFound(): JSX.Element {
   return (
     <Box className={notFoundPage}>
       <Box className={returnDiv}>
-        <Link to="/workspace/menu">
+        <Link to="/">
           <CloseIcon w={8} h={8} />
         </Link>
       </Box>
