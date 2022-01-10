@@ -32,6 +32,7 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
         status: 'warning',
         duration: 5000,
         isClosable: true,
+        position: 'top',
       })
       navigation('/')
     }
