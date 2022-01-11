@@ -7,15 +7,17 @@ import {
   Heading,
   useColorMode,
   Switch,
-  Spinner,
 } from '@chakra-ui/react'
 
+import { useAuth } from '../../../common/hooks'
+import { LanguageMenu } from '../../../common/components'
 import LogoImage from '../../../assets/img/logo.png'
 
 import classes from './Index.module.scss'
 
 export function Index(): JSX.Element {
   const navigation = useNavigate()
+  const { user } = useAuth()
   const { toggleColorMode } = useColorMode()
 
   return (
@@ -23,7 +25,7 @@ export function Index(): JSX.Element {
       <Box className={classes.top}>
         <Box className={classes.setting}>
           <Switch marginRight={5} onChange={toggleColorMode} />
-          <Spinner />
+          <LanguageMenu />
         </Box>
       </Box>
       <Box className={classes.center}>
@@ -35,22 +37,34 @@ export function Index(): JSX.Element {
         </Heading>
       </Box>
       <Box padding={5}>
-        <Button
-          onClick={() => navigation('/auth/signin')}
-          size="lg"
-          marginRight={2}
-        >
-          sign in
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={() => navigation('/auth/signup')}
-          to="/auth/signup"
-          size="lg"
-          marginLeft={2}
-        >
-          sign up
-        </Button>
+        {user ? (
+          <Button
+            width="160px"
+            onClick={() => navigation('/workspace/menu')}
+            size="lg"
+          >
+            menu
+          </Button>
+        ) : (
+          <>
+            <Button
+              onClick={() => navigation('/auth/signin')}
+              size="lg"
+              marginRight={2}
+            >
+              sign in
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => navigation('/auth/signup')}
+              to="/auth/signup"
+              size="lg"
+              marginLeft={2}
+            >
+              sign up
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   )

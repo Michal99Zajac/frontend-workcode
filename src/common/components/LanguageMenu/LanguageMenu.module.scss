@@ -1,0 +1,9 @@
+@import '../../styles/colors.scss';
+
+.menu {
+  border-radius: 100000px;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 1px $border-hover--dark;
+  }
+}
