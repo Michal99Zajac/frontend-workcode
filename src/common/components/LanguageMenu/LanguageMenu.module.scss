@@ -6,4 +6,8 @@
     cursor: pointer;
     box-shadow: 0 0 0 1px $border-hover--dark;
   }
+
+  &:focus {
+    box-shadow: 2px 2px 0 0.5px $border-focus--dark;
+  }
 }

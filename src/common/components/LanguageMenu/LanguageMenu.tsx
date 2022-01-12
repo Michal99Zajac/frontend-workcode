@@ -5,7 +5,6 @@ import {
   MenuOptionGroup,
   MenuButton,
   MenuList,
-  Box,
 } from '@chakra-ui/react'
 
 import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
@@ -35,7 +34,6 @@ export function LanguageMenu(): JSX.Element {
     <Menu>
       <MenuButton
         className={classes.menu}
-        as={Box}
         aria-label="Languages"
         variant="ghost"
       >
