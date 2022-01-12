@@ -9,22 +9,23 @@ import classes from './Window.module.scss'
 interface WindowProps {
   children: React.ReactNode
   title: string
+  bg?: string
 }
 
 export function Window(props: WindowProps): JSX.Element {
-  const { children, title } = props
+  const { children, title, bg } = props
   const { barDark, barLight } = classes
   const { colorMode } = useColorMode()
 
   const isDark = colorMode === 'dark'
 
   return (
-    <Surface
-      onDragCapture={(e) => console.log(e.clientX)}
-      onDrag={(e) => console.log(e.clientX)}
-      boxShadow={`3px 3px 0 1px ${isDark ? '#000' : '#FFF'}`}
-    >
-      <Box padding={1} className={clsx(isDark ? barDark : barLight)}>
+    <Surface boxShadow={`3px 3px 0 1px ${isDark ? '#000' : '#FFF'}`}>
+      <Box
+        padding={1}
+        backgroundColor={bg}
+        className={clsx(isDark ? barDark : barLight)}
+      >
         <Heading whiteSpace="nowrap" size="md">
           {title}
         </Heading>
