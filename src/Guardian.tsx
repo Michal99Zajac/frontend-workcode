@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 
 import { useAuth } from './common/hooks'
 
-const guardRoutes = ['/workspace', '/config']
+import { routes } from './Routes'
 
 interface GuardianProps {
   children: JSX.Element
@@ -21,8 +21,8 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
     const isForbbiden =
       !token &&
       !user &&
-      guardRoutes.some((route) =>
-        location.pathname.toLocaleLowerCase().includes(route)
+      routes.some((route) =>
+        location.pathname.toLocaleLowerCase().includes(route.path)
       )
 
     if (isForbbiden) {
