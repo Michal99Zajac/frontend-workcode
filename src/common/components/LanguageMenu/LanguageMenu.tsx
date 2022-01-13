@@ -31,7 +31,7 @@ export function LanguageMenu(): JSX.Element {
   }
 
   return (
-    <Menu>
+    <Menu computePositionOnMount>
       <MenuButton
         className={classes.menu}
         aria-label="Languages"

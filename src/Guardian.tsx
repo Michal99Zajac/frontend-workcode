@@ -23,7 +23,8 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
       !user &&
       routes.some((route) =>
         location.pathname.toLocaleLowerCase().includes(route.path)
-      )
+      ) &&
+      false
 
     if (isForbbiden) {
       toast({

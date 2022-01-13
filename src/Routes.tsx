@@ -107,7 +107,10 @@ export const routes: WorkcodeRouteObject[] = [
   },
 ]
 
-export const AppRoutes = () => {
+export const AppRoutes = (): React.ReactElement<
+  any,
+  string | React.JSXElementConstructor<any>
+> | null => {
   const appRoute = useRoutes(routes)
 
   return appRoute

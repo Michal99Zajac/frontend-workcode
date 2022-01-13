@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, Heading } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
@@ -8,18 +8,8 @@ import { Window } from '../../../common/components'
 
 import classes from './NotFound.module.scss'
 
-enum Cursor {
-  GRAB = 'grab',
-  GRABBING = 'grabbing',
-}
-
 export function NotFound(): JSX.Element {
   const { windowContent, notFoundPage, returnDiv } = classes
-  const [windowCord] = useState({
-    x: document.body.clientWidth / 2 - 200,
-    y: document.body.clientHeight / 2 - 150,
-  })
-  const [cursor, setCursor] = useState(Cursor.GRAB)
 
   return (
     <Box className={notFoundPage}>
@@ -30,11 +20,14 @@ export function NotFound(): JSX.Element {
       </Box>
       <Draggable
         bounds="parent"
-        defaultPosition={windowCord}
-        onStart={() => setCursor(Cursor.GRABBING)}
-        onStop={() => setCursor(Cursor.GRAB)}
+        defaultPosition={{
+          x: document.body.clientWidth / 2 - 200,
+          y: document.body.clientHeight / 2 - 150,
+        }}
+        defaultClassName="grab"
+        defaultClassNameDragging="grabbing"
       >
-        <Box position="absolute" _hover={{ cursor: cursor }}>
+        <Box position="absolute">
           <Window title="Not Found">
             <Box className={windowContent}>
               <Heading fontSize="9xl">404</Heading>

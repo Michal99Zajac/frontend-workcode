@@ -1,31 +1,22 @@
-import {} from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  Button,
-  Box,
-  Image,
-  Heading,
-  useColorMode,
-  Switch,
-} from '@chakra-ui/react'
+import { Button, Box, Image, Heading } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/hooks'
-import { LanguageMenu } from '../../../common/components'
 import LogoImage from '../../../assets/img/logo.png'
+import { BasicSetting } from '../../../common/components'
 
 import classes from './Index.module.scss'
 
 export function Index(): JSX.Element {
   const navigation = useNavigate()
   const { user } = useAuth()
-  const { toggleColorMode } = useColorMode()
 
   return (
     <Box className={classes.indexPage}>
       <Box className={classes.top}>
         <Box className={classes.setting}>
-          <Switch marginRight={5} onChange={toggleColorMode} />
-          <LanguageMenu />
+          <BasicSetting />
         </Box>
       </Box>
       <Box className={classes.center}>

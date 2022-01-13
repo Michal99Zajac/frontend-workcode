@@ -1,6 +1,12 @@
 @import '../../styles/colors.scss';
 
-.bar {}
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.8rem;
+}
+
 .barDark {
   background-color: $bar-bg--dark;
 }
