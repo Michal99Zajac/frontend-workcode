@@ -9,9 +9,9 @@ import { Permission } from './permissions'
 
 export interface WorkcodeRouteObject extends RouteObject {
   path: string // path is required
-  permission?: string[] // permission to page
+  permissions?: Permission[] // permission to page
   redirect?: string // where to redirect
-  forLogged?: boolean // should logged user have access
+  forLogged: boolean // should logged user have access
   auth?: boolean // should user be logged
   message?: string // message for no permissions user
 }
@@ -21,14 +21,14 @@ export const routes: WorkcodeRouteObject[] = [
     path: '/',
     index: true,
     element: <Index />,
-    permission: [],
+    permissions: [],
     forLogged: true,
     auth: false,
   },
   {
     path: '/workspace/menu',
     element: <Menu />,
-    permission: [Permission.USER],
+    permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -37,7 +37,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/workspace/wait',
     element: <Wait />,
-    permission: [Permission.USER],
+    permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -46,7 +46,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/workspace/editor',
     element: <Editor />,
-    permission: [Permission.USER],
+    permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -55,7 +55,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/auth/change-password',
     element: <ChangePassword />,
-    permission: [],
+    permissions: [],
     redirect: '/',
     forLogged: false,
     auth: false,
@@ -64,7 +64,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/auth/forgot-password',
     element: <ForgotPassword />,
-    permission: [],
+    permissions: [],
     redirect: '/',
     forLogged: false,
     auth: false,
@@ -73,7 +73,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/auth/signin',
     element: <SignIn />,
-    permission: [],
+    permissions: [],
     redirect: '/',
     forLogged: false,
     auth: false,
@@ -82,7 +82,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/auth/signup',
     element: <SignUp />,
-    permission: [],
+    permissions: [],
     redirect: '/',
     forLogged: false,
     auth: false,
@@ -91,7 +91,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/config',
     element: <UserConfig />,
-    permission: [Permission.USER],
+    permissions: [Permission.USER],
     redirect: '/',
     forLogged: true,
     auth: true,
@@ -100,7 +100,7 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '*',
     element: <NotFound />,
-    permission: [],
+    permissions: [],
     redirect: '/',
     forLogged: true,
     auth: false,

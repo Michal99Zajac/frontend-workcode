@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Box,
   Image,
@@ -14,39 +14,72 @@ import { useNavigate } from 'react-router-dom'
 import validator from 'validator'
 import Draggable from 'react-draggable'
 
+import { Error, signin } from '../../api/signin'
 import { BasicSetting, Window } from '../../../common/components'
+import { useAuth } from '../../../common/hooks'
 import LogoImage from '../../../assets/img/logo.png'
 
 import classes from './SignIn.module.scss'
 
+interface Form {
+  email: string
+  password: string
+}
+
 export function SignIn(): JSX.Element {
+  const { login } = useAuth()
   const toast = useToast()
   const navigation = useNavigate()
-  const { control, handleSubmit, formState } = useForm()
+  const { control, handleSubmit, formState } = useForm<Form>()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const valid = () => {
-    if (formState.errors.email) {
+  const onSubmit = handleSubmit<Form>(async (data) => {
+    setIsLoading(true)
+    try {
+      const response = await signin(data)
+      login(
+        {
+          email: response.email,
+          id: response.id,
+          permissions: response.permissions,
+        },
+        response.token
+      )
+      setIsLoading(false)
+      navigation('/workspace/menu')
+    } catch (error) {
+      const signinError = error as Error
+
+      if (signinError.email) displayValidation('Email', signinError.email)
+      if (signinError.password)
+        displayValidation('Password', signinError.password)
+    }
+    setIsLoading(false)
+  })
+
+  const displayValidation = useCallback(
+    (title: string, description: string) => {
       toast({
-        title: 'Email',
-        description: formState.errors.email.message,
+        title: title,
+        description: description,
         status: 'error',
         duration: null,
         isClosable: true,
         position: 'top',
       })
+    },
+    []
+  )
+
+  const valid = useCallback(() => {
+    if (formState.errors.email?.message) {
+      displayValidation('Email', formState.errors.email.message)
     }
 
-    if (formState.errors.password) {
-      toast({
-        title: 'Password',
-        description: formState.errors.password.message,
-        status: 'error',
-        duration: null,
-        isClosable: true,
-        position: 'top',
-      })
+    if (formState.errors.password?.message) {
+      displayValidation('Password', formState.errors.password.message)
     }
-  }
+  }, [formState.errors])
 
   return (
     <Box className={classes.page}>
@@ -68,10 +101,7 @@ export function SignIn(): JSX.Element {
       >
         <Box position="absolute">
           <Window title="Sign In" onClick={() => navigation('/')}>
-            <form
-              className={classes.windowContent}
-              onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
-            >
+            <form className={classes.windowContent} onSubmit={onSubmit}>
               <Controller
                 control={control}
                 name="email"
@@ -88,8 +118,9 @@ export function SignIn(): JSX.Element {
                     display="flex"
                     flexDirection="column"
                   >
-                    <Text fontSize="sm">Email</Text>
+                    <Text fontSize="sm">* Email</Text>
                     <Input
+                      isDisabled={isLoading}
                       placeholder="email@email.com"
                       onChange={field.onChange}
                       isInvalid={fieldState.invalid}
@@ -102,7 +133,7 @@ export function SignIn(): JSX.Element {
                 control={control}
                 name="password"
                 rules={{
-                  required: 'input is required',
+                  required: 'password is required',
                   validate: {
                     isPassword: (value) =>
                       validator.isStrongPassword(value) ||
@@ -115,8 +146,9 @@ export function SignIn(): JSX.Element {
                     display="flex"
                     flexDirection="column"
                   >
-                    <Text fontSize="sm">Password</Text>
+                    <Text fontSize="sm">* Password</Text>
                     <Input
+                      isDisabled={isLoading}
                       type="password"
                       placeholder="password"
                       onChange={field.onChange}
@@ -126,8 +158,13 @@ export function SignIn(): JSX.Element {
                   </InputGroup>
                 )}
               />
-              <Button alignSelf="flex-end" type="submit" onClick={valid}>
-                submit
+              <Button
+                isLoading={isLoading}
+                alignSelf="flex-end"
+                type="submit"
+                onClick={valid}
+              >
+                sign in
               </Button>
             </form>
           </Window>

@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useToast } from '@chakra-ui/react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, matchPath } from 'react-router-dom'
 
 import { useAuth } from './common/hooks'
 
-import { routes } from './Routes'
+import { routes, WorkcodeRouteObject } from './Routes'
 
 interface GuardianProps {
   children: JSX.Element
@@ -17,25 +17,45 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
   const location = useLocation()
   const toast = useToast()
 
-  useEffect(() => {
-    const isForbbiden =
-      !token &&
-      !user &&
-      routes.some((route) =>
-        location.pathname.toLocaleLowerCase().includes(route.path)
-      ) &&
-      false
+  const guard = useCallback(
+    (route: WorkcodeRouteObject): boolean => {
+      if (route.auth) {
+        return Boolean(
+          user &&
+            token &&
+            route.forLogged &&
+            route.permissions?.some((permission) =>
+              user.permissions.includes(permission)
+            )
+        )
+      } else {
+        if (!route.forLogged) {
+          return user === null && token === null
+        } else {
+          return true
+        }
+      }
+    },
+    [user, token]
+  )
 
-    if (isForbbiden) {
+  useEffect(() => {
+    const route = routes.find((route) =>
+      matchPath(route.path, location.pathname)
+    )
+
+    if (!route) throw new Error('Unknown pathname')
+
+    if (!guard(route)) {
       toast({
         title: 'Forbbiden',
-        description: 'sign in for access',
+        description: route.message,
         status: 'warning',
         duration: 5000,
         isClosable: true,
         position: 'top',
       })
-      navigation('/')
+      navigation(route.redirect || '/')
     }
   }, [location.pathname])
 
