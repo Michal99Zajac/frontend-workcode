@@ -40,7 +40,6 @@ export function SignIn(): JSX.Element {
       login(
         {
           email: response.email,
-          id: response.id,
           permissions: response.permissions,
         },
         response.token

@@ -6,7 +6,6 @@ export interface Form {
 }
 
 export interface Response {
-  id: string
   email: string
   token: string
   permissions: Permission[]
