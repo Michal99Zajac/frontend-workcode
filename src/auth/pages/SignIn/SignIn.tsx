@@ -8,9 +8,11 @@ import {
   useToast,
   Text,
   Button,
+  Divider,
+  Link,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import validator from 'validator'
 import Draggable from 'react-draggable'
 
@@ -157,13 +159,27 @@ export function SignIn(): JSX.Element {
                   </InputGroup>
                 )}
               />
-              <Button
-                isLoading={isLoading}
-                alignSelf="flex-end"
-                type="submit"
-                onClick={valid}
-              >
+              <Button isLoading={isLoading} type="submit" onClick={valid}>
                 sign in
+              </Button>
+              <Link
+                mt={3}
+                mb={1}
+                as={RouterLink}
+                fontSize="xs"
+                to="/auth/forgot-password"
+              >
+                Forgot your password?
+              </Link>
+              <Divider mb={5} />
+              <Text alignSelf="flex-start" mb={1} fontSize="xs">
+                Don&apos;t have an account?
+              </Text>
+              <Button
+                alignSelf="flex-start"
+                onClick={() => navigation('/auth/signup')}
+              >
+                sign up
               </Button>
             </form>
           </Window>
