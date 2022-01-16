@@ -14,7 +14,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import validator from 'validator'
 import Draggable from 'react-draggable'
 
-import { Error, signin } from '../../api/signin'
+import { FormError, signin } from '../../api/signin'
 import { Window } from '../../../common/components'
 import { useAuth } from '../../../common/hooks'
 
@@ -47,7 +47,7 @@ export function SignIn(): JSX.Element {
       setIsLoading(false)
       navigation('/workspace/menu')
     } catch (error) {
-      const signinError = error as Error
+      const signinError = error as FormError
 
       if (signinError.email) displayValidation('Email', signinError.email)
       if (signinError.password)
@@ -62,7 +62,7 @@ export function SignIn(): JSX.Element {
         title: title,
         description: description,
         status: 'error',
-        duration: null,
+        duration: 5000,
         isClosable: true,
         position: 'top',
       })
