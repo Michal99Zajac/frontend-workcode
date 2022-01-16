@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
+import { MainLayout, OperationLayout } from './common/components'
 import { Index, NotFound } from './other'
 import { Menu, Wait, Editor } from './workspace'
 import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
@@ -20,14 +22,22 @@ export const routes: WorkcodeRouteObject[] = [
   {
     path: '/',
     index: true,
-    element: <Index />,
+    element: (
+      <MainLayout>
+        <Index />
+      </MainLayout>
+    ),
     permissions: [],
     forLogged: true,
     auth: false,
   },
   {
     path: '/workspace/menu',
-    element: <Menu />,
+    element: (
+      <OperationLayout>
+        <Menu />
+      </OperationLayout>
+    ),
     permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
@@ -36,7 +46,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/workspace/wait',
-    element: <Wait />,
+    element: (
+      <OperationLayout>
+        <Wait />
+      </OperationLayout>
+    ),
     permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
@@ -45,7 +59,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/workspace/editor',
-    element: <Editor />,
+    element: (
+      <OperationLayout>
+        <Editor />
+      </OperationLayout>
+    ),
     permissions: [Permission.USER],
     redirect: '/auth/signin',
     forLogged: true,
@@ -54,7 +72,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/auth/change-password',
-    element: <ChangePassword />,
+    element: (
+      <MainLayout>
+        <ChangePassword />
+      </MainLayout>
+    ),
     permissions: [],
     redirect: '/',
     forLogged: false,
@@ -63,7 +85,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/auth/forgot-password',
-    element: <ForgotPassword />,
+    element: (
+      <MainLayout>
+        <ForgotPassword />
+      </MainLayout>
+    ),
     permissions: [],
     redirect: '/',
     forLogged: false,
@@ -72,7 +98,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/auth/signin',
-    element: <SignIn />,
+    element: (
+      <MainLayout>
+        <SignIn />
+      </MainLayout>
+    ),
     permissions: [],
     redirect: '/',
     forLogged: false,
@@ -81,7 +111,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/auth/signup',
-    element: <SignUp />,
+    element: (
+      <MainLayout>
+        <SignUp />
+      </MainLayout>
+    ),
     permissions: [],
     redirect: '/',
     forLogged: false,
@@ -90,7 +124,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '/config',
-    element: <UserConfig />,
+    element: (
+      <OperationLayout>
+        <UserConfig />
+      </OperationLayout>
+    ),
     permissions: [Permission.USER],
     redirect: '/',
     forLogged: true,
@@ -99,7 +137,11 @@ export const routes: WorkcodeRouteObject[] = [
   },
   {
     path: '*',
-    element: <NotFound />,
+    element: (
+      <MainLayout>
+        <NotFound />
+      </MainLayout>
+    ),
     permissions: [],
     redirect: '/',
     forLogged: true,

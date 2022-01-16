@@ -1,10 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Box, Image, Heading } from '@chakra-ui/react'
+import { Button, Box } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/hooks'
-import LogoImage from '../../../assets/img/logo.png'
-import { BasicSetting } from '../../../common/components'
 
 import classes from './Index.module.scss'
 
@@ -13,20 +11,7 @@ export function Index(): JSX.Element {
   const { user } = useAuth()
 
   return (
-    <Box className={classes.indexPage}>
-      <Box className={classes.top}>
-        <Box className={classes.setting}>
-          <BasicSetting />
-        </Box>
-      </Box>
-      <Box className={classes.center}>
-        <Box width={40} height={40}>
-          <Image src={LogoImage} alt="Logo" />
-        </Box>
-        <Heading marginLeft={20} fontSize="9xl">
-          Workcode
-        </Heading>
-      </Box>
+    <Box className={classes.page}>
       <Box padding={5}>
         {user ? (
           <Button

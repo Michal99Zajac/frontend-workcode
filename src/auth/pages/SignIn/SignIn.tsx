@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import {
   Box,
-  Image,
-  Heading,
   Input,
   InputGroup,
   useToast,
@@ -17,9 +15,8 @@ import validator from 'validator'
 import Draggable from 'react-draggable'
 
 import { Error, signin } from '../../api/signin'
-import { BasicSetting, Window } from '../../../common/components'
+import { Window } from '../../../common/components'
 import { useAuth } from '../../../common/hooks'
-import LogoImage from '../../../assets/img/logo.png'
 
 import classes from './SignIn.module.scss'
 
@@ -84,17 +81,6 @@ export function SignIn(): JSX.Element {
 
   return (
     <Box className={classes.page}>
-      <Box className={classes.setting}>
-        <BasicSetting />
-      </Box>
-      <Box className={classes.center}>
-        <Box width={40} height={40}>
-          <Image src={LogoImage} alt="Logo" />
-        </Box>
-        <Heading marginLeft={20} fontSize="9xl">
-          Workcode
-        </Heading>
-      </Box>
       <Draggable
         bounds="parent"
         defaultClassName="grab"
