@@ -5,6 +5,7 @@ import { Permission } from '../../permissions'
  * Used for AuthProvider.
  */
 export interface AuthUser {
+  id: string
   email: string
   permissions: Permission[]
 }

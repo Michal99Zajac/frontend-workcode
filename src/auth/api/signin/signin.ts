@@ -10,6 +10,7 @@ export const signin = (form: Form): Promise<Response> => {
         form.password === correctUser.password
       ) {
         resolve({
+          id: 'adafaabfabbfabhfba',
           email: form.email,
           token: 'afafasbfjhjbejb',
           permissions: [Permission.USER],

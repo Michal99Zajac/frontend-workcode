@@ -5,7 +5,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Error } from './other'
 import Guardian from './Guardian'
 import { AppRoutes } from './Routes'
-
 import './App.scss'
 
 export function App(): JSX.Element {

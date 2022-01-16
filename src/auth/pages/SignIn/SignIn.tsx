@@ -38,6 +38,7 @@ export function SignIn(): JSX.Element {
       const response = await signin(data)
       login(
         {
+          id: response.id,
           email: response.email,
           permissions: response.permissions,
         },

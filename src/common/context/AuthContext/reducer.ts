@@ -23,11 +23,11 @@ export const authReducer = (
   switch (action.type) {
     case 'SET_USER':
       return produce(state, (draft) => {
-        draft.user = action.user || state.user
+        draft.user = action.user !== undefined ? action.user : state.user
       })
     case 'SET_TOKEN':
       return produce(state, (draft) => {
-        draft.token = action.token || state.token
+        draft.token = action.token !== undefined ? action.token : state.token
       })
     default:
       return state
