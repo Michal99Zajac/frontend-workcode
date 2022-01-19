@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
   Input,
@@ -11,31 +12,33 @@ import {
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
-import validator from 'validator'
 import Draggable from 'react-draggable'
 
-import { FormError, signin } from '../../api/signin'
+import { signin } from '../../api/signin'
 import { Window } from '../../../common/components'
 import { useAuth } from '../../../common/hooks'
+import {
+  SignInSchema,
+  SignInSchemaType,
+  SignInErrorSchema,
+  SignInResponseSchema,
+} from '../../schemas'
 
 import classes from './SignIn.module.scss'
-
-interface Form {
-  email: string
-  password: string
-}
 
 export function SignIn(): JSX.Element {
   const { login } = useAuth()
   const toast = useToast()
   const navigation = useNavigate()
-  const { control, handleSubmit, formState } = useForm<Form>()
+  const { control, handleSubmit, formState } = useForm({
+    resolver: zodResolver(SignInSchema),
+  })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<Form>(async (data) => {
+  const onSubmit = handleSubmit<SignInSchemaType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await signin(data)
+      const response = SignInResponseSchema.parse(await signin(data))
       login(
         {
           id: response.id,
@@ -47,7 +50,7 @@ export function SignIn(): JSX.Element {
       setIsLoading(false)
       navigation('/workspace/menu')
     } catch (error) {
-      const signinError = error as FormError
+      const signinError = SignInErrorSchema.parse(error)
 
       if (signinError.email) displayValidation('Email', signinError.email)
       if (signinError.password)
@@ -93,13 +96,6 @@ export function SignIn(): JSX.Element {
               <Controller
                 control={control}
                 name="email"
-                rules={{
-                  required: 'email is required',
-                  validate: {
-                    isEmail: (value) =>
-                      validator.isEmail(value) || 'input should be email',
-                  },
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}
@@ -120,14 +116,6 @@ export function SignIn(): JSX.Element {
               <Controller
                 control={control}
                 name="password"
-                rules={{
-                  required: 'password is required',
-                  validate: {
-                    isPassword: (value) =>
-                      validator.isStrongPassword(value) ||
-                      'password should be strong',
-                  },
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}

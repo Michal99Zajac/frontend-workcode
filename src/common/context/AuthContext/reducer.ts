@@ -1,9 +1,9 @@
 import { produce } from 'immer'
 
-import { AuthUser } from '../../types'
+import { AuthUserType } from '../../schemas'
 
 export interface AuthState {
-  user: AuthUser | null
+  user: AuthUserType | null
   token: string | null
 }
 

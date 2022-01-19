@@ -8,32 +8,45 @@ import {
   Button,
   Divider,
 } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import validator from 'validator'
 import Draggable from 'react-draggable'
 
-import { signup, FormError } from '../../api/signup'
+import { signup } from '../../api/signup'
 import { Window } from '../../../common/components'
+import {
+  SignUpType,
+  SignUpSchema,
+  SignUpErrorSchema,
+} from '../../schemas/SignUpSchema'
 
-import { Form } from './types'
 import classes from './SignUp.module.scss'
 
 export function SignUp(): JSX.Element {
   const toast = useToast()
   const navigation = useNavigate()
-  const { control, handleSubmit, formState } = useForm<Form>()
+  const { control, handleSubmit, formState } = useForm({
+    resolver: zodResolver(SignUpSchema),
+  })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<Form>(async (data) => {
+  const onSubmit = handleSubmit<SignUpType>(async (data) => {
     setIsLoading(true)
+
     try {
       if (data.password !== data.repeatedPassword) {
         throw new Error('passwords are not the same')
       }
-
-      await signup(data)
+    } catch (error) {
+      const { message } = error as Error
+      displayValidation('Password', message)
       setIsLoading(false)
+      return
+    }
+
+    try {
+      await signup(data)
       toast({
         title: 'Sign Up',
         description: 'Your account has been created',
@@ -44,19 +57,15 @@ export function SignUp(): JSX.Element {
       })
       navigation('/auth/signin')
     } catch (error) {
-      const signupError = error as FormError | Error
+      const signupError = SignUpErrorSchema.parse(error)
 
-      if (signupError instanceof Error) {
-        displayValidation('Password', signupError.message)
-      } else {
-        if (signupError.email) displayValidation('Email', signupError.email)
-        if (signupError.password)
-          displayValidation('Password', signupError.password)
-        if (signupError.firstname)
-          displayValidation('Firstname', signupError.firstname)
-        if (signupError.lastname)
-          displayValidation('Lastname', signupError.lastname)
-      }
+      if (signupError.email) displayValidation('Email', signupError.email)
+      if (signupError.password)
+        displayValidation('Password', signupError.password)
+      if (signupError.firstname)
+        displayValidation('Firstname', signupError.firstname)
+      if (signupError.lastname)
+        displayValidation('Lastname', signupError.lastname)
     }
     setIsLoading(false)
   })
@@ -110,13 +119,6 @@ export function SignUp(): JSX.Element {
               <Controller
                 control={control}
                 name="email"
-                rules={{
-                  required: 'email is required',
-                  validate: {
-                    isEmail: (value) =>
-                      validator.isEmail(value) || 'input should be email',
-                  },
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}
@@ -137,9 +139,6 @@ export function SignUp(): JSX.Element {
               <Controller
                 control={control}
                 name="firstname"
-                rules={{
-                  required: 'firstname is required',
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}
@@ -160,9 +159,6 @@ export function SignUp(): JSX.Element {
               <Controller
                 control={control}
                 name="lastname"
-                rules={{
-                  required: 'lastname is required',
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}
@@ -183,14 +179,6 @@ export function SignUp(): JSX.Element {
               <Controller
                 control={control}
                 name="password"
-                rules={{
-                  required: 'password is required',
-                  validate: {
-                    isPassword: (value) =>
-                      validator.isStrongPassword(value) ||
-                      'password should be strong',
-                  },
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}
@@ -212,9 +200,6 @@ export function SignUp(): JSX.Element {
               <Controller
                 control={control}
                 name="repeatedPassword"
-                rules={{
-                  required: 'repeated password is required',
-                }}
                 render={({ field, fieldState }) => (
                   <InputGroup
                     marginBottom={5}

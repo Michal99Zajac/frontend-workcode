@@ -1,9 +1,11 @@
-export enum Permission {
-  USER = 'USER', // normal user
-  OWNER = 'OWNER', // can all
-  ADMIN = 'ADMIN', // admin all but could be removed
-  EDITOR = 'EDITOR', // can edit but not invite
-  WATCHER = 'WATCHER', // can watch but not edit
-}
+import { z } from 'zod'
+
+export const Permission = z.enum(['USER', 'ADMIN'])
+
+export const PermissionArray = Permission.array()
+
+export type PermissionType = z.infer<typeof Permission>
+
+export type PermissionArrayType = z.infer<typeof PermissionArray>
 
 export default Permission

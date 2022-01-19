@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { AuthUser } from '../../types'
+import { AuthUserType } from '../../schemas'
 
 export interface AuthContextType {
-  user: AuthUser | null
+  user: AuthUserType | null
   token: string | null
-  login: (user: AuthUser, token: string) => void
+  login: (user: AuthUserType, token: string) => void
   logout: () => void
 }
 

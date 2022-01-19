@@ -1,19 +1,20 @@
-import { Permission } from '../../../permissions'
+import {
+  SignInSchemaType,
+  SignInResponseType,
+} from '../../schemas/SignInSchema'
 
-import { Form, Response } from './types'
-
-export const signin = (form: Form): Promise<Response> => {
-  return new Promise<Response>((resolve, reject) => {
+export const signin = (form: SignInSchemaType): Promise<SignInResponseType> => {
+  return new Promise<SignInResponseType>((resolve, reject) => {
     setTimeout(() => {
       if (
         form.email === correctUser.email &&
         form.password === correctUser.password
       ) {
         resolve({
-          id: 'adafaabfabbfabhfba',
+          id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
           email: form.email,
           token: 'afafasbfjhjbejb',
-          permissions: [Permission.USER],
+          permissions: ['USER'],
         })
       }
 
@@ -30,5 +31,5 @@ export default signin
 // TODO: remove after developing
 const correctUser = {
   email: 'admin@example.com',
-  password: 'P@ssword1',
+  password: 'password',
 }

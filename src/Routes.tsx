@@ -7,11 +7,11 @@ import { Index, NotFound } from './other'
 import { Menu, Wait, Editor } from './workspace'
 import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
 import { UserConfig } from './config'
-import { Permission } from './permissions'
+import { PermissionArrayType } from './permissions'
 
 export interface WorkcodeRouteObject extends RouteObject {
   path: string // path is required
-  permissions?: Permission[] // permission to page
+  permissions?: PermissionArrayType // permission to page
   redirect?: string // where to redirect
   forLogged: boolean // should logged user have access
   auth?: boolean // should user be logged
@@ -38,7 +38,7 @@ export const routes: WorkcodeRouteObject[] = [
         <Menu />
       </OperationLayout>
     ),
-    permissions: [Permission.USER],
+    permissions: ['USER'],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -51,7 +51,7 @@ export const routes: WorkcodeRouteObject[] = [
         <Wait />
       </OperationLayout>
     ),
-    permissions: [Permission.USER],
+    permissions: ['USER'],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -64,7 +64,7 @@ export const routes: WorkcodeRouteObject[] = [
         <Editor />
       </OperationLayout>
     ),
-    permissions: [Permission.USER],
+    permissions: ['USER'],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
@@ -129,7 +129,7 @@ export const routes: WorkcodeRouteObject[] = [
         <UserConfig />
       </OperationLayout>
     ),
-    permissions: [Permission.USER],
+    permissions: ['USER'],
     redirect: '/',
     forLogged: true,
     auth: true,

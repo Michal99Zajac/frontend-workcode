@@ -8,18 +8,18 @@ import {
 } from '@chakra-ui/react'
 
 import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
-import { Language } from '../../types'
+import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageSchema'
 
 import classes from './LanguageMenu.module.scss'
 
 export function LanguageMenu(): JSX.Element {
-  const [lang, setLang] = useState<Language>(Language.ENGLISH)
+  const [lang, setLang] = useState<LanguageEnumType>(LanguageEnum.enum.ENGLISH)
 
   const getLanguageIcon = useCallback(() => {
     switch (lang) {
-      case Language.ENGLISH:
+      case LanguageEnum.enum.ENGLISH:
         return <EnglishFlagIcon fontSize="2rem" />
-      case Language.POLISH:
+      case LanguageEnum.enum.POLISH:
         return <PolishFlagIcon fontSize="2rem" />
       default:
         throw new Error('Set unknown language')
@@ -27,7 +27,7 @@ export function LanguageMenu(): JSX.Element {
   }, [lang])
 
   const onLangChange = (value: string | string[]) => {
-    setLang(value as Language)
+    setLang(LanguageEnum.parse(value))
   }
 
   return (
@@ -46,10 +46,10 @@ export function LanguageMenu(): JSX.Element {
           title="language"
           onChange={onLangChange}
         >
-          <MenuItemOption value={Language.POLISH}>
+          <MenuItemOption value={LanguageEnum.enum.POLISH}>
             <PolishFlagIcon /> Polish
           </MenuItemOption>
-          <MenuItemOption value={Language.ENGLISH}>
+          <MenuItemOption value={LanguageEnum.enum.ENGLISH}>
             <EnglishFlagIcon /> English
           </MenuItemOption>
         </MenuOptionGroup>

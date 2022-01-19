@@ -1,29 +1,16 @@
-import validator from 'validator'
+import { SignUpResponseType, SignUpType } from '../../schemas/SignUpSchema'
 
-import { Form, Response, FormError } from './types'
-
-export const signup = (form: Form): Promise<Response> => {
-  return new Promise<Response>((resolve, reject) => {
+export const signup = (form: SignUpType): Promise<SignUpResponseType> => {
+  return new Promise<SignUpResponseType>((resolve, reject) => {
     setTimeout(() => {
-      const err: FormError = {}
+      console.log(form)
+      resolve({
+        id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
+      })
 
-      if (!form.email || validator.isEmail(form.email))
-        err.email = 'email is not email'
-
-      if (!form.firstname) err.firstname = 'firstname is required'
-
-      if (!form.lastname) err.lastname = 'lastname is required'
-
-      if (!form.password || validator.isStrongPassword(form.password))
-        err.password = 'password is to weak'
-
-      if (Object.keys(err).length) {
-        resolve({
-          id: 'adafaabfabbfabhfba',
-        })
-      }
-
-      reject(err)
+      reject({
+        email: 'email is required',
+      })
     }, 4000)
   })
 }

@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback } from 'react'
 
-import { AuthUser } from '../../types'
+import { AuthUserType } from '../../schemas'
 
 import AuthContext from './AuthContext'
 import { authReducer, initialAuth } from './reducer'
@@ -18,7 +18,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
     }
   })
 
-  const login = useCallback((user: AuthUser, token: string) => {
+  const login = useCallback((user: AuthUserType, token: string) => {
     dispatch({ type: 'SET_USER', user: user })
     dispatch({ type: 'SET_TOKEN', token: token })
 
