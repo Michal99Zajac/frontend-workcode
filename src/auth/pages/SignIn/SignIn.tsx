@@ -12,10 +12,9 @@ import {
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
-import Draggable from 'react-draggable'
 
 import { signin } from '../../api/signin'
-import { Window } from '../../../common/components'
+import { Window, DragPocket } from '../../../common/components'
 import { useAuth } from '../../../common/store'
 import {
   SignInSchema,
@@ -85,11 +84,7 @@ export function SignIn(): JSX.Element {
 
   return (
     <Box className={classes.page}>
-      <Draggable
-        bounds="parent"
-        defaultClassName="grab"
-        defaultClassNameDragging="grabbing"
-      >
+      <DragPocket>
         <Box position="absolute">
           <Window title="Sign In" onClick={() => navigation('/')}>
             <form className={classes.windowContent} onSubmit={onSubmit}>
@@ -159,7 +154,7 @@ export function SignIn(): JSX.Element {
             </form>
           </Window>
         </Box>
-      </Draggable>
+      </DragPocket>
     </Box>
   )
 }

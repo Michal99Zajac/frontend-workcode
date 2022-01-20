@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Text, Kbd, Button, Image } from '@chakra-ui/react'
-import Draggable from 'react-draggable'
 import { FallbackProps } from 'react-error-boundary'
 
-import { Window } from '../../../common/components'
+import { Window, DragPocket } from '../../../common/components'
 import { getRandomInt } from '../../utils'
 import LogoImage from '../../../assets/img/logo.png'
 
@@ -27,16 +26,12 @@ export function Error(props: FallbackProps): JSX.Element {
   return (
     <Box className={classes.page}>
       {array.map((val, index) => (
-        <Draggable
+        <DragPocket
           key={val}
-          defaultClassName={classes.default}
-          defaultClassNameDragging={classes.grabed}
           defaultPosition={{
             x: getRandomInt(window.innerWidth - 450),
             y: getRandomInt(window.innerHeight - 350),
           }}
-          bounds="parent"
-          handle=".handle"
         >
           <Box
             left={0}
@@ -45,7 +40,6 @@ export function Error(props: FallbackProps): JSX.Element {
               if (win) windows.current[index] = win
             }}
             style={{ visibility: 'hidden' }}
-            className="handle"
             position="absolute"
           >
             <Window title="Error" bg="#D90D00">
@@ -59,7 +53,7 @@ export function Error(props: FallbackProps): JSX.Element {
               </Box>
             </Window>
           </Box>
-        </Draggable>
+        </DragPocket>
       ))}
       <Box width={400} height={400}>
         <Image src={LogoImage} alt="Logo" />

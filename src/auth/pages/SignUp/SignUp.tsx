@@ -11,10 +11,9 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import Draggable from 'react-draggable'
 
 import { signup } from '../../api/signup'
-import { Window } from '../../../common/components'
+import { Window, DragPocket } from '../../../common/components'
 import {
   SignUpType,
   SignUpSchema,
@@ -108,11 +107,7 @@ export function SignUp(): JSX.Element {
 
   return (
     <Box className={classes.page}>
-      <Draggable
-        bounds="parent"
-        defaultClassName="grab"
-        defaultClassNameDragging="grabbing"
-      >
+      <DragPocket>
         <Box position="absolute">
           <Window title="Sign Up" onClick={() => navigation('/')}>
             <form className={classes.windowContent} onSubmit={onSubmit}>
@@ -234,7 +229,7 @@ export function SignUp(): JSX.Element {
             </form>
           </Window>
         </Box>
-      </Draggable>
+      </DragPocket>
     </Box>
   )
 }

@@ -2,9 +2,8 @@ import React from 'react'
 import { Box, Heading } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
-import Draggable from 'react-draggable'
 
-import { Window } from '../../../common/components'
+import { Window, DragPocket } from '../../../common/components'
 
 import classes from './NotFound.module.scss'
 
@@ -18,14 +17,11 @@ export function NotFound(): JSX.Element {
           <CloseIcon w={8} h={8} />
         </Link>
       </Box>
-      <Draggable
-        bounds="parent"
+      <DragPocket
         defaultPosition={{
           x: document.body.clientWidth / 2 - 200,
           y: document.body.clientHeight / 2 - 150,
         }}
-        defaultClassName="grab"
-        defaultClassNameDragging="grabbing"
       >
         <Box position="absolute">
           <Window title="Not Found">
@@ -34,7 +30,7 @@ export function NotFound(): JSX.Element {
             </Box>
           </Window>
         </Box>
-      </Draggable>
+      </DragPocket>
     </Box>
   )
 }
