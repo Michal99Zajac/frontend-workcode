@@ -2,13 +2,13 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Box } from '@chakra-ui/react'
 
-import { useAuth } from '../../../common/hooks'
+import { useAuth } from '../../../common/store'
 
 import classes from './Index.module.scss'
 
 export function Index(): JSX.Element {
   const navigation = useNavigate()
-  const { user } = useAuth()
+  const user = useAuth((state) => state.user)
 
   return (
     <Box className={classes.page}>

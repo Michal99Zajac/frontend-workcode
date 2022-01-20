@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Image, Heading } from '@chakra-ui/react'
 
-import { useAuth } from '../../hooks'
+import { useAuth } from '../../store'
 import BasicSetting from '../BasicSetting'
 import UserBucket from '../UserBucket'
 import LogoImage from '../../../assets/img/logo.png'
@@ -13,7 +13,7 @@ interface MainLayoutProps {
 }
 
 export function MainLayout(props: MainLayoutProps): JSX.Element {
-  const { user } = useAuth()
+  const user = useAuth((state) => state.user)
   const { children } = props
 
   const userBucket = !user ? null : (

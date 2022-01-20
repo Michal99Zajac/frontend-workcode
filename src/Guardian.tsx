@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useNavigate, useLocation, matchPath } from 'react-router-dom'
 
-import { useAuth } from './common/hooks'
+import { useAuth } from './common/store'
 
 import { routes, WorkcodeRouteObject } from './Routes'
 

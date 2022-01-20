@@ -16,7 +16,7 @@ import Draggable from 'react-draggable'
 
 import { signin } from '../../api/signin'
 import { Window } from '../../../common/components'
-import { useAuth } from '../../../common/hooks'
+import { useAuth } from '../../../common/store'
 import {
   SignInSchema,
   SignInSchemaType,
@@ -27,7 +27,7 @@ import {
 import classes from './SignIn.module.scss'
 
 export function SignIn(): JSX.Element {
-  const { login } = useAuth()
+  const login = useAuth((state) => state.login)
   const toast = useToast()
   const navigation = useNavigate()
   const { control, handleSubmit, formState } = useForm({

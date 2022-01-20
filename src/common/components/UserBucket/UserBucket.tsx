@@ -11,7 +11,7 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 
-import { useAuth } from '../../hooks'
+import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
 
 import { LoggedUser } from './types'
@@ -19,7 +19,10 @@ import classes from './UserBucket.module.scss'
 
 export function UserBucket(): JSX.Element | null {
   const { colorMode } = useColorMode()
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuth((state) => ({
+    user: state.user,
+    logout: state.logout,
+  }))
   const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const isDark = colorMode === 'dark'
