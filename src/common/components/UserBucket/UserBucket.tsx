@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import {
   Menu,
@@ -13,8 +13,8 @@ import {
 
 import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
+import { UserType } from '../../schemas/UserSchema'
 
-import { LoggedUser } from './types'
 import classes from './UserBucket.module.scss'
 
 export function UserBucket(): JSX.Element | null {
@@ -23,7 +23,8 @@ export function UserBucket(): JSX.Element | null {
     user: state.user,
     logout: state.logout,
   }))
-  const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(null)
+  const navigate = useNavigate()
+  const [loggedUser, setLoggedUser] = useState<UserType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const isDark = colorMode === 'dark'
 
@@ -33,12 +34,7 @@ export function UserBucket(): JSX.Element | null {
       if (!user) throw new Error('User is not logged')
       const response = await fetchUser({ id: user.id })
 
-      setLoggedUser({
-        email: response.email,
-        fullname: `${response.name} ${response.lastname}`,
-        id: response.id,
-        src: response.src,
-      })
+      setLoggedUser(response)
     } catch (error) {
       console.error(error)
     }
@@ -49,10 +45,15 @@ export function UserBucket(): JSX.Element | null {
     fetchImage()
   }, [])
 
+  const logoutUser = useCallback(async () => {
+    logout()
+    navigate('/')
+  }, [user, logout])
+
   if (isLoading) return <Spinner />
 
   return (
-    <Menu>
+    <Menu placement="right-end">
       <MenuButton
         className={clsx(
           classes.menu,
@@ -62,8 +63,8 @@ export function UserBucket(): JSX.Element | null {
         <Avatar
           size="sm"
           fontSize="1.2rem"
-          src={loggedUser?.src}
-          name={loggedUser?.fullname}
+          src={loggedUser?.src || undefined}
+          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
           className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
         />
       </MenuButton>
@@ -74,7 +75,7 @@ export function UserBucket(): JSX.Element | null {
         <MenuItem as={Link} to="/workspace/menu">
           menu
         </MenuItem>
-        <MenuItem onClick={logout}>logout</MenuItem>
+        <MenuItem onClick={logoutUser}>logout</MenuItem>
       </MenuList>
     </Menu>
   )
