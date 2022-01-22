@@ -1,0 +1,33 @@
+@import '../../styles/colors.scss';
+
+.menu {
+  border-radius: 10000000px;
+}
+
+.darkMenu {
+  &:hover {
+    box-shadow: 0 0 0 1px $border-hover--dark;
+  }
+
+  &:focus {
+    box-shadow: 2px 2px 0 0.5px $border-focus--dark;
+  }
+}
+
+.lightMenu {
+  &:hover {
+    box-shadow: 0 0 0 1px $border-hover--light;
+  }
+
+  &:focus {
+    box-shadow: 2px 2px 0 0.5px $border-focus--light;
+  }
+}
+
+.darkAvatar {
+  background-color: $avatar-bg--dark !important;
+}
+
+.lightAvatar {
+  background-color: $avatar-bg--light !important;
+}
