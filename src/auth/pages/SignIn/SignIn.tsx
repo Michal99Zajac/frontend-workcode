@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
   Input,
   InputGroup,
-  useToast,
   Text,
   Button,
   Divider,
@@ -16,6 +15,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { signin } from '../../api/signin'
 import { Window, DragPocket } from '../../../common/components'
 import { useAuth } from '../../../common/store'
+import { useValidToast } from '../../../common/hooks'
 import {
   SignInSchema,
   SignInSchemaType,
@@ -27,7 +27,7 @@ import classes from './SignIn.module.scss'
 
 export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
-  const toast = useToast()
+  const valid = useValidToast()
   const navigation = useNavigate()
   const { control, handleSubmit, formState } = useForm({
     resolver: zodResolver(SignInSchema),
@@ -50,37 +50,10 @@ export function SignIn(): JSX.Element {
       navigation('/workspace/menu')
     } catch (error) {
       const signinError = SignInErrorSchema.parse(error)
-
-      if (signinError.email) displayValidation('Email', signinError.email)
-      if (signinError.password)
-        displayValidation('Password', signinError.password)
+      valid(signinError, 'error')
     }
     setIsLoading(false)
   })
-
-  const displayValidation = useCallback(
-    (title: string, description: string) => {
-      toast({
-        title: title,
-        description: description,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      })
-    },
-    []
-  )
-
-  const valid = useCallback(() => {
-    if (formState.errors.email?.message) {
-      displayValidation('Email', formState.errors.email.message)
-    }
-
-    if (formState.errors.password?.message) {
-      displayValidation('Password', formState.errors.password.message)
-    }
-  }, [formState.errors])
 
   return (
     <Box className={classes.page}>
@@ -129,7 +102,11 @@ export function SignIn(): JSX.Element {
                   </InputGroup>
                 )}
               />
-              <Button isLoading={isLoading} type="submit" onClick={valid}>
+              <Button
+                isLoading={isLoading}
+                type="submit"
+                onClick={() => valid(formState.errors, 'error', 'Sign In')}
+              >
                 sign in
               </Button>
               <Link

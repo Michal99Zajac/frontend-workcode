@@ -4,10 +4,17 @@ import { PermissionArray } from '../../../permissions'
 
 export const SignInSchema = z.object({
   email: z
-    .string()
-    .email({ message: 'email should have email form' })
-    .nonempty({ message: 'email is required' }),
-  password: z.string().min(7, 'password has to have more then 6 letters'),
+    .string({
+      required_error: 'email is required',
+    })
+    .nonempty({ message: 'email is required' })
+    .email({ message: 'email should have email form' }),
+  password: z
+    .string({
+      required_error: 'password is required',
+    })
+    .nonempty({ message: 'password is required' })
+    .min(7, 'password has to have more then 6 letters'),
 })
 
 export const SignInResponseSchema = z.object({

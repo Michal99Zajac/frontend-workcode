@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Input,
@@ -13,6 +13,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { signup } from '../../api/signup'
+import { useValidToast } from '../../../common/hooks'
 import { Window, DragPocket } from '../../../common/components'
 import {
   SignUpType,
@@ -25,6 +26,7 @@ import classes from './SignUp.module.scss'
 export function SignUp(): JSX.Element {
   const toast = useToast()
   const navigation = useNavigate()
+  const valid = useValidToast()
   const { control, handleSubmit, formState } = useForm({
     resolver: zodResolver(SignUpSchema),
   })
@@ -39,7 +41,7 @@ export function SignUp(): JSX.Element {
       }
     } catch (error) {
       const { message } = error as Error
-      displayValidation('Password', message)
+      valid({ password: message }, 'error', 'Passwords')
       setIsLoading(false)
       return
     }
@@ -57,53 +59,10 @@ export function SignUp(): JSX.Element {
       navigation('/auth/signin')
     } catch (error) {
       const signupError = SignUpErrorSchema.parse(error)
-
-      if (signupError.email) displayValidation('Email', signupError.email)
-      if (signupError.password)
-        displayValidation('Password', signupError.password)
-      if (signupError.firstname)
-        displayValidation('Firstname', signupError.firstname)
-      if (signupError.lastname)
-        displayValidation('Lastname', signupError.lastname)
+      valid(signupError, 'error')
     }
     setIsLoading(false)
   })
-
-  const displayValidation = useCallback(
-    (title: string, description: string) => {
-      toast({
-        title: title,
-        description: description,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      })
-    },
-    []
-  )
-
-  const valid = useCallback(() => {
-    if (formState.errors.email?.message) {
-      displayValidation('Email', formState.errors.email.message)
-    }
-
-    if (formState.errors.password?.message) {
-      displayValidation('Password', formState.errors.password.message)
-    }
-
-    if (formState.errors.firstname?.message) {
-      displayValidation('Firstname', formState.errors.firstname.message)
-    }
-
-    if (formState.errors.lastname?.message) {
-      displayValidation('Lastname', formState.errors.lastname.message)
-    }
-
-    if (formState.errors.repeatedPassword?.message) {
-      displayValidation('Repeat', formState.errors.repeatedPassword.message)
-    }
-  }, [formState.errors])
 
   return (
     <Box className={classes.page}>
@@ -213,7 +172,11 @@ export function SignUp(): JSX.Element {
                   </InputGroup>
                 )}
               />
-              <Button isLoading={isLoading} type="submit" onClick={valid}>
+              <Button
+                isLoading={isLoading}
+                type="submit"
+                onClick={() => valid(formState.errors, 'error')}
+              >
                 sign up
               </Button>
               <Divider mb={5} mt={5} />
