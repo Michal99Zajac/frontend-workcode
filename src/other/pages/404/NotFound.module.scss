@@ -6,14 +6,10 @@
   justify-content: center;
 }
 
-.notFoundPage {
+.page {
   height: 100%;
-}
-
-.returnDiv {
-  position: absolute;
-  right: 0;
-  padding: 1.5rem 2rem;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
 }

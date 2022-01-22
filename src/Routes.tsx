@@ -71,7 +71,7 @@ export const routes: WorkcodeRouteObject[] = [
     message: 'You should be sign in!',
   },
   {
-    path: '/auth/change-password',
+    path: '/auth/change-password/:token',
     element: (
       <MainLayout>
         <ChangePassword />
