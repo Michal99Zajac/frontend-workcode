@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import {
-  MenuButton,
   Avatar,
   useColorMode,
   Spinner,
@@ -56,20 +55,13 @@ export function UserBucket(): JSX.Element | null {
 
   const menuButton = useMemo(
     () => (
-      <MenuButton
-        className={clsx(
-          classes.menu,
-          isDark ? classes.darkMenu : classes.lightMenu
-        )}
-      >
-        <Avatar
-          size="sm"
-          fontSize="1.2rem"
-          src={loggedUser?.src || undefined}
-          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-          className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
-        />
-      </MenuButton>
+      <Avatar
+        size="sm"
+        fontSize="1.2rem"
+        src={loggedUser?.src || undefined}
+        name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+        className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
+      />
     ),
     [loggedUser]
   )
@@ -77,8 +69,16 @@ export function UserBucket(): JSX.Element | null {
   if (isLoading) return <Spinner />
 
   return (
-    <MenuWindow title="User" placement="right-end" menuButton={menuButton}>
-      <Flex py={2} px={1} alignItems="center">
+    <MenuWindow
+      title="User"
+      placement="right-end"
+      menuButton={menuButton}
+      menuButtonClassName={clsx(
+        classes.menu,
+        isDark ? classes.darkMenu : classes.lightMenu
+      )}
+    >
+      <Flex py={2} px={3} alignItems="center">
         <Avatar
           size="xs"
           fontSize="1.2rem"

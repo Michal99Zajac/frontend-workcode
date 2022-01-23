@@ -4,6 +4,7 @@
   border-radius: 0 !important;
   padding: 0 !important;
   border: none;
+  width: max-content;
 }
 
 .windowDark {
@@ -18,7 +19,7 @@
 
 .heading {
   padding: 0.4em 0;
-  text-indent: 0.2em;
+  text-indent: 0.4em;
 }
 
 .headingDark {
@@ -27,4 +28,24 @@
 
 .headingLight {
   background-color: $header-bg--light;
+}
+
+.highlighDark {
+  &:enabled:hover, &:focus {
+    path {
+      fill: $icon-trigger--dark;
+    }
+  }
+}
+
+.highlighLight {
+  &:enabled:hover, &:focus {
+    path {
+      fill: $icon-trigger--light;
+    }
+  }
+}
+
+.content {
+  overflow: auto;
 }

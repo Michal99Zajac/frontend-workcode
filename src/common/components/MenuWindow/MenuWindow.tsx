@@ -5,6 +5,8 @@ import {
   PlacementWithLogical,
   Heading,
   useColorMode,
+  MenuButton,
+  Box,
 } from '@chakra-ui/react'
 import clsx from 'clsx'
 
@@ -15,17 +17,35 @@ interface MenuWindowProps {
   menuButton: React.ReactNode
   title: string
   placement?: PlacementWithLogical
+  menuButtonClassName?: string
+  menuMaxHeight?: number | string
+  menuWidth?: number | string
 }
 
 export function MenuWindow(props: MenuWindowProps): JSX.Element {
-  const { children, menuButton, placement, title } = props
+  const {
+    children,
+    menuButton,
+    placement,
+    title,
+    menuButtonClassName,
+    menuMaxHeight,
+    menuWidth,
+  } = props
   const { colorMode } = useColorMode()
 
   const isDark = colorMode === 'dark'
 
   return (
     <Menu computePositionOnMount placement={placement}>
-      {menuButton}
+      <MenuButton
+        className={clsx(
+          isDark ? classes.highlighDark : classes.highlighLight,
+          menuButtonClassName
+        )}
+      >
+        {menuButton}
+      </MenuButton>
       <MenuList
         className={clsx(
           classes.window,
@@ -41,7 +61,13 @@ export function MenuWindow(props: MenuWindowProps): JSX.Element {
         >
           {title}
         </Heading>
-        {children}
+        <Box
+          maxHeight={menuMaxHeight}
+          width={menuWidth}
+          className={clsx(classes.content)}
+        >
+          {children}
+        </Box>
       </MenuList>
     </Menu>
   )
