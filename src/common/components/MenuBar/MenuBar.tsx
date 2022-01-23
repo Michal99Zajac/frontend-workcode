@@ -1,5 +1,6 @@
 import React from 'react'
-import { Flex, Spacer, Stack, useColorMode, Image } from '@chakra-ui/react'
+import { Flex, Spacer, Stack, useColorMode, Image, Box } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 
 import LogoImage from '../../../assets/img/logo.png'
@@ -18,15 +19,14 @@ export function MenuBar(): JSX.Element {
       direction="column"
       align="center"
     >
-      <Image alt="logo" src={LogoImage} p={1} mb={5} />
-      <Stack>
+      <Stack mt={2} mb={2}>
         <UserBucket />
         <NotifyBucket />
       </Stack>
       <Spacer />
-      <Stack>
-        <div>d</div>
-      </Stack>
+      <Box as={Link} to="/">
+        <Image alt="logo" src={LogoImage} p={1} />
+      </Box>
     </Flex>
   )
 }
