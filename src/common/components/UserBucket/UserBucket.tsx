@@ -1,16 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import {
-  Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   Avatar,
   useColorMode,
   Spinner,
+  Flex,
+  Heading,
+  Box,
+  Stack,
+  Text,
 } from '@chakra-ui/react'
 
+import { Accordion, AccordionItem } from '../Accordion'
+import { MenuWindow } from '../MenuWindow'
 import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
 import { UserType } from '../../schemas/UserSchema'
@@ -50,10 +54,8 @@ export function UserBucket(): JSX.Element | null {
     navigate('/')
   }, [user, logout])
 
-  if (isLoading) return <Spinner />
-
-  return (
-    <Menu placement="right-end">
+  const menuButton = useMemo(
+    () => (
       <MenuButton
         className={clsx(
           classes.menu,
@@ -68,16 +70,46 @@ export function UserBucket(): JSX.Element | null {
           className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
         />
       </MenuButton>
-      <MenuList>
-        <MenuItem as={Link} to="/config">
-          {loggedUser?.email}
-        </MenuItem>
-        <MenuItem as={Link} to="/workspace/menu">
-          menu
-        </MenuItem>
-        <MenuItem onClick={logoutUser}>logout</MenuItem>
-      </MenuList>
-    </Menu>
+    ),
+    [loggedUser]
+  )
+
+  if (isLoading) return <Spinner />
+
+  return (
+    <MenuWindow title="User" placement="right-end" menuButton={menuButton}>
+      <Flex py={2} px={1} alignItems="center">
+        <Avatar
+          size="xs"
+          fontSize="1.2rem"
+          src={loggedUser?.src || undefined}
+          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+          className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
+          mr={2}
+        />
+        <Stack spacing={0}>
+          <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
+          <Text fontSize="xs">{loggedUser?.email}</Text>
+        </Stack>
+      </Flex>
+      <Accordion isInitialOpen title="Actions">
+        <AccordionItem isClickable>
+          <Box fontSize="xs" as={Link} to="/config">
+            config
+          </Box>
+        </AccordionItem>
+        <AccordionItem isClickable>
+          <Box fontSize="xs" as={Link} to="/workspace/menu">
+            menu
+          </Box>
+        </AccordionItem>
+        <AccordionItem isClickable={true}>
+          <Box fontSize="xs" onClick={logoutUser}>
+            logout
+          </Box>
+        </AccordionItem>
+      </Accordion>
+    </MenuWindow>
   )
 }
 

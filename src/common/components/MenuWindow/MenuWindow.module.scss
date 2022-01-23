@@ -1,0 +1,30 @@
+@import '../../styles/colors.scss';
+
+.window {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  border: none;
+}
+
+.windowDark {
+  background-color: $surface-bg--dark !important;
+  box-shadow: 3px 3px 0 1px $window-shadow--dark !important
+}
+
+.windowLight {
+  background-color: $surface-bg--light !important;
+  box-shadow: 3px 3px 0 1px $window-shadow--light !important
+}
+
+.heading {
+  padding: 0.4em 0;
+  text-indent: 0.2em;
+}
+
+.headingDark {
+  background-color: $header-bg--dark;
+}
+
+.headingLight {
+  background-color: $header-bg--light;
+}
