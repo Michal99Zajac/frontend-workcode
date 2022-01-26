@@ -1,24 +1,11 @@
 import React, { useState } from 'react'
 import {
-  AlertDialog,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
-  Button,
   Container,
   Flex,
   Heading,
   IconButton,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spacer,
   Stack,
   Text,
@@ -27,12 +14,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { CloseIcon } from '@chakra-ui/icons'
 
 import { BasicSetting } from '../../../common/components'
+import { DeleteAccount } from '../../components'
 
 import classes from './UserConfig.module.scss'
 
 export function UserConfig(): JSX.Element {
   const { control } = useForm()
-  const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   return (
@@ -154,41 +141,7 @@ export function UserConfig(): JSX.Element {
               />
             </Stack>
           </form>
-          <form>
-            <Heading size="xl" mb={5}>
-              Delete Account
-            </Heading>
-            <Button onClick={() => setIsOpen(true)}>Delete</Button>
-            <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Delete Account</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <Controller
-                    control={control}
-                    name="password"
-                    render={({ field, fieldState }) => (
-                      <Box>
-                        <Text fontSize="sm">Password</Text>
-                        <Input
-                          type="password"
-                          isDisabled={isLoading}
-                          placeholder="Av+>mMUpw$aGQ"
-                          onChange={field.onChange}
-                          isInvalid={fieldState.invalid}
-                          ref={field.ref}
-                        />
-                      </Box>
-                    )}
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button>click</Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-          </form>
+          <DeleteAccount />
         </Stack>
       </Container>
     </Box>
