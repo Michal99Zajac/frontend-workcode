@@ -20,7 +20,7 @@ import classes from './UserConfig.module.scss'
 
 export function UserConfig(): JSX.Element {
   const { control } = useForm()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading] = useState(false)
 
   return (
     <Box className={classes.page}>
@@ -90,7 +90,7 @@ export function UserConfig(): JSX.Element {
           </form>
           <Box>
             <Heading size="xl" mb={5}>
-              Layout
+              Basic Setting
             </Heading>
             <BasicSetting />
           </Box>
