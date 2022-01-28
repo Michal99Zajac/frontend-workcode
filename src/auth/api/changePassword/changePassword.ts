@@ -1,21 +1,16 @@
-import {
-  ChangePasswordType as ChangePasswordFormType,
-  ChangePasswordResponseType,
-} from '../../schemas/ChangePasswordSchema'
+import { FormType, ResponseType, FailType } from './schema'
 
-export const changePassword = (
-  form: ChangePasswordFormType
-): Promise<ChangePasswordResponseType> => {
-  return new Promise<ChangePasswordResponseType>((resolve, reject) => {
+export const changePassword = (data: FormType): Promise<ResponseType> => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(form)
+      console.log(data)
       resolve({
         success: 'Password has been changed',
       })
 
       reject({
         password: 'Password is too weak',
-      })
+      } as FailType)
     }, 4000)
   })
 }

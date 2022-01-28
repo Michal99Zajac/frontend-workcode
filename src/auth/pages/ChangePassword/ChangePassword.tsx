@@ -13,12 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { DragPocket, Window } from '../../../common/components'
 import { useValidToast } from '../../../common/hooks'
-import {
-  ChangePasswordSchema as ChangePasswordForm,
-  ChangePasswordType as ChangePasswordFormType,
-  ChangePasswordError,
-} from '../../schemas/ChangePasswordSchema'
-import { changePassword } from '../../api/changePassword'
+import { changePassword, Form, Fail, FormType } from '../../api/changePassword'
 
 import classes from './ChangePassword.module.scss'
 
@@ -28,10 +23,10 @@ export function ChangePassword(): JSX.Element {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { control, formState, handleSubmit } = useForm({
-    resolver: zodResolver(ChangePasswordForm),
+    resolver: zodResolver(Form),
   })
 
-  const onSubmit = handleSubmit<ChangePasswordFormType>(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
 
     if (data.password !== data.repeatedPassword) {
@@ -52,7 +47,7 @@ export function ChangePassword(): JSX.Element {
       })
       navigate('/auth/signin')
     } catch (error) {
-      const changePasswordError = ChangePasswordError.parse(error)
+      const changePasswordError = Fail.parse(error)
       valid(changePasswordError, 'error')
     }
 
