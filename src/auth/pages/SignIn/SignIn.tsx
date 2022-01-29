@@ -12,45 +12,39 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
-import { signin } from '../../api/signin'
+import { signin, Form, FormType, Fail } from '../../api/signin'
 import { Window, DragPocket } from '../../../common/components'
 import { useAuth } from '../../../common/store'
-import { useValidToast } from '../../../common/hooks'
-import {
-  SignInSchema,
-  SignInSchemaType,
-  SignInErrorSchema,
-  SignInResponseSchema,
-} from '../../schemas'
+import { useToast } from '../../../common/hooks'
 
 import classes from './SignIn.module.scss'
 
 export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
-  const valid = useValidToast()
+  const runToast = useToast()
   const navigation = useNavigate()
   const { control, handleSubmit, formState } = useForm({
-    resolver: zodResolver(SignInSchema),
+    resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<SignInSchemaType>(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = SignInResponseSchema.parse(await signin(data))
+      const response = await signin(data)
       login(
         {
-          id: response.id,
-          email: response.email,
-          permissions: response.permissions,
+          id: response.user.id,
+          email: response.user.email,
+          permissions: response.user.permissions,
         },
         response.token
       )
       setIsLoading(false)
       navigation('/workspace/menu')
     } catch (error) {
-      const signinError = SignInErrorSchema.parse(error)
-      valid(signinError, 'error')
+      const signinError = Fail.parse(error)
+      runToast(signinError, 'Error', 'error')
     }
     setIsLoading(false)
   })
@@ -105,7 +99,7 @@ export function SignIn(): JSX.Element {
               <Button
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => valid(formState.errors, 'error', 'Sign In')}
+                onClick={() => runToast(formState.errors, 'Sign In', 'error')}
               >
                 sign in
               </Button>

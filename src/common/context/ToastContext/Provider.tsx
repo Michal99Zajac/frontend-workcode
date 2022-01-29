@@ -1,20 +1,18 @@
 import React, { useCallback } from 'react'
 import { useToast, Box, Text } from '@chakra-ui/react'
 
-import { ToastValidContext, ValidFunctionType } from './Context'
+import { ToastContext, RunToastType } from './Context'
 import { ValidToastError } from '../../schemas/ValidToastError'
 
-interface ToastValidProviderProps {
+interface ToastProviderProps {
   children: React.ReactNode
 }
 
-export const ToastValidProvider = (
-  props: ToastValidProviderProps
-): JSX.Element => {
+export const ToastProvider = (props: ToastProviderProps): JSX.Element => {
   const { children } = props
   const toast = useToast()
 
-  const valid = useCallback<ValidFunctionType>(function (errors, type, title) {
+  const runToast = useCallback<RunToastType>(function (errors, title, type) {
     let messages: string[] = []
     if (ValidToastError.safeParse(errors).success) {
       messages = Object.values(errors)
@@ -25,7 +23,7 @@ export const ToastValidProvider = (
     if (!messages.length) return
 
     toast({
-      title: title || 'Error',
+      title: title,
       description: (
         <Box>
           {messages.map((message) => (
@@ -41,14 +39,14 @@ export const ToastValidProvider = (
   }, [])
 
   return (
-    <ToastValidContext.Provider
+    <ToastContext.Provider
       value={{
-        valid: valid,
+        runToast: runToast,
       }}
     >
       {children}
-    </ToastValidContext.Provider>
+    </ToastContext.Provider>
   )
 }
 
-export default ToastValidProvider
+export default ToastProvider

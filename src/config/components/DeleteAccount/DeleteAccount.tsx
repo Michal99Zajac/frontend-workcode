@@ -12,7 +12,6 @@ import {
   Stack,
   Text,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
@@ -20,39 +19,31 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { ModalWindow } from '../../../common/components'
 import { FormType, Form, Fail, deleteAccount } from '../../api/deleteAccount'
-import { useValidToast } from '../../../common/hooks'
+import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
 
 import classes from './DeleteAccount.module.scss'
 
 export function DeleteAccount(): JSX.Element {
   const logout = useAuth((state) => state.logout)
-  const toast = useToast()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { onOpen, onClose, isOpen } = useDisclosure()
   const { control, handleSubmit, formState } = useForm({
     resolver: zodResolver(Form),
   })
-  const valid = useValidToast()
+  const runToast = useToast()
 
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
       const response = await deleteAccount(data)
-      toast({
-        isClosable: true,
-        duration: 5000,
-        title: 'Success',
-        description: response.success,
-        status: 'success',
-        position: 'top',
-      })
+      runToast(response, 'Success', 'success')
       logout()
       navigate('/')
     } catch (error) {
       const fail = Fail.parse(error)
-      valid(fail, 'error', 'Error')
+      runToast(fail, 'Error', 'error')
     }
     setIsLoading(false)
   })
@@ -102,7 +93,7 @@ export function DeleteAccount(): JSX.Element {
                 className={classes.delete}
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => valid(formState.errors, 'error')}
+                onClick={() => runToast(formState.errors, 'Error', 'error')}
               >
                 confirm
               </Button>

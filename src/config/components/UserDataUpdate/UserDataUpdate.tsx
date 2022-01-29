@@ -9,22 +9,22 @@ import {
   Box,
   Input,
   Text,
-  useToast,
+  // useToast,
   Button,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Form, FormType, updateUserData, Fail } from '../../api/updateUserData'
-import { useValidToast } from '../../../common/hooks'
+import { useToast } from '../../../common/hooks'
 import { fetchUser } from '../../../common/api'
 import { useAuth } from '../../../common/store'
 
 export function UserDataUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const userId = useAuth((state) => state.user?.id)
-  const valid = useValidToast()
-  const toast = useToast()
+  const runToast = useToast()
+  // const toast = useToast()
   const [formCopy, setFormCopy] = useState<FormType | null>(null)
   const { control, formState, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(Form),
@@ -41,17 +41,10 @@ export function UserDataUpdate(): JSX.Element {
       const response = await updateUserData(data)
       setFormCopy(data)
       reset(data)
-      toast({
-        isClosable: true,
-        duration: 5000,
-        title: 'Success',
-        description: response.success,
-        status: 'success',
-        position: 'top',
-      })
+      runToast(response, 'Success', 'success')
     } catch (error) {
       const fail = Fail.parse(error)
-      valid(fail, 'error')
+      runToast(fail, 'Error', 'error')
     }
     setIsLoading(false)
   })
@@ -66,7 +59,7 @@ export function UserDataUpdate(): JSX.Element {
 
   useEffect(() => {
     fetchInitialData()
-  }, [reset, userId])
+  }, [])
 
   return (
     <form onSubmit={onSubmit}>
@@ -133,11 +126,10 @@ export function UserDataUpdate(): JSX.Element {
         />
         {formState.isDirty && (
           <Button
-            mt={10}
             width="min-content"
             isLoading={isLoading}
             type="submit"
-            onClick={() => valid(formState.errors, 'error')}
+            onClick={() => runToast(formState.errors, 'Error', 'error')}
           >
             Submit
           </Button>

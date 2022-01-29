@@ -5,18 +5,18 @@ import { ValidToastErrorType } from '../../schemas/ValidToastError'
 
 export type ToastType = 'warning' | 'success' | 'info' | 'error'
 
-export type ValidFunctionType = (
+export type RunToastType = (
   error: FieldErrors | ValidToastErrorType,
-  type: ToastType,
-  title?: string
+  title: string,
+  type?: ToastType
 ) => void
 
-interface ToaxtContextValidType {
-  valid: ValidFunctionType
+interface ToastContextType {
+  runToast: RunToastType
 }
 
-export const ToastValidContext = React.createContext<ToaxtContextValidType>({
-  valid: () => {},
+export const ToastContext = React.createContext<ToastContextType>({
+  runToast: () => {},
 })
 
-export default ToastValidContext
+export default ToastContext

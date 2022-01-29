@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const SignUpSchema = z.object({
+export const Form = z.object({
   email: z
     .string({
       required_error: 'email is required',
@@ -23,22 +23,26 @@ export const SignUpSchema = z.object({
     })
     .min(7, 'password has to have more then 6 letters')
     .nonempty({ message: 'password is required' }),
-  repeatedPassword: z.string().optional(),
+  repeatedPassword: z.string({
+    required_error: 'Repeated password is required',
+  }),
 })
 
-export const SignUpResponseSchema = z.object({
-  id: z.string().uuid().nonempty(),
+export const Response = z.object({
+  success: z.string(),
 })
 
-export const SignUpErrorSchema = z.object({
-  email: z.string().optional(),
-  firstname: z.string().optional(),
-  lastname: z.string().optional(),
-  password: z.string().optional(),
-})
+export const Fail = z
+  .object({
+    email: z.string(),
+    firstname: z.string(),
+    lastname: z.string(),
+    password: z.string(),
+  })
+  .partial()
 
-export type SignUpType = z.infer<typeof SignUpSchema>
+export type FormType = z.infer<typeof Form>
 
-export type SignUpResponseType = z.infer<typeof SignUpResponseSchema>
+export type ResponseType = z.infer<typeof Response>
 
-export type SignUpErrorType = z.infer<typeof SignUpErrorSchema>
+export type FailType = z.infer<typeof Fail>

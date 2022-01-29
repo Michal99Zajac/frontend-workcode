@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-import { PermissionArray } from '../../../permissions'
+import { AuthUserSchema } from '../../../common/schemas'
 
-export const SignInSchema = z.object({
+export const Form = z.object({
   email: z
     .string({
       required_error: 'email is required',
@@ -17,20 +17,18 @@ export const SignInSchema = z.object({
     .min(7, 'password has to have more then 6 letters'),
 })
 
-export const SignInResponseSchema = z.object({
-  id: z.string().uuid().nonempty(),
-  email: z.string().email().nonempty(),
+export const Response = z.object({
+  user: AuthUserSchema,
   token: z.string().nonempty(),
-  permissions: PermissionArray,
 })
 
-export const SignInErrorSchema = z.object({
+export const Fail = z.object({
   email: z.string().optional(),
   password: z.string().optional(),
 })
 
-export type SignInSchemaType = z.infer<typeof SignInSchema>
+export type FormType = z.infer<typeof Form>
 
-export type SignInResponseType = z.infer<typeof SignInResponseSchema>
+export type ResponseType = z.infer<typeof Response>
 
-export type SignInErrorType = z.infer<typeof SignInErrorSchema>
+export type FailType = z.infer<typeof Fail>
