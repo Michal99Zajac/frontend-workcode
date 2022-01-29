@@ -1,38 +1,24 @@
 import React, { useState } from 'react'
-import {
-  Box,
-  Input,
-  InputGroup,
-  useToast,
-  Text,
-  Button,
-  Divider,
-} from '@chakra-ui/react'
+import { Box, Input, InputGroup, Text, Button, Divider } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { signup } from '../../api/signup'
-import { useValidToast } from '../../../common/hooks'
+import { signup, Form, FormType, Fail } from '../../api/signup'
+import { useToast } from '../../../common/hooks'
 import { Window, DragPocket } from '../../../common/components'
-import {
-  SignUpType,
-  SignUpSchema,
-  SignUpErrorSchema,
-} from '../../schemas/SignUpSchema'
 
 import classes from './SignUp.module.scss'
 
 export function SignUp(): JSX.Element {
-  const toast = useToast()
   const navigation = useNavigate()
-  const valid = useValidToast()
+  const runToast = useToast()
   const { control, handleSubmit, formState } = useForm({
-    resolver: zodResolver(SignUpSchema),
+    resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<SignUpType>(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
 
     try {
@@ -41,25 +27,18 @@ export function SignUp(): JSX.Element {
       }
     } catch (error) {
       const { message } = error as Error
-      valid({ password: message }, 'error', 'Passwords')
+      runToast({ password: message }, 'Error', 'error')
       setIsLoading(false)
       return
     }
 
     try {
-      await signup(data)
-      toast({
-        title: 'Sign Up',
-        description: 'Your account has been created',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      })
+      const response = await signup(data)
+      runToast(response, 'Success', 'success')
       navigation('/auth/signin')
     } catch (error) {
-      const signupError = SignUpErrorSchema.parse(error)
-      valid(signupError, 'error')
+      const fail = Fail.parse(error)
+      runToast(fail, 'Error', 'error')
     }
     setIsLoading(false)
   })
@@ -175,7 +154,7 @@ export function SignUp(): JSX.Element {
               <Button
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => valid(formState.errors, 'error')}
+                onClick={() => runToast(formState.errors, 'Error', 'error')}
               >
                 sign up
               </Button>

@@ -1,11 +1,11 @@
-import { SignUpResponseType, SignUpType } from '../../schemas/SignUpSchema'
+import { FormType, ResponseType } from './schema'
 
-export const signup = (form: SignUpType): Promise<SignUpResponseType> => {
-  return new Promise<SignUpResponseType>((resolve, reject) => {
+export const signup = (form: FormType): Promise<ResponseType> => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log(form)
       resolve({
-        id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
+        success: 'You are signed up!',
       })
 
       reject({

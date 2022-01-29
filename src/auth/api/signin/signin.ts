@@ -1,20 +1,19 @@
-import {
-  SignInSchemaType,
-  SignInResponseType,
-} from '../../schemas/SignInSchema'
+import { FormType, ResponseType } from './schema'
 
-export const signin = (form: SignInSchemaType): Promise<SignInResponseType> => {
-  return new Promise<SignInResponseType>((resolve, reject) => {
+export const signin = (data: FormType): Promise<ResponseType> => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (
-        form.email === correctUser.email &&
-        form.password === correctUser.password
+        data.email === correctUser.email &&
+        data.password === correctUser.password
       ) {
         resolve({
-          id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
-          email: form.email,
+          user: {
+            id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
+            email: data.email,
+            permissions: ['USER'],
+          },
           token: 'afafasbfjhjbejb',
-          permissions: ['USER'],
         })
       }
 

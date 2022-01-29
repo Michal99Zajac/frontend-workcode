@@ -10,47 +10,42 @@ import {
   AlertDescription,
   AlertTitle,
   Flex,
-  useToast,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 
 import { DragPocket, Window } from '../../../common/components'
+import { useToast } from '../../../common/hooks'
 import {
-  ForgotPasswordSchema as ForgotPasswordForm,
-  ForgotPasswordType as ForgotPasswordFormType,
-  ForgotPasswordError as FormError,
-} from '../../schemas/ForgotPasswordSchema'
-import { useValidToast } from '../../../common/hooks'
-import { sendForgottenEmail } from '../../api/sendForgottenEmail'
+  sendForgottenEmail,
+  Form,
+  FormType,
+  Fail,
+} from '../../api/sendForgottenEmail'
 
 import classes from './ForgotPassword.module.scss'
 
 export function ForgotPassword(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
-  const valid = useValidToast()
-  const toast = useToast()
+  const runToast = useToast()
   const { control, handleSubmit, formState } = useForm({
-    resolver: zodResolver(ForgotPasswordForm),
+    resolver: zodResolver(Form),
   })
 
-  const onSubmit = handleSubmit<ForgotPasswordFormType>(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
       await sendForgottenEmail(data)
-      toast({
-        isClosable: true,
-        title: 'Success',
-        description: 'Email for password change has been sent',
-        status: 'success',
-        duration: 3000,
-        position: 'top',
-      })
+      runToast(
+        { success: 'Email for password change has been sent' },
+        'Success',
+        'success'
+      )
     } catch (error) {
-      const forgotPasswordError = FormError.parse(error)
-      valid(forgotPasswordError, 'error')
+      const fail = Fail.parse(error)
+      runToast(fail, 'Error', 'error')
     }
     setIsLoading(false)
   })
@@ -103,7 +98,7 @@ export function ForgotPassword(): JSX.Element {
               <Button
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => valid(formState.errors, 'error')}
+                onClick={() => runToast(formState.errors, 'Error', 'error')}
               >
                 send request
               </Button>

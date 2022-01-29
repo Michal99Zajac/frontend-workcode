@@ -1,1 +1,1 @@
-export * from './useValidToast'
+export * from './useToast'

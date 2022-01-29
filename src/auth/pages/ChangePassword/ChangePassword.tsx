@@ -1,59 +1,39 @@
 import React, { useState } from 'react'
-import {
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
+import { Box, Button, Input, InputGroup, Text } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { DragPocket, Window } from '../../../common/components'
-import { useValidToast } from '../../../common/hooks'
-import {
-  ChangePasswordSchema as ChangePasswordForm,
-  ChangePasswordType as ChangePasswordFormType,
-  ChangePasswordError,
-} from '../../schemas/ChangePasswordSchema'
-import { changePassword } from '../../api/changePassword'
+import { useToast } from '../../../common/hooks'
+import { changePassword, Form, Fail, FormType } from '../../api/changePassword'
 
 import classes from './ChangePassword.module.scss'
 
 export function ChangePassword(): JSX.Element {
-  const valid = useValidToast()
-  const toast = useToast()
+  const runToast = useToast()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { control, formState, handleSubmit } = useForm({
-    resolver: zodResolver(ChangePasswordForm),
+    resolver: zodResolver(Form),
   })
 
-  const onSubmit = handleSubmit<ChangePasswordFormType>(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
 
     if (data.password !== data.repeatedPassword) {
-      valid({ Password: 'Passwords are different' }, 'error')
+      runToast({ Password: 'Passwords are different' }, 'Error', 'error')
       setIsLoading(false)
       return
     }
 
     try {
       const response = await changePassword(data)
-      toast({
-        isClosable: true,
-        title: 'Success',
-        description: response.success,
-        status: 'success',
-        duration: 3000,
-        position: 'top',
-      })
+      runToast(response, 'Success', 'success')
       navigate('/auth/signin')
     } catch (error) {
-      const changePasswordError = ChangePasswordError.parse(error)
-      valid(changePasswordError, 'error')
+      const changePasswordError = Fail.parse(error)
+      runToast(changePasswordError, 'Error', 'error')
     }
 
     setIsLoading(false)
@@ -110,7 +90,7 @@ export function ChangePassword(): JSX.Element {
               <Button
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => valid(formState.errors, 'error')}
+                onClick={() => runToast(formState.errors, 'Error', 'error')}
               >
                 change password
               </Button>
