@@ -1,3 +1,3 @@
 export { default } from './fetchUser'
 export * from './fetchUser'
-export * from './types'
+export * from './schema'

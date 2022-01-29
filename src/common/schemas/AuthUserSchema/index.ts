@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { Permission } from '../../../permissions'
 
 export const AuthUserSchema = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   email: z.string(),
   permissions: Permission.array(),
 })
