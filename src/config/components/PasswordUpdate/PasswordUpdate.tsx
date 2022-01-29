@@ -10,7 +10,6 @@ import {
   Input,
   Text,
   Button,
-  // useToast,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,7 +25,6 @@ import { useToast } from '../../../common/hooks'
 export function PasswordUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
-  // const toast = useToast()
   const { control, formState, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {

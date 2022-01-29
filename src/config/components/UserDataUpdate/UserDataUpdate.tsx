@@ -9,7 +9,6 @@ import {
   Box,
   Input,
   Text,
-  // useToast,
   Button,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
@@ -24,7 +23,6 @@ export function UserDataUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const userId = useAuth((state) => state.user?.id)
   const runToast = useToast()
-  // const toast = useToast()
   const [formCopy, setFormCopy] = useState<FormType | null>(null)
   const { control, formState, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(Form),
@@ -51,10 +49,12 @@ export function UserDataUpdate(): JSX.Element {
 
   const fetchInitialData = useCallback(async () => {
     if (!userId) throw new Error('User is not authenticated')
+    setIsLoading(true)
     const response = await fetchUser({ id: userId })
     const initialForm = Form.parse(response)
     setFormCopy(initialForm)
     reset(initialForm)
+    setIsLoading(false)
   }, [userId, reset])
 
   useEffect(() => {
