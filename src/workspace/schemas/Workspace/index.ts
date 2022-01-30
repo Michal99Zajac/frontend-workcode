@@ -9,6 +9,7 @@ export const Workspace = z.object({
   name: z.string(),
   description: z.string(),
   code: CodeType,
+  createdAt: z.date(),
 })
 
 export type WorkspaceType = z.infer<typeof Workspace>

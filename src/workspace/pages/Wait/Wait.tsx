@@ -50,7 +50,11 @@ export function Wait(): JSX.Element {
       }
 
       if (response.status === 'DENIAL') {
-        runToast({ denial: 'Admin denial your request' }, 'Forbbiden', 'error')
+        runToast(
+          { denial: 'Admin denialed your request' },
+          'Forbbiden',
+          'error'
+        )
         navigate('/workspace/menu')
       }
 

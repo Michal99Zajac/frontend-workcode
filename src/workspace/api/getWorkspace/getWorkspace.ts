@@ -32,6 +32,7 @@ export const getWorkspace = (data: FormType): Promise<ResponseType> =>
             vestibulum, molestie lectus sit amet, iaculis ipsum.
             Pellentesque at felis turpis.
           `,
+          createdAt: new Date(),
         },
       })
 

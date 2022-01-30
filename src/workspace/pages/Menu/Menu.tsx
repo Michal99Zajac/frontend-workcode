@@ -4,12 +4,12 @@ import {
   Flex,
   Spacer,
   Heading,
-  IconButton,
   Box,
   Skeleton,
   Wrap,
 } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
+
+import { CreateWorkspace } from '../../components'
 
 import classes from './Menu.module.scss'
 
@@ -19,13 +19,13 @@ export function Menu(): JSX.Element {
       <Flex align="center">
         <Heading fontSize="7xl">Menu</Heading>
         <Spacer />
-        <IconButton size="md" aria-label="add workspace" icon={<AddIcon />} />
+        <CreateWorkspace />
       </Flex>
       <Box>
         <Heading fontSize="5xl" mb={5}>
           Your Workspaces
         </Heading>
-        <Wrap justify="center">
+        <Wrap justify="center" spacing={6}>
           <Skeleton h="200px" w="300px" />
           <Skeleton h="200px" w="300px" />
           <Skeleton h="200px" w="300px" />
@@ -40,7 +40,7 @@ export function Menu(): JSX.Element {
         <Heading fontSize="5xl" mb={5}>
           Friends Workspaces
         </Heading>
-        <Wrap justify="center">
+        <Wrap justify="center" spacing={6}>
           <Skeleton h="200px" w="300px" />
           <Skeleton h="200px" w="300px" />
           <Skeleton h="200px" w="300px" />
