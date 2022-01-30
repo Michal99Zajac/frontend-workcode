@@ -1,19 +1,57 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {
+  Stack,
+  Flex,
+  Spacer,
+  Heading,
+  IconButton,
+  Box,
+  Skeleton,
+  Wrap,
+} from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 
-import { LocationStateType } from '../../../common/schemas'
+import classes from './Menu.module.scss'
 
 export function Menu(): JSX.Element {
   return (
-    <div>
-      <Link
-        to="/workspace/wait/73ac0aac-9d21-4163-9951-837627ebd461"
-        state={{ isWorkspacePending: true } as LocationStateType}
-        replace
-      >
-        wait
-      </Link>
-    </div>
+    <Stack className={classes.page} p={5} spacing={5}>
+      <Flex align="center">
+        <Heading fontSize="7xl">Menu</Heading>
+        <Spacer />
+        <IconButton size="md" aria-label="add workspace" icon={<AddIcon />} />
+      </Flex>
+      <Box>
+        <Heading fontSize="5xl" mb={5}>
+          Your Workspaces
+        </Heading>
+        <Wrap justify="center">
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+        </Wrap>
+      </Box>
+      <Box>
+        <Heading fontSize="5xl" mb={5}>
+          Friends Workspaces
+        </Heading>
+        <Wrap justify="center">
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+          <Skeleton h="200px" w="300px" />
+        </Wrap>
+      </Box>
+    </Stack>
   )
 }
 
