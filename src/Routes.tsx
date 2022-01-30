@@ -45,7 +45,7 @@ export const routes: WorkcodeRouteObject[] = [
     message: 'You should be sign in!',
   },
   {
-    path: '/workspace/wait/:id',
+    path: '/workspace/wait/:workspaceId',
     element: (
       <OperationLayout>
         <Wait />
@@ -58,7 +58,7 @@ export const routes: WorkcodeRouteObject[] = [
     message: 'You should be sign in!',
   },
   {
-    path: '/workspace/editor',
+    path: '/workspace/editor/:workspaceId',
     element: (
       <OperationLayout>
         <Editor />
