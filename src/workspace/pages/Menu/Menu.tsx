@@ -10,7 +10,7 @@ import {
   Wrap,
 } from '@chakra-ui/react'
 
-import { CreateWorkspace } from '../../components'
+import { CreateWorkspace, WorkspaceCard } from '../../components'
 import { WorkspaceType } from '../../schemas'
 
 import classes from './Menu.module.scss'
@@ -39,7 +39,7 @@ export function Menu(): JSX.Element {
         </Heading>
         <Wrap spacing={6}>
           {workspaces.map((workspace) => (
-            <Skeleton key={workspace.id} h="200px" w="300px" />
+            <WorkspaceCard key={workspace.id} workspace={workspace} />
           ))}
         </Wrap>
       </Box>

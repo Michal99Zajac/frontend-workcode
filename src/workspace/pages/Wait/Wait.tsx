@@ -9,13 +9,12 @@ import {
   Text,
   Button,
   Tag,
-  Avatar,
   TagLabel,
   Skeleton,
 } from '@chakra-ui/react'
 
 import { LocationState } from '../../../common/schemas'
-import { Caption } from '../../components'
+import { Caption, AvatarTag } from '../../components'
 import { Window, DragPocket } from '../../../common/components'
 import { getWorkspace, Fail as GetWorkspaceFail } from '../../api/getWorkspace'
 import { accessWorkspace, Fail as AccessFail } from '../../api/accessWorkspace'
@@ -146,43 +145,32 @@ export function Wait(): JSX.Element {
             onClick={() => navigate('/workspace/menu')}
           >
             <Stack w="500px" p={4}>
-              <Box>
+              <Stack>
                 <Caption>Administrator</Caption>
                 <Skeleton isLoaded={!isLoading} borderRadius="full">
-                  <Tag bgColor="blue.400" mt={1} size="lg" borderRadius="full">
-                    <Avatar
-                      ml="-2"
-                      mr="2"
-                      size="xs"
-                      src={workspace?.admin.src || undefined}
-                      name={`${workspace?.admin.firstname} ${workspace?.admin.lastname}`}
-                    />
-                    <TagLabel>{`${workspace?.admin.firstname} ${workspace?.admin.lastname}`}</TagLabel>
-                  </Tag>
+                  <AvatarTag user={workspace?.admin} />
                 </Skeleton>
-              </Box>
-              <Box>
+              </Stack>
+              <Stack>
                 <Caption>Workspace Name</Caption>
                 <Skeleton isLoaded={!isLoading}>
-                  <Tag bgColor="purple.400" mt={1}>
+                  <Tag bgColor="purple.400">
                     <TagLabel>{workspace?.name}</TagLabel>
                   </Tag>
                 </Skeleton>
-              </Box>
+              </Stack>
               <Box>
                 <Caption>Description</Caption>
                 <Skeleton isLoaded={!isLoading} minH="50px">
                   <Text noOfLines={4}>{workspace?.description}</Text>
                 </Skeleton>
               </Box>
-              <Box>
+              <Stack>
                 <Caption>Code Type</Caption>
                 <Skeleton isLoaded={!isLoading}>
-                  <Tag mt={1} bgColor="yellow.400">
-                    {workspace?.code}
-                  </Tag>
+                  <Tag bgColor="yellow.400">{workspace?.code}</Tag>
                 </Skeleton>
-              </Box>
+              </Stack>
             </Stack>
           </Window>
         </Box>
