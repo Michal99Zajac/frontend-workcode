@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { produce } from 'immer'
 import {
   Stack,
@@ -26,10 +26,6 @@ export function Menu(): JSX.Element {
     )
   }
 
-  useEffect(() => {
-    console.log(workspaces)
-  }, [workspaces])
-
   return (
     <Stack className={classes.page} p={5} spacing={5}>
       <Flex align="center">
@@ -42,9 +38,9 @@ export function Menu(): JSX.Element {
           Your Workspaces
         </Heading>
         <Wrap spacing={6}>
-          <Skeleton h="200px" w="300px" />
-          <Skeleton h="200px" w="300px" />
-          <Skeleton h="200px" w="300px" />
+          {workspaces.map((workspace) => (
+            <Skeleton key={workspace.id} h="200px" w="300px" />
+          ))}
         </Wrap>
       </Box>
       <Box>

@@ -8,7 +8,6 @@ import {
   useDisclosure,
   Text,
   Textarea,
-  Box,
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { Controller, useForm } from 'react-hook-form'
@@ -22,7 +21,8 @@ import {
   createWorkspace,
 } from '../../api/createWorkspace'
 import { useToast } from '../../../common/hooks'
-import { WorkspaceType } from '../../schemas'
+import { WorkspaceType, CodeType } from '../../schemas'
+import { codeTypeOptions, CodeTypeOption } from '../../utils'
 
 type AddWorkspace = (workspace: WorkspaceType) => void
 
@@ -35,7 +35,7 @@ export function CreateWorkspace(props: CreateWorkspaceProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const { control, formState, handleSubmit, reset } = useForm({
+  const { control, formState, handleSubmit, reset, setValue } = useForm({
     resolver: zodResolver(Form),
     defaultValues: {
       name: '',
@@ -69,7 +69,7 @@ export function CreateWorkspace(props: CreateWorkspaceProps): JSX.Element {
       />
       <ModalWindow title="Create Workspace" onClose={onClose} isOpen={isOpen}>
         <form onSubmit={onSubmit}>
-          <Stack>
+          <Stack spacing={3} align="flex-end">
             <Controller
               control={control}
               name="name"
@@ -107,20 +107,27 @@ export function CreateWorkspace(props: CreateWorkspaceProps): JSX.Element {
             <Controller
               control={control}
               name="code"
-              render={({ field, fieldState }) => (
+              render={({ field }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">* Code</Text>
                   <Select
                     isDisabled={isLoading}
-                    onChange={field.onChange}
-                    value={field.value}
+                    onChange={(value) => {
+                      const codeTypeOption = value as CodeTypeOption
+                      setValue('code', CodeType.parse(codeTypeOption.value))
+                    }}
                     ref={field.ref}
+                    value={codeTypeOptions.find(
+                      (cto) => cto.value === field.value
+                    )}
+                    options={codeTypeOptions}
                   />
                 </InputGroup>
               )}
             />
             <Button
               isLoading={isLoading}
+              width="100px"
               onClick={() => runToast(formState.errors, 'Error', 'error')}
               type="submit"
             >

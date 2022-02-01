@@ -14,6 +14,7 @@ export const styles = (colorMode: ColorMode): StylesConfig => ({
     boxShadow: state.isFocused
       ? `3px 3px 0 1px ${colorMode === 'dark' ? '#63B3ED' : 'red'} !important`
       : 'none',
+    opacity: state.isDisabled ? '0.4' : '1',
   }),
   input: (styles) => ({
     ...styles,
@@ -25,6 +26,31 @@ export const styles = (colorMode: ColorMode): StylesConfig => ({
   }),
   indicatorSeparator: () => ({
     display: 'none',
+  }),
+  menu: (styles) => ({
+    ...styles,
+    borderRadius: '0px',
+    backgroundColor: colorMode === 'dark' ? '#102A43' : 'red',
+  }),
+  noOptionsMessage: (styles) => ({
+    ...styles,
+    color: colorMode === 'dark' ? '#2F455B' : 'red',
+  }),
+  option: (styles, state) => ({
+    ...styles,
+    '&:hover': {
+      backgroundColor: colorMode === 'dark' ? '#63B3ED' : 'red',
+      cursor: 'pointer',
+    },
+    backgroundColor: state.isFocused
+      ? colorMode === 'dark'
+        ? '#63B3ED'
+        : 'red'
+      : 'transparent',
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: colorMode === 'dark' ? '#ffffff' : '#000000',
   }),
 })
 
