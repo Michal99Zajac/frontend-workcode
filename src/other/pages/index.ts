@@ -1,3 +1,3 @@
 export * from './404'
-export * from './Index'
+export * from './Main'
 export * from './Error'

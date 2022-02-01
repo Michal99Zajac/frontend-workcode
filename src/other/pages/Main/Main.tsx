@@ -4,9 +4,9 @@ import { Button, Box } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/store'
 
-import classes from './Index.module.scss'
+import classes from './Main.module.scss'
 
-export function Index(): JSX.Element {
+export function Main(): JSX.Element {
   const navigation = useNavigate()
   const user = useAuth((state) => state.user)
 
@@ -46,4 +46,4 @@ export function Index(): JSX.Element {
   )
 }
 
-export default Index
+export default Main

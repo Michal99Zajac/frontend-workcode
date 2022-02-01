@@ -3,7 +3,7 @@ import React from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
 import { MainLayout, OperationLayout } from './common/components'
-import { Index, NotFound } from './other'
+import { Main, NotFound } from './other'
 import { Menu, Wait, Editor } from './workspace'
 import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
 import { UserConfig } from './config'
@@ -24,7 +24,7 @@ export const routes: WorkcodeRouteObject[] = [
     index: true,
     element: (
       <MainLayout>
-        <Index />
+        <Main />
       </MainLayout>
     ),
     permissions: [],
