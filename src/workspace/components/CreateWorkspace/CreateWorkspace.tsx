@@ -12,6 +12,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { produce } from 'immer'
 
 import { ModalWindow, Select } from '../../../common/components'
 import {
@@ -23,16 +24,11 @@ import {
 import { useToast } from '../../../common/hooks'
 import { WorkspaceType, CodeType } from '../../schemas'
 import { codeTypeOptions, CodeTypeOption } from '../../utils'
+import { useWorkspaces } from '../../hooks/useWorkspaces'
 
-type AddWorkspace = (workspace: WorkspaceType) => void
-
-interface CreateWorkspaceProps {
-  addWorkspaces: AddWorkspace
-}
-
-export function CreateWorkspace(props: CreateWorkspaceProps): JSX.Element {
-  const { addWorkspaces } = props
+export function CreateWorkspace(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
+  const { setMyWorkspaces, workspaces } = useWorkspaces()
   const runToast = useToast()
   const { onOpen, onClose, isOpen } = useDisclosure()
   const { control, formState, handleSubmit, reset, setValue } = useForm({
@@ -44,11 +40,19 @@ export function CreateWorkspace(props: CreateWorkspaceProps): JSX.Element {
     },
   })
 
+  const addWorkspace = (workspace: WorkspaceType) => {
+    setMyWorkspaces(
+      produce(workspaces.my, (draft) => {
+        draft.push(workspace)
+      })
+    )
+  }
+
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
       const response = await createWorkspace(data)
-      addWorkspaces(response.workspace)
+      addWorkspace(response.workspace)
       reset()
       onClose()
       runToast({ success: response.success }, 'Success', 'success')

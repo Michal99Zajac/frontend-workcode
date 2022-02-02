@@ -17,6 +17,7 @@ import dayjs from 'dayjs'
 import clsx from 'clsx'
 
 import { AvatarTag } from '../AvatarTag'
+import { MenuCardUpdate } from '../MenuCardUpdate'
 import { WorkspaceType } from '../../schemas'
 import { codeColor } from '../../utils'
 import { MenuWindow } from '../../../common/components'
@@ -73,7 +74,7 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
         <Spacer />
         <MenuWindow title="Actions" menuButton={<HamburgerIcon />}>
           <MenuOptionGroup>
-            <MenuItem>Update</MenuItem>
+            <MenuCardUpdate workspace={workspace} />
             <MenuItem>Copy</MenuItem>
             <MenuItem>Delete</MenuItem>
           </MenuOptionGroup>

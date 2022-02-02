@@ -9,9 +9,10 @@ import {
   WorkspaceCardGhosts,
 } from '../../components'
 import { WorkspaceType } from '../../schemas'
+import { WorkspacesProvider } from '../../context'
 import { useToast } from '../../../common/hooks'
 
-import { Workspaces } from './types'
+import { Workspaces } from '../../context/Workspaces/types'
 import classes from './Menu.module.scss'
 
 export function Menu(): JSX.Element {
@@ -22,10 +23,18 @@ export function Menu(): JSX.Element {
     other: [],
   })
 
-  const addWorkspace = (workspace: WorkspaceType) => {
+  const setMyWorkspaces = (workspaces: WorkspaceType[]) => {
     setWorkspaces(
       produce((draft) => {
-        draft.my.push(workspace)
+        draft.my = workspaces
+      })
+    )
+  }
+
+  const setOtherWorkspaces = (workspaces: WorkspaceType[]) => {
+    setWorkspaces(
+      produce((draft) => {
+        draft.other = workspaces
       })
     )
   }
@@ -47,37 +56,47 @@ export function Menu(): JSX.Element {
   }, [])
 
   return (
-    <Stack className={classes.page} p={5} spacing={5}>
-      <Flex align="center">
-        <Heading fontSize="7xl">Menu</Heading>
-        <Spacer />
-        <CreateWorkspace addWorkspaces={addWorkspace} />
-      </Flex>
-      <Box>
-        <Heading fontSize="5xl" mb={5}>
-          Your Workspaces
-        </Heading>
-        <Wrap spacing={6}>
-          <WorkspaceCardGhosts amount={3} isLoaded={!isLoading}>
-            {workspaces.my.map((workspace) => (
-              <WorkspaceCard key={workspace.id} isAdmin workspace={workspace} />
-            ))}
-          </WorkspaceCardGhosts>
-        </Wrap>
-      </Box>
-      <Box>
-        <Heading fontSize="5xl" mb={5}>
-          Friends Workspaces
-        </Heading>
-        <Wrap spacing={6}>
-          <WorkspaceCardGhosts amount={4} isLoaded={!isLoading}>
-            {workspaces.other.map((workspace) => (
-              <WorkspaceCard key={workspace.id} workspace={workspace} />
-            ))}
-          </WorkspaceCardGhosts>
-        </Wrap>
-      </Box>
-    </Stack>
+    <WorkspacesProvider
+      workspaces={workspaces}
+      setMyWorkspaces={setMyWorkspaces}
+      setOtherWorkspaces={setOtherWorkspaces}
+    >
+      <Stack className={classes.page} p={5} spacing={5}>
+        <Flex align="center">
+          <Heading fontSize="7xl">Menu</Heading>
+          <Spacer />
+          <CreateWorkspace />
+        </Flex>
+        <Box>
+          <Heading fontSize="5xl" mb={5}>
+            Your Workspaces
+          </Heading>
+          <Wrap spacing={6}>
+            <WorkspaceCardGhosts amount={3} isLoaded={!isLoading}>
+              {workspaces.my.map((workspace) => (
+                <WorkspaceCard
+                  key={workspace.id}
+                  isAdmin
+                  workspace={workspace}
+                />
+              ))}
+            </WorkspaceCardGhosts>
+          </Wrap>
+        </Box>
+        <Box>
+          <Heading fontSize="5xl" mb={5}>
+            Friends Workspaces
+          </Heading>
+          <Wrap spacing={6}>
+            <WorkspaceCardGhosts amount={4} isLoaded={!isLoading}>
+              {workspaces.other.map((workspace) => (
+                <WorkspaceCard key={workspace.id} workspace={workspace} />
+              ))}
+            </WorkspaceCardGhosts>
+          </Wrap>
+        </Box>
+      </Stack>
+    </WorkspacesProvider>
   )
 }
 
