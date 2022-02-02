@@ -18,7 +18,8 @@ const workspaces: ResponseType = {
         },
         code: 'JAVASCRIPT',
         name: 'fsafsafas',
-        description: 'fafsaffafsafa',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat mollis diam, at blandit elit dictum in. Mauris laoreet convallis libero, ut malesuada enim. Nunc ligula dui, sagittis id fringilla a, elementum eu orci. Cras vulputate tellus a',
         createdAt: dayjs('2022-02-02T17:40:34.446Z').toDate(),
       },
       {
@@ -62,7 +63,8 @@ const workspaces: ResponseType = {
         },
         code: 'JAVASCRIPT',
         name: 'fafa',
-        description: 'fafasf',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat mollis diam, at blandit elit dictum in. Mauris laoreet convallis libero, ut malesuada enim. Nunc ligula dui, sagittis id fringilla a, elementum eu orci. Cras vulputate tellus a',
         createdAt: dayjs('2022-02-02T17:40:18.570Z').toDate(),
       },
       {

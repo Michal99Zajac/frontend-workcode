@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { produce } from 'immer'
-import {
-  Stack,
-  Flex,
-  Spacer,
-  Heading,
-  Box,
-  Skeleton,
-  Wrap,
-} from '@chakra-ui/react'
+import { Stack, Flex, Spacer, Heading, Box, Wrap } from '@chakra-ui/react'
 
 import { getWorkspaces, Fail } from '../../api/getWorkspaces'
 import {
@@ -68,7 +60,7 @@ export function Menu(): JSX.Element {
         <Wrap spacing={6}>
           <WorkspaceCardGhosts amount={3} isLoaded={!isLoading}>
             {workspaces.my.map((workspace) => (
-              <WorkspaceCard key={workspace.id} workspace={workspace} />
+              <WorkspaceCard key={workspace.id} isAdmin workspace={workspace} />
             ))}
           </WorkspaceCardGhosts>
         </Wrap>

@@ -19,7 +19,7 @@ export function WorkspaceCardGhosts(
       .map(() => v4())
 
     return array.map((element) => (
-      <Skeleton key={element} h="200px" w="300px" />
+      <Skeleton key={element} h="200px" w="400px" />
     ))
   }, [amount])
 
