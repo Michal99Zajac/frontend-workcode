@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { produce } from 'immer'
 import {
   Stack,
@@ -10,21 +10,49 @@ import {
   Wrap,
 } from '@chakra-ui/react'
 
-import { CreateWorkspace, WorkspaceCard } from '../../components'
+import { getWorkspaces, Fail } from '../../api/getWorkspaces'
+import {
+  CreateWorkspace,
+  WorkspaceCard,
+  WorkspaceCardGhosts,
+} from '../../components'
 import { WorkspaceType } from '../../schemas'
+import { useToast } from '../../../common/hooks'
 
+import { Workspaces } from './types'
 import classes from './Menu.module.scss'
 
 export function Menu(): JSX.Element {
-  const [workspaces, setWorkspaces] = useState<WorkspaceType[]>([])
+  const runToast = useToast()
+  const [isLoading, setIsLoading] = useState(true)
+  const [workspaces, setWorkspaces] = useState<Workspaces>({
+    my: [],
+    other: [],
+  })
 
   const addWorkspace = (workspace: WorkspaceType) => {
     setWorkspaces(
       produce((draft) => {
-        draft.push(workspace)
+        draft.my.push(workspace)
       })
     )
   }
+
+  const fetchWorkspaces = async () => {
+    setIsLoading(true)
+    try {
+      const response = await getWorkspaces()
+      setWorkspaces(response.workspaces)
+    } catch (error) {
+      const fail = Fail.parse(error)
+      runToast(fail, 'Error', 'error')
+    }
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    fetchWorkspaces()
+  }, [])
 
   return (
     <Stack className={classes.page} p={5} spacing={5}>
@@ -38,9 +66,11 @@ export function Menu(): JSX.Element {
           Your Workspaces
         </Heading>
         <Wrap spacing={6}>
-          {workspaces.map((workspace) => (
-            <WorkspaceCard key={workspace.id} workspace={workspace} />
-          ))}
+          <WorkspaceCardGhosts amount={3} isLoaded={!isLoading}>
+            {workspaces.my.map((workspace) => (
+              <WorkspaceCard key={workspace.id} workspace={workspace} />
+            ))}
+          </WorkspaceCardGhosts>
         </Wrap>
       </Box>
       <Box>
@@ -48,10 +78,11 @@ export function Menu(): JSX.Element {
           Friends Workspaces
         </Heading>
         <Wrap spacing={6}>
-          <Skeleton h="200px" w="300px" />
-          <Skeleton h="200px" w="300px" />
-          <Skeleton h="200px" w="300px" />
-          <Skeleton h="200px" w="300px" />
+          <WorkspaceCardGhosts amount={4} isLoaded={!isLoading}>
+            {workspaces.other.map((workspace) => (
+              <WorkspaceCard key={workspace.id} workspace={workspace} />
+            ))}
+          </WorkspaceCardGhosts>
         </Wrap>
       </Box>
     </Stack>
