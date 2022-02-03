@@ -9,14 +9,16 @@ import {
   WorkspaceCardGhosts,
 } from '../../components'
 import { WorkspaceType } from '../../schemas'
-import { WorkspacesProvider } from '../../context'
 import { useToast } from '../../../common/hooks'
+import { splitWorkspaces } from '../../utils'
+import { useAuth } from '../../../common/store'
+import { Workspaces, WorkspacesProvider } from '../../context/Workspaces'
 
-import { Workspaces } from '../../context/Workspaces/types'
 import classes from './Menu.module.scss'
 
 export function Menu(): JSX.Element {
   const runToast = useToast()
+  const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
   const [workspaces, setWorkspaces] = useState<Workspaces>({
     my: [],
@@ -41,9 +43,12 @@ export function Menu(): JSX.Element {
 
   const fetchWorkspaces = async () => {
     setIsLoading(true)
+
+    if (!userId) throw new Error('User is not authenticated')
+
     try {
       const response = await getWorkspaces()
-      setWorkspaces(response.workspaces)
+      setWorkspaces(splitWorkspaces(response.workspaces, userId))
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')
