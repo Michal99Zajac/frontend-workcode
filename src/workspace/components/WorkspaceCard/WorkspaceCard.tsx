@@ -18,6 +18,7 @@ import clsx from 'clsx'
 
 import { AvatarTag } from '../AvatarTag'
 import { MenuCardUpdate } from '../MenuCardUpdate'
+import { MenuCardCopy } from '../MenuCardCopy'
 import { WorkspaceType } from '../../schemas'
 import { codeColor } from '../../utils'
 import { MenuWindow } from '../../../common/components'
@@ -74,8 +75,8 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
         <Spacer />
         <MenuWindow title="Actions" menuButton={<HamburgerIcon />}>
           <MenuOptionGroup>
-            <MenuCardUpdate workspace={workspace} />
-            <MenuItem>Copy</MenuItem>
+            {isAdmin && <MenuCardUpdate workspace={workspace} />}
+            <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuOptionGroup>
         </MenuWindow>

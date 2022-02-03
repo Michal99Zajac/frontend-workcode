@@ -1,12 +1,12 @@
 import React from 'react'
 import { FieldErrors } from 'react-hook-form'
 
-import { ValidToastErrorType } from '../../schemas/ValidToastError'
+import { ToastMessagesType } from '../../schemas/ToastMessages'
 
 export type ToastType = 'warning' | 'success' | 'info' | 'error'
 
 export type RunToastType = (
-  error: FieldErrors | ValidToastErrorType,
+  messageObject: FieldErrors | ToastMessagesType,
   title: string,
   type?: ToastType
 ) => void
