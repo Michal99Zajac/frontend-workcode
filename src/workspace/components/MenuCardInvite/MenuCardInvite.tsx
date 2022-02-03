@@ -1,10 +1,33 @@
-import React, { useEffect } from 'react'
-import { MenuItem, useDisclosure } from '@chakra-ui/react'
-import { PlusSquareIcon } from '@chakra-ui/icons'
+import React, { useState } from 'react'
+import {
+  Avatar,
+  Button,
+  Flex,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  MenuItem,
+  Spacer,
+  useDisclosure,
+  Wrap,
+} from '@chakra-ui/react'
+import { PlusSquareIcon, SearchIcon } from '@chakra-ui/icons'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { produce } from 'immer'
 
 import { WorkspaceType } from '../../schemas/Workspace'
-import { ModalWindow } from '../../../common/components'
-import { getUsers } from '../../api'
+import { ModalWindow, Pagination } from '../../../common/components'
+import {
+  getUsers,
+  Form,
+  Fail,
+  FormType,
+  ResponseType,
+} from '../../api/getUsers'
+import { useToast } from '../../../common/hooks'
+import user from '../../../assets/icons/common/user'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType
@@ -13,10 +36,58 @@ interface MenuCardInviteProps {
 export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
   const { workspace } = props
   const { onOpen, onClose, isOpen } = useDisclosure()
+  const [isLoading, setIsLoading] = useState(false)
+  const [users, setUsers] = useState<ResponseType>({
+    users: [],
+    navigation: {
+      first: 0,
+      last: 0,
+      current: 0,
+      next: null,
+      previous: null,
+    },
+    count: 0,
+  })
+  const runToast = useToast()
+  const { control, handleSubmit, setValue } = useForm({
+    resolver: zodResolver(Form),
+    defaultValues: {
+      search: '',
+      page: 0,
+      pagination: '25',
+    },
+  })
 
-  useEffect(() => {
-    getUsers({ search: '' })
-  }, [])
+  const onSubmit = handleSubmit<FormType>(async (data) => {
+    setIsLoading(true)
+    try {
+      const response = await getUsers(data)
+      setUsers(
+        produce((draft) => {
+          draft.users = response.users
+          draft.navigation = response.navigation
+          draft.count = response.count
+        })
+      )
+    } catch (error) {
+      const fail = Fail.parse(error)
+      runToast(fail, 'Error', 'error')
+    }
+    setIsLoading(false)
+  })
+
+  const onSearch = (
+    _event: React.ChangeEvent<HTMLInputElement>,
+    onChange: (..._event: any[]) => void
+  ) => {
+    setValue('page', 0)
+    onChange(_event)
+  }
+
+  const onPageChange = (page: number) => {
+    setValue('page', page)
+    onSubmit()
+  }
 
   return (
     <>
@@ -24,7 +95,39 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
         <PlusSquareIcon mr={4} /> Invite
       </MenuItem>
       <ModalWindow title="Invite" onClose={onClose} isOpen={isOpen}>
-        {workspace.id}
+        <form onSubmit={onSubmit}>
+          <HStack>
+            <Controller
+              name="search"
+              control={control}
+              render={({ field }) => (
+                <InputGroup size="md">
+                  <InputLeftElement pointerEvents="none">
+                    <SearchIcon />
+                  </InputLeftElement>
+                  <Input
+                    placeholder="Search..."
+                    ref={field.ref}
+                    value={field.value}
+                    onChange={(event) => onSearch(event, field.onChange)}
+                  />
+                </InputGroup>
+              )}
+            />
+            <Button size="md" type="submit">
+              search
+            </Button>
+          </HStack>
+        </form>
+        <Wrap>
+          {users.users?.map((user) => (
+            <Avatar key={user.id} src={user.src || undefined} />
+          ))}
+        </Wrap>
+        <Flex>
+          <Spacer />
+          <Pagination onChange={onPageChange} {...users.navigation} />
+        </Flex>
       </ModalWindow>
     </>
   )

@@ -18,6 +18,7 @@ export const getUsers = (form: FormType): Promise<ResponseType> =>
     const navigation = {
       first: 0,
       last: last,
+      current: page,
       next: page === last ? null : page + 1,
       previous: page === 0 ? null : page - 1,
     }
