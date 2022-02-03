@@ -22,6 +22,7 @@ import { MenuCardCopy } from '../MenuCardCopy'
 import { WorkspaceType } from '../../schemas'
 import { codeColor } from '../../utils'
 import { MenuWindow } from '../../../common/components'
+import { MenuCardInvite } from '../MenuCardInvite'
 
 import classes from './WorkspaceCard.module.scss'
 
@@ -76,6 +77,7 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
         <MenuWindow title="Actions" menuButton={<HamburgerIcon />}>
           <MenuOptionGroup>
             {isAdmin && <MenuCardUpdate workspace={workspace} />}
+            {isAdmin && <MenuCardInvite workspace={workspace} />}
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuOptionGroup>
