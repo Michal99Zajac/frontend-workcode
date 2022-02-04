@@ -27,6 +27,7 @@ import {
   ResponseType,
 } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
+import { InviteCard } from '../InviteCard'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType
@@ -54,6 +55,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
       search: '',
       page: 0,
       pagination: '25',
+      workspaceId: workspace.id,
     },
   })
 
@@ -119,8 +121,8 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
           </Flex>
         </Box>
         <Wrap>
-          {users.users?.map((user) => (
-            <Avatar key={user.id} src={user.src || undefined} />
+          {users.users.map((user) => (
+            <InviteCard key={user.id} user={user} />
           ))}
         </Wrap>
         <Flex mt={5}>

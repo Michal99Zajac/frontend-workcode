@@ -8,7 +8,6 @@ export const updateUserData = (data: FormType): Promise<ResponseType> =>
       try {
         Form.parse(data)
       } catch (error) {
-        console.log(error)
         reject(error as FailType)
       }
 

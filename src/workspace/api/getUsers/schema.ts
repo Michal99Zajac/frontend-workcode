@@ -6,6 +6,7 @@ export const Form = z.object({
   search: z.string(),
   page: z.number().optional(),
   pagination: Pagination.optional(),
+  workspaceId: z.string().optional(),
 })
 
 export const Response = z.object({
