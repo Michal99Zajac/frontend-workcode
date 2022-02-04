@@ -1,0 +1,23 @@
+@import '../../../common/styles/colors.scss';
+
+.card {
+  padding: 0.5em;
+  width: 150px;
+  align-items: center;
+}
+
+.invitedDark {
+  box-shadow: 0 0 0 1px $border-focus--dark;
+}
+
+.invitedLight {
+  box-shadow: 0 0 0 1px $border-focus--light;
+}
+
+.darkCard {
+  background-color: $on-surface-bg--dark;
+}
+
+.lightCard {
+  background-color: $on-surface-bg--light;
+}

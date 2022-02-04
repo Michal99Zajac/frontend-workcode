@@ -19,13 +19,25 @@ interface ModalWindowProps {
   onClose: onClose
   title: string
   children: React.ReactNode
+  size?:
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | 'full'
 }
 
 export function ModalWindow(props: ModalWindowProps): JSX.Element {
-  const { title, children, isOpen, onClose } = props
+  const { title, children, isOpen, onClose, size } = props
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal size={size} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent className={classes.content}>
         <ModalHeader className={classes.header}>
