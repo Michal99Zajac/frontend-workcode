@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import {
   Avatar,
+  Box,
   Button,
   Flex,
-  HStack,
   Input,
   InputGroup,
   InputLeftElement,
@@ -95,8 +95,8 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
         <PlusSquareIcon mr={4} /> Invite
       </MenuItem>
       <ModalWindow title="Invite" onClose={onClose} isOpen={isOpen}>
-        <form onSubmit={onSubmit}>
-          <HStack>
+        <Box as="form" mb={5} onSubmit={onSubmit}>
+          <Flex gap={2}>
             <Controller
               name="search"
               control={control}
@@ -117,14 +117,14 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
             <Button size="md" type="submit">
               search
             </Button>
-          </HStack>
-        </form>
+          </Flex>
+        </Box>
         <Wrap>
           {users.users?.map((user) => (
             <Avatar key={user.id} src={user.src || undefined} />
           ))}
         </Wrap>
-        <Flex>
+        <Flex mt={5}>
           <Spacer />
           <Pagination onChange={onPageChange} {...users.navigation} />
         </Flex>

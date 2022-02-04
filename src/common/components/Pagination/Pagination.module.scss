@@ -1,0 +1,19 @@
+@import '../../styles/colors.scss';
+
+.paginationButton:focus {
+  box-shadow: none !important;
+}
+
+.pagination {
+  min-width: 1.5rem;
+  height: 1.5;
+  margin-right: 0.5em;
+}
+
+.paginationDark {
+  background-color: $input--dark;
+}
+
+.paginationLight {
+  background-color: $input--light;
+}
