@@ -27,7 +27,6 @@ import {
   ResponseType,
 } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
-import user from '../../../assets/icons/common/user'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType

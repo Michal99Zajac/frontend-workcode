@@ -7,7 +7,7 @@ export const Form = z.object({
 })
 
 export const Response = z.object({
-  workspace: Workspace,
+  workspace: Workspace.nullable(),
 })
 
 export const Fail = z.object({

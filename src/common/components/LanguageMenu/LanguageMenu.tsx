@@ -3,7 +3,7 @@ import { MenuItemOption, MenuOptionGroup } from '@chakra-ui/react'
 
 import { MenuWindow } from '../MenuWindow'
 import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
-import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageSchema'
+import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageEnum'
 
 export function LanguageMenu(): JSX.Element {
   const [lang, setLang] = useState<LanguageEnumType>(LanguageEnum.enum.ENGLISH)

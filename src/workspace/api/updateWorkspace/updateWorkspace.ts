@@ -1,31 +1,33 @@
-import dayjs from 'dayjs'
+import { produce } from 'immer'
 
-import UserImage from '../../../assets/mock/user.jpg'
+import { workspaces, setWorkspaces } from '../../../fixtures'
 
 import { FormType, ResponseType, FailType } from './schema'
 
 export const updateWorkspace = (data: FormType): Promise<ResponseType> =>
   new Promise((resolve, reject) => {
+    const workspaceIndex = workspaces.findIndex(
+      (workspace) => workspace.id === data.id
+    )
     setTimeout(() => {
-      resolve({
-        success: 'Workspace has been updated',
-        workspace: {
-          id: data.id,
-          admin: {
-            id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
-            firstname: 'Jhon',
-            lastname: 'Snow',
-            email: 'jhonsnow@example.com',
-            src: UserImage,
-          },
-          code: data.code,
-          name: data.name,
-          description: data.description,
-          createdAt: dayjs().toDate(),
-        },
-      })
-
-      reject({ error: 'Something went wrong' } as FailType)
+      if (workspaceIndex >= 0) {
+        setWorkspaces(
+          produce(workspaces, (draft) => {
+            draft[workspaceIndex] = {
+              ...draft[workspaceIndex],
+              code: data.code,
+              name: data.name,
+              description: data.description,
+            }
+          })
+        )
+        resolve({
+          success: 'Workspace has been updated',
+          workspace: workspaces[workspaceIndex],
+        })
+      } else {
+        reject({ error: 'Something went wrong' } as FailType)
+      }
     }, 2000)
   })
 

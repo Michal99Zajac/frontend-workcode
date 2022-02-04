@@ -16,7 +16,7 @@ import { Accordion, AccordionItem } from '../Accordion'
 import { MenuWindow } from '../MenuWindow'
 import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
-import { UserType } from '../../schemas/UserSchema'
+import { UserType } from '../../schemas/User'
 
 import classes from './UserBucket.module.scss'
 
@@ -31,13 +31,13 @@ export function UserBucket(): JSX.Element | null {
   const [isLoading, setIsLoading] = useState(true)
   const isDark = colorMode === 'dark'
 
-  const fetchImage = useCallback(async () => {
+  const fetchCurrentUser = useCallback(async () => {
     setIsLoading(true)
     try {
       if (!user) throw new Error('User is not logged')
       const response = await fetchUser({ id: user.id })
 
-      setLoggedUser(response)
+      setLoggedUser(response.user)
     } catch (error) {
       console.error(error)
     }
@@ -45,7 +45,7 @@ export function UserBucket(): JSX.Element | null {
   }, [user])
 
   useEffect(() => {
-    fetchImage()
+    fetchCurrentUser()
   }, [])
 
   const logoutUser = useCallback(async () => {

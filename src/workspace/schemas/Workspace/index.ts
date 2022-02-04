@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { UserSchema as User } from '../../../common/schemas'
+import { User } from '../../../common/schemas'
 import { CodeType } from '../CodeType'
 
 export const Workspace = z.object({
@@ -10,6 +10,7 @@ export const Workspace = z.object({
   description: z.string(),
   code: CodeType,
   createdAt: z.date(),
+  contributors: User.array(),
 })
 
 export type WorkspaceType = z.infer<typeof Workspace>

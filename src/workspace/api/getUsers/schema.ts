@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { UserSchema, Navigation, Pagination } from '../../../common/schemas'
+import { User, Navigation, Pagination } from '../../../common/schemas'
 
 export const Form = z.object({
   search: z.string(),
@@ -9,7 +9,7 @@ export const Form = z.object({
 })
 
 export const Response = z.object({
-  users: UserSchema.array(),
+  users: User.array(),
   count: z.number(),
   navigation: Navigation,
 })

@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import { AuthUserType } from '../../schemas/AuthUserSchema'
+import { AuthUserType } from '../../schemas/AuthUser'
 
 export interface AuthStore {
   user: AuthUserType | null

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { AuthUserSchema } from '../../../common/schemas'
+import { AuthUser } from '../../../common/schemas'
 
 export const Form = z.object({
   email: z
@@ -18,7 +18,7 @@ export const Form = z.object({
 })
 
 export const Response = z.object({
-  user: AuthUserSchema,
+  user: AuthUser,
   token: z.string().nonempty(),
 })
 

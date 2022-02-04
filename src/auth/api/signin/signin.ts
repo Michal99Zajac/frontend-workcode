@@ -1,3 +1,5 @@
+import { authUser } from '../../../fixtures'
+
 import { FormType, ResponseType } from './schema'
 
 export const signin = (data: FormType): Promise<ResponseType> => {
@@ -8,11 +10,7 @@ export const signin = (data: FormType): Promise<ResponseType> => {
         data.password === correctUser.password
       ) {
         resolve({
-          user: {
-            id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
-            email: data.email,
-            permissions: ['USER'],
-          },
+          user: authUser,
           token: 'afafasbfjhjbejb',
         })
       }

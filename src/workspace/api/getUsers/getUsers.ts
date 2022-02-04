@@ -1,7 +1,4 @@
-import { v4 } from 'uuid'
-import { faker } from '@faker-js/faker'
-
-import { UserType } from '../../../common/schemas'
+import { users, currentUser } from '../../../fixtures'
 
 import { FormType, ResponseType, FailType } from './schema'
 
@@ -9,8 +6,9 @@ export const getUsers = (form: FormType): Promise<ResponseType> =>
   new Promise((resolve, reject) => {
     const fetchedUsers = users.filter(
       (user) =>
-        `${user.firstname} ${user.lastname}`.includes(form.search) ||
-        user.email.includes(form.search)
+        (`${user.firstname} ${user.lastname}`.includes(form.search) ||
+          user.email.includes(form.search)) &&
+        user.id !== currentUser.id
     )
     const page = form.page || 0
     const pagination = form.pagination ? Number(form.pagination) : 25
@@ -42,13 +40,3 @@ export const getUsers = (form: FormType): Promise<ResponseType> =>
   })
 
 export default getUsers
-
-const users: UserType[] = Array(1000)
-  .fill(null)
-  .map(() => ({
-    email: faker.internet.email(),
-    firstname: faker.name.firstName(),
-    lastname: faker.name.lastName(),
-    id: v4(),
-    src: faker.image.avatar(),
-  }))
