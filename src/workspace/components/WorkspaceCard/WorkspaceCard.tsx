@@ -47,12 +47,7 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
       <Stack mb={2}>
         <Flex align="flex-start">
           <Tooltip placement="top" hasArrow label={workspace.name}>
-            <Heading
-              fontSize="4xl"
-              width="min-content"
-              maxW="300px"
-              isTruncated
-            >
+            <Heading fontSize="4xl" width="min-content" isTruncated>
               {workspace.name}
             </Heading>
           </Tooltip>
@@ -68,7 +63,9 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
         <Box>
           <Badge bg={codeColor(workspace.code)}>{workspace.code}</Badge>
         </Box>
-        <Text fontSize="small">{workspace.description}</Text>
+        <Text fontSize="small" maxH="50px" overflow="hidden">
+          {workspace.description}
+        </Text>
       </Stack>
       <Spacer />
       <Flex>

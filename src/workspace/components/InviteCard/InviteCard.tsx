@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Avatar,
   useColorMode,
   Heading,
-  Text,
   Button,
   Stack,
-  Tooltip,
+  Flex,
+  Spacer,
 } from '@chakra-ui/react'
 import clsx from 'clsx'
 import { CheckIcon } from '@chakra-ui/icons'
@@ -25,41 +25,57 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
   const [isInvited, setIsInvited] = useState(false)
   const isDark = colorMode === 'dark'
 
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+
+    if (isInvited) {
+      timeout = setTimeout(() => {
+        setIsInvited(false)
+      }, 6000)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [isInvited])
+
   return (
-    <Tooltip
-      placement="top"
-      label={
-        <>
-          <Text>
-            {user.firstname} {user.lastname}
-          </Text>
-          <Text>{user.email}</Text>
-        </>
-      }
+    <Flex
+      className={clsx(
+        classes.card,
+        isDark ? classes.darkCard : classes.lightCard,
+        isInvited && classes.cardInvited
+      )}
     >
-      <Stack
+      <Avatar
+        size="sm"
+        src={!isInvited ? user.src || undefined : undefined}
+        name={!isInvited ? `${user.firstname} ${user.lastname}` : undefined}
+        icon={isInvited ? <CheckIcon /> : undefined}
         className={clsx(
-          classes.card,
-          isDark ? classes.darkCard : classes.lightCard,
-          isInvited && (isDark ? classes.invitedDark : classes.invitedLight)
+          classes.invitedAvatar,
+          isInvited &&
+            (isDark ? classes.invitedAvatarDark : classes.invitedAvatarLight)
         )}
-      >
-        <Avatar
-          src={user.src || undefined}
-          name={`${user.firstname} ${user.lastname}`}
-        />
-        <Heading fontSize="sm" isTruncated width="100%" textAlign="center">
+      />
+      <Stack ml={2} spacing={0.5}>
+        <Heading fontSize="sm" isTruncated>
           {user.firstname} {user.lastname}
         </Heading>
-        <Button
-          width="70%"
-          isDisabled={isInvited}
-          onClick={() => setIsInvited(true)}
-        >
-          {isInvited ? <CheckIcon /> : 'invite'}
-        </Button>
+        <Heading fontSize="xx-small" isTruncated>
+          {user.email}
+        </Heading>
       </Stack>
-    </Tooltip>
+      <Spacer />
+      <Button
+        width="100px"
+        isDisabled={isInvited}
+        onClick={() => setIsInvited(true)}
+        className={clsx(isInvited && classes.invitedButton)}
+      >
+        {isInvited ? 'invited' : 'invite'}
+      </Button>
+    </Flex>
   )
 }
 

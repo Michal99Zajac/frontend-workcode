@@ -2,16 +2,33 @@
 
 .card {
   padding: 0.5em;
-  width: 150px;
-  align-items: center;
+  align-items: flex-start;
+  transition: all 0.5s;
 }
 
-.invitedDark {
-  box-shadow: 0 0 0 1px $border-focus--dark;
+.cardInvited {
+  opacity: 0.6;
 }
 
-.invitedLight {
-  box-shadow: 0 0 0 1px $border-focus--light;
+.invitedAvatar {
+  border-radius: 100%;
+  transition: all 0.5s;
+  background-color: transparent !important;
+}
+
+.invitedButton {
+  background-color: transparent !important;
+}
+
+// colorMode colors
+.invitedAvatarDark {
+  background-color: $border-focus--dark !important;
+  border-color: $border-focus--dark !important;
+}
+
+.invitedAvatarLight {
+  background-color: $border-focus--light !important;
+  border-color: $border-focus--light !important;
 }
 
 .darkCard {

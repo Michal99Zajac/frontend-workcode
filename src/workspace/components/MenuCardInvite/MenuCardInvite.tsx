@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  Avatar,
   Box,
   Button,
   Flex,
@@ -9,8 +8,8 @@ import {
   InputLeftElement,
   MenuItem,
   Spacer,
+  Stack,
   useDisclosure,
-  Wrap,
 } from '@chakra-ui/react'
 import { PlusSquareIcon, SearchIcon } from '@chakra-ui/icons'
 import { useForm, Controller } from 'react-hook-form'
@@ -36,7 +35,7 @@ interface MenuCardInviteProps {
 export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
   const { workspace } = props
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [isLoading, setIsLoading] = useState(false)
+  const [, setIsLoading] = useState(false)
   const [users, setUsers] = useState<ResponseType>({
     users: [],
     navigation: {
@@ -54,7 +53,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
     defaultValues: {
       search: '',
       page: 0,
-      pagination: '25',
+      pagination: '10',
       workspaceId: workspace.id,
     },
   })
@@ -95,7 +94,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
       <MenuItem onClick={onOpen}>
         <PlusSquareIcon mr={4} /> Invite
       </MenuItem>
-      <ModalWindow size="4xl" title="Invite" onClose={onClose} isOpen={isOpen}>
+      <ModalWindow size="2xl" title="Invite" onClose={onClose} isOpen={isOpen}>
         <Box as="form" mb={5} onSubmit={onSubmit}>
           <Flex gap={2}>
             <Controller
@@ -120,11 +119,11 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
             </Button>
           </Flex>
         </Box>
-        <Wrap justify="center">
+        <Stack>
           {users.users.map((user) => (
             <InviteCard key={user.id} user={user} />
           ))}
-        </Wrap>
+        </Stack>
         <Flex mt={5}>
           <Spacer />
           <Pagination onChange={onPageChange} {...users.navigation} />
