@@ -13,7 +13,6 @@
 .invitedAvatar {
   border-radius: 100%;
   transition: all 0.5s;
-  background-color: transparent !important;
 }
 
 .invitedButton {
@@ -21,6 +20,10 @@
 }
 
 // colorMode colors
+.isSrcAvatar {
+  background-color: transparent !important;
+}
+
 .invitedAvatarDark {
   background-color: $border-focus--dark !important;
   border-color: $border-focus--dark !important;

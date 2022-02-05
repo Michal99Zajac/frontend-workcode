@@ -84,7 +84,6 @@ export function UserBucket(): JSX.Element | null {
           fontSize="1.2rem"
           src={loggedUser?.src || undefined}
           name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-          className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
           mr={2}
         />
         <Stack spacing={0}>

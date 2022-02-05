@@ -54,6 +54,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
         icon={isInvited ? <CheckIcon /> : undefined}
         className={clsx(
           classes.invitedAvatar,
+          user.src && classes.isSrcAvatar,
           isInvited &&
             (isDark ? classes.invitedAvatarDark : classes.invitedAvatarLight)
         )}
