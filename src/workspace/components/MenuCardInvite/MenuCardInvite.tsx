@@ -94,7 +94,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
       <MenuItem onClick={onOpen}>
         <PlusSquareIcon mr={4} /> Invite
       </MenuItem>
-      <ModalWindow size="2xl" title="Invite" onClose={onClose} isOpen={isOpen}>
+      <ModalWindow size="xl" title="Invite" onClose={onClose} isOpen={isOpen}>
         <Box as="form" mb={5} onSubmit={onSubmit}>
           <Flex gap={2}>
             <Controller
@@ -121,7 +121,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
         </Box>
         <Stack>
           {users.users.map((user) => (
-            <InviteCard key={user.id} user={user} />
+            <InviteCard key={user.id} user={user} workspace={workspace} />
           ))}
         </Stack>
         <Flex mt={5}>

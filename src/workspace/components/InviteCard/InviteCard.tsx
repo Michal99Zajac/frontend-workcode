@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Avatar,
   useColorMode,
@@ -7,79 +7,102 @@ import {
   Stack,
   Flex,
   Spacer,
+  Tooltip,
 } from '@chakra-ui/react'
 import clsx from 'clsx'
-import { CheckIcon } from '@chakra-ui/icons'
+import { CheckIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { UserType } from '../../../common/schemas'
+import { WorkspaceType } from '../../schemas'
+import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
 
 import classes from './InviteCard.module.scss'
-
-/**
- * isInvited statuses:
- *
- * -1 = invited
- * 0 = never invited invaited
- * 1 = invited once or more
- */
-type IsInvited = -1 | 0 | 1
+import { InviteStatusType } from './InviteStatus'
 
 interface InviteCardProps {
   user: UserType
+  workspace: WorkspaceType
 }
 
 export function InviteCard(props: InviteCardProps): JSX.Element {
-  const { user } = props
+  const { user, workspace } = props
   const { colorMode } = useColorMode()
-  const [isInvited, setIsInvited] = useState<IsInvited>(0)
+  const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
+  const [failMessage, setFailMessage] = useState('')
+  const { handleSubmit } = useForm({
+    resolver: zodResolver(Form),
+    defaultValues: {
+      userId: user.id,
+      workspaceId: workspace.id,
+    },
+  })
+
+  // variables
   const isDark = colorMode === 'dark'
-  const isNotInvited = isInvited !== -1
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true)
+    try {
+      await inviteContributor(data)
+      setFailMessage('')
+      setStatus('INVITED')
+    } catch (error) {
+      const fail = Fail.parse(error)
+      setFailMessage(fail.error)
+    }
+    setIsLoading(false)
+  })
 
   const getInviteStatus = useCallback(() => {
-    switch (isInvited) {
-      case 0:
+    if (failMessage) return 'try again'
+
+    switch (status) {
+      case 'NOT_INVITED':
         return 'invite'
-      case 1:
-        return 'invite again'
-      case -1:
-        return 'invited'
+      case 'INVITED':
+        return 'repeat'
       default:
         throw new Error('isInvited is out of range')
     }
-  }, [isInvited])
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-
-    if (isInvited) {
-      timeout = setTimeout(() => {
-        setIsInvited(1)
-      }, 6000)
-    }
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [isInvited])
+  }, [status, failMessage])
 
   return (
     <Flex
       className={clsx(
         classes.card,
-        isDark ? classes.darkCard : classes.lightCard,
-        !isNotInvited && classes.cardInvited
+        isDark ? classes.darkCard : classes.lightCard
       )}
     >
       <Avatar
         size="sm"
-        src={isNotInvited ? user.src || undefined : undefined}
-        name={isNotInvited ? `${user.firstname} ${user.lastname}` : undefined}
-        icon={!isNotInvited ? <CheckIcon /> : undefined}
+        src={
+          status === 'NOT_INVITED' && !failMessage
+            ? user.src || undefined
+            : undefined
+        }
+        name={
+          status === 'NOT_INVITED' && !failMessage
+            ? `${user.firstname} ${user.lastname}`
+            : undefined
+        }
+        icon={
+          status === 'INVITED' || failMessage ? (
+            failMessage ? (
+              <RepeatIcon />
+            ) : (
+              <CheckIcon />
+            )
+          ) : undefined
+        }
         className={clsx(
           classes.invitedAvatar,
           user.src && classes.isSrcAvatar,
-          !isNotInvited &&
-            (isDark ? classes.invitedAvatarDark : classes.invitedAvatarLight)
+          status === 'INVITED' &&
+            (isDark ? classes.invitedAvatarDark : classes.invitedAvatarLight),
+          failMessage && classes.failAvatar
         )}
       />
       <Stack ml={2} spacing={0.5}>
@@ -91,14 +114,16 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
         </Heading>
       </Stack>
       <Spacer />
-      <Button
-        width="min-content"
-        isDisabled={isInvited === -1}
-        onClick={() => setIsInvited(-1)}
-        className={clsx(!isNotInvited && classes.invitedButton)}
-      >
-        {getInviteStatus()}
-      </Button>
+      {failMessage && (
+        <Tooltip label={failMessage}>
+          <QuestionOutlineIcon alignSelf="center" m={2} />
+        </Tooltip>
+      )}
+      <form onSubmit={onSubmit}>
+        <Button width="150px" type="submit" isLoading={isLoading}>
+          {getInviteStatus()}
+        </Button>
+      </form>
     </Flex>
   )
 }

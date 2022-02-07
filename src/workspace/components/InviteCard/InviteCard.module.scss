@@ -21,6 +21,7 @@
 
 // colorMode colors
 .isSrcAvatar {
+  background-image: none;
   background-color: transparent !important;
 }
 
@@ -32,6 +33,11 @@
 .invitedAvatarLight {
   background-color: $border-focus--light !important;
   border-color: $border-focus--light !important;
+}
+
+.failAvatar {
+  background-color: $delete-color !important;
+  border-color: $delete-color !important;
 }
 
 .darkCard {
