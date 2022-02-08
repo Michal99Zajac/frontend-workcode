@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
+  Center,
   Flex,
   Input,
   InputGroup,
@@ -10,6 +11,7 @@ import {
   Spacer,
   Stack,
   useDisclosure,
+  Heading,
 } from '@chakra-ui/react'
 import { PlusSquareIcon, SearchIcon } from '@chakra-ui/icons'
 import { useForm, Controller } from 'react-hook-form'
@@ -27,6 +29,7 @@ import {
 } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
 import { InviteCard } from '../InviteCard'
+import { LoseConnection } from '../../../assets/icons/common'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType
@@ -35,7 +38,7 @@ interface MenuCardInviteProps {
 export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
   const { workspace } = props
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState<ResponseType>({
     users: [],
     navigation: {
@@ -89,6 +92,10 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
     onSubmit()
   }
 
+  useEffect(() => {
+    onSubmit()
+  }, [])
+
   return (
     <>
       <MenuItem onClick={onOpen}>
@@ -114,16 +121,23 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
                 </InputGroup>
               )}
             />
-            <Button size="md" type="submit">
+            <Button isLoading={isLoading} size="md" type="submit">
               search
             </Button>
           </Flex>
         </Box>
-        <Stack>
-          {users.users.map((user) => (
-            <InviteCard key={user.id} user={user} workspace={workspace} />
-          ))}
-        </Stack>
+        {users.users.length > 0 ? (
+          <Stack>
+            {users.users.map((user) => (
+              <InviteCard key={user.id} user={user} workspace={workspace} />
+            ))}
+          </Stack>
+        ) : (
+          <Center flexDirection="column" height="400px">
+            <LoseConnection width={100} height={100} />
+            <Heading mt={5}>No Results</Heading>
+          </Center>
+        )}
         <Flex mt={5}>
           <Spacer />
           <Pagination onChange={onPageChange} {...users.navigation} />

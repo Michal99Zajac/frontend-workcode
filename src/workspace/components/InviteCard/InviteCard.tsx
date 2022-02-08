@@ -56,7 +56,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
     setIsLoading(false)
   })
 
-  const getInviteStatus = useCallback(() => {
+  const getButtonMessage = useCallback(() => {
     if (failMessage) return 'try again'
 
     switch (status) {
@@ -121,7 +121,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
       )}
       <form onSubmit={onSubmit}>
         <Button width="150px" type="submit" isLoading={isLoading}>
-          {getInviteStatus()}
+          {getButtonMessage()}
         </Button>
       </form>
     </Flex>
