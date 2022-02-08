@@ -19,10 +19,11 @@ import clsx from 'clsx'
 import { AvatarTag } from '../AvatarTag'
 import { MenuCardUpdate } from '../MenuCardUpdate'
 import { MenuCardCopy } from '../MenuCardCopy'
+import { MenuCardInvite } from '../MenuCardInvite'
+import { MenuCardContributors } from '../MenuCardContributors'
 import { WorkspaceType } from '../../schemas'
 import { codeColor } from '../../utils'
 import { MenuWindow } from '../../../common/components'
-import { MenuCardInvite } from '../MenuCardInvite'
 
 import classes from './WorkspaceCard.module.scss'
 
@@ -75,6 +76,7 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
           <MenuOptionGroup>
             {isAdmin && <MenuCardUpdate workspace={workspace} />}
             {isAdmin && <MenuCardInvite workspace={workspace} />}
+            {isAdmin && <MenuCardContributors />}
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuOptionGroup>
