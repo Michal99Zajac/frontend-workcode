@@ -30,6 +30,7 @@ import {
 import { useToast } from '../../../common/hooks'
 import { InviteCard } from '../InviteCard'
 import { LoseConnection } from '../../../assets/icons/common'
+import { InviteCardSkeleton } from '../Skeletons'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType
@@ -128,9 +129,11 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
         </Box>
         {users.users.length > 0 ? (
           <Stack>
-            {users.users.map((user) => (
-              <InviteCard key={user.id} user={user} workspace={workspace} />
-            ))}
+            <InviteCardSkeleton amount={10} isLoaded={!isLoading}>
+              {users.users.map((user) => (
+                <InviteCard key={user.id} user={user} workspace={workspace} />
+              ))}
+            </InviteCardSkeleton>
           </Stack>
         ) : (
           <Center flexDirection="column" height="400px">

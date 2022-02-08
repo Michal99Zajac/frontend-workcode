@@ -39,7 +39,7 @@ export function Pagination(props: PaginationProps): JSX.Element {
         className={paginationButton}
         size="xs"
         aria-label="first"
-        isDisabled={first === last}
+        isDisabled={first === last || current === first}
         icon={<ChevronLeftIcon />}
         onClick={() => onChange(first)}
       />
@@ -65,7 +65,7 @@ export function Pagination(props: PaginationProps): JSX.Element {
         aria-label="last"
         icon={<ChevronRightIcon />}
         onClick={() => onChange(last)}
-        isDisabled={first === last}
+        isDisabled={first === last || current === last}
       />
     </ButtonGroup>
   )
