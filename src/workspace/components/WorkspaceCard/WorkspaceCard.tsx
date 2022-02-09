@@ -76,7 +76,7 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
           <MenuOptionGroup>
             {isAdmin && <MenuCardUpdate workspace={workspace} />}
             {isAdmin && <MenuCardInvite workspace={workspace} />}
-            {isAdmin && <MenuCardContributors />}
+            {isAdmin && <MenuCardContributors workspace={workspace} />}
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuOptionGroup>
