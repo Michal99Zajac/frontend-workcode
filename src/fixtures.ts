@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 
 import { UserType, AuthUserType } from './common/schemas'
-import { WorkspaceType, CodeType } from './workspace/schemas'
+import { WorkspaceType, CodeType, WorkspaceRole } from './workspace/schemas'
 
 export let users: UserType[] = Array(100)
   .fill(null)
@@ -37,10 +37,15 @@ export let workspaces: WorkspaceType[] = Array(100)
       dayjs().subtract(2, 'year').toString(),
       dayjs().toString()
     ),
-    contributors: users.slice(
-      Math.floor(90 * Math.random()),
-      Math.floor(90 * Math.random()) + 10
-    ),
+    contributors: users
+      .slice(
+        Math.floor(90 * Math.random()),
+        Math.floor(90 * Math.random()) + 10
+      )
+      .map((user) => ({
+        ...user,
+        role: WorkspaceRole.options[Math.floor(3 * Math.random())],
+      })),
   }))
 
 export const setWorkspaces = (newWorkspaces: WorkspaceType[]): void => {

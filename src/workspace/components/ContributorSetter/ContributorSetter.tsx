@@ -11,15 +11,15 @@ import clsx from 'clsx'
 import { SettingsIcon } from '@chakra-ui/icons'
 
 import { ContributorRoleBadge } from '../ContributorRoleBadge'
-import { UserType } from '../../../common/schemas'
+import { ContributorType } from '../../schemas'
 
 import classes from './ContributorSetter.module.scss'
 
-type SetContributor = (contributor: UserType) => void
+type SetContributor = (contributor: ContributorType) => void
 
 interface ContributorProps {
   setContributor: SetContributor
-  contributor: UserType
+  contributor: ContributorType
 }
 
 export function ContributorSetter(props: ContributorProps): JSX.Element {
@@ -45,7 +45,7 @@ export function ContributorSetter(props: ContributorProps): JSX.Element {
           <Heading fontSize="sm" isTruncated mr={2}>
             {contributor.firstname} {contributor.lastname}
           </Heading>
-          <ContributorRoleBadge role="EDITOR" />
+          <ContributorRoleBadge role={contributor.role} />
         </Flex>
         <Heading fontSize="xx-small" isTruncated>
           {contributor.email}
