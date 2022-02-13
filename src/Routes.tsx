@@ -2,7 +2,7 @@
 import React from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
-import { MainLayout, OperationLayout } from './common/components'
+import { MainLayout, WorkspaceLayout } from './common/components'
 import { Main, NotFound } from './other'
 import { Menu, Wait, Editor } from './workspace'
 import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
@@ -21,131 +21,100 @@ export interface WorkcodeRouteObject extends RouteObject {
 export const routes: WorkcodeRouteObject[] = [
   {
     path: '/',
-    index: true,
-    element: (
-      <MainLayout>
-        <Main />
-      </MainLayout>
-    ),
+    element: <MainLayout />,
     permissions: [],
     forLogged: true,
     auth: false,
+    children: [
+      {
+        index: true,
+        element: <Main />,
+      },
+    ],
   },
   {
-    path: '/workspace/menu',
-    element: (
-      <OperationLayout>
-        <Menu />
-      </OperationLayout>
-    ),
+    path: '/workspace',
+    element: <WorkspaceLayout />,
     permissions: ['USER'],
     redirect: '/auth/signin',
     forLogged: true,
     auth: true,
     message: 'You should be sign in!',
+    children: [
+      {
+        index: true,
+        element: <Menu />,
+      },
+      {
+        path: ':workspaceId',
+        children: [
+          {
+            index: true,
+            element: <Editor />,
+          },
+          {
+            path: 'wait',
+            element: <Wait />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: '/workspace/wait/:workspaceId',
-    element: (
-      <OperationLayout>
-        <Wait />
-      </OperationLayout>
-    ),
-    permissions: ['USER'],
-    redirect: '/auth/signin',
-    forLogged: true,
-    auth: true,
-    message: 'You should be sign in!',
-  },
-  {
-    path: '/workspace/editor/:workspaceId',
-    element: (
-      <OperationLayout>
-        <Editor />
-      </OperationLayout>
-    ),
-    permissions: ['USER'],
-    redirect: '/auth/signin',
-    forLogged: true,
-    auth: true,
-    message: 'You should be sign in!',
-  },
-  {
-    path: '/auth/change-password/:token',
-    element: (
-      <MainLayout>
-        <ChangePassword />
-      </MainLayout>
-    ),
+    path: '/auth',
+    element: <MainLayout />,
     permissions: [],
     redirect: '/',
     forLogged: false,
     auth: false,
     message: 'You are logged',
-  },
-  {
-    path: '/auth/forgot-password',
-    element: (
-      <MainLayout>
-        <ForgotPassword />
-      </MainLayout>
-    ),
-    permissions: [],
-    redirect: '/',
-    forLogged: false,
-    auth: false,
-    message: 'You are logged',
-  },
-  {
-    path: '/auth/signin',
-    element: (
-      <MainLayout>
-        <SignIn />
-      </MainLayout>
-    ),
-    permissions: [],
-    redirect: '/',
-    forLogged: false,
-    auth: false,
-    message: 'You are logged',
-  },
-  {
-    path: '/auth/signup',
-    element: (
-      <MainLayout>
-        <SignUp />
-      </MainLayout>
-    ),
-    permissions: [],
-    redirect: '/',
-    forLogged: false,
-    auth: false,
-    message: 'You are logged',
+    children: [
+      {
+        index: true,
+        element: <SignIn />,
+      },
+      {
+        path: 'change-password/:token',
+        element: <ChangePassword />,
+      },
+      {
+        path: 'auth/forgot-password',
+        element: <ForgotPassword />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+    ],
   },
   {
     path: '/config',
-    element: (
-      <OperationLayout>
-        <UserConfig />
-      </OperationLayout>
-    ),
+    element: <WorkspaceLayout />,
     permissions: ['USER'],
     redirect: '/',
     forLogged: true,
     auth: true,
     message: 'You should be sign in!',
+    children: [
+      {
+        index: true,
+        element: <UserConfig />,
+      },
+    ],
   },
   {
     path: '*',
-    element: (
-      <MainLayout>
-        <NotFound />
-      </MainLayout>
-    ),
+    element: <MainLayout />,
     permissions: [],
     redirect: '/',
     forLogged: true,
     auth: false,
+    children: [
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
   },
 ]
 

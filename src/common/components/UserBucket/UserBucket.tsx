@@ -98,7 +98,7 @@ export function UserBucket(): JSX.Element | null {
           </Box>
         </AccordionItem>
         <AccordionItem isClickable>
-          <Box fontSize="xs" as={Link} to="/workspace/menu">
+          <Box fontSize="xs" as={Link} to="/workspace">
             menu
           </Box>
         </AccordionItem>

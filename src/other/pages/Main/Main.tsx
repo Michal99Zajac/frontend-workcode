@@ -16,7 +16,7 @@ export function Main(): JSX.Element {
         {user ? (
           <Button
             width="160px"
-            onClick={() => navigation('/workspace/menu')}
+            onClick={() => navigation('/workspace')}
             size="lg"
           >
             menu
@@ -24,7 +24,7 @@ export function Main(): JSX.Element {
         ) : (
           <>
             <Button
-              onClick={() => navigation('/auth/signin')}
+              onClick={() => navigation('/auth')}
               size="lg"
               marginRight={2}
             >

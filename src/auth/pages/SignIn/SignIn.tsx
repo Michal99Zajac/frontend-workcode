@@ -41,7 +41,7 @@ export function SignIn(): JSX.Element {
         response.token
       )
       setIsLoading(false)
-      navigation('/workspace/menu')
+      navigation('/workspace')
     } catch (error) {
       const signinError = Fail.parse(error)
       runToast(signinError, 'Error', 'error')

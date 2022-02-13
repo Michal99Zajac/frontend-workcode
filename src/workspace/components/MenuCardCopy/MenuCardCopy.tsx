@@ -13,7 +13,7 @@ export function MenuCardCopy(props: ManuCardCopyProps): JSX.Element {
   const { workspace } = props
   const runToast = useToast()
   const { hasCopied, onCopy } = useClipboard(
-    `${window.location.origin}/workspace/editor/${workspace.id}`
+    `${window.location.origin}/workspace/${workspace.id}`
   )
 
   const onClick = useCallback(() => {

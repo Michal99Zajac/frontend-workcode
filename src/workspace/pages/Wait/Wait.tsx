@@ -45,7 +45,7 @@ export function Wait(): JSX.Element {
           'Success',
           'success'
         )
-        navigate(`/workspace/editor/${response.id}`)
+        navigate(`/workspace/${response.id}`)
       }
 
       if (response.status === 'DENIAL') {
@@ -54,7 +54,7 @@ export function Wait(): JSX.Element {
           'Forbbiden',
           'error'
         )
-        navigate('/workspace/menu')
+        navigate('/workspace')
       }
 
       if (!disablePending && response.status === 'PENDING') {
@@ -77,7 +77,7 @@ export function Wait(): JSX.Element {
     } catch (error) {
       const fail = GetWorkspaceFail.parse(error)
       runToast(fail, 'Error', 'error')
-      navigate('/workspace/menu')
+      navigate('/workspace')
     }
   }, [workspaceId])
 
@@ -112,10 +112,9 @@ export function Wait(): JSX.Element {
   try {
     const locationState = LocationState.parse(state)
 
-    if (!locationState?.isWorkspacePending)
-      return <Navigate to="/workspace/menu" />
+    if (!locationState?.isWorkspacePending) return <Navigate to="/workspace" />
   } catch (error) {
-    return <Navigate to="/workspace/menu" />
+    return <Navigate to="/workspace" />
   }
 
   return (
@@ -142,7 +141,7 @@ export function Wait(): JSX.Element {
         <Box position="relative">
           <Window
             title="Workspace Information"
-            onClick={() => navigate('/workspace/menu')}
+            onClick={() => navigate('/workspace')}
           >
             <Stack w="500px" p={4}>
               <Stack>

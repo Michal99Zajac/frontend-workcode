@@ -7,7 +7,7 @@ export function Editor(): JSX.Element {
   return (
     <div>
       <Link
-        to="/workspace/wait/73ac0aac-9d21-4163-9951-837627ebd461"
+        to="/workspace/73ac0aac-9d21-4163-9951-837627ebd461/wait"
         state={{ isWorkspacePending: true } as LocationStateType}
         replace
       >
