@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, useColorMode } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
 import { Surface } from '../Surface'
@@ -13,12 +13,9 @@ interface WindowProps {
 
 export function Window(props: WindowProps): JSX.Element {
   const { children, title, bg, onClick } = props
-  const { colorMode } = useColorMode()
-
-  const isDark = colorMode === 'dark'
 
   return (
-    <Surface boxShadow={`3px 3px 0 1px ${isDark ? '#000' : '#FFF'}`}>
+    <Surface>
       <Box padding={1} backgroundColor={bg}>
         <Heading whiteSpace="nowrap" size="md">
           {title}

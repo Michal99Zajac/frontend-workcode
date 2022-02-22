@@ -33,7 +33,6 @@ export function Main(): JSX.Element {
             <Button
               variant="ghost"
               onClick={() => navigation('/auth/signup')}
-              to="/auth/signup"
               size="lg"
               marginLeft={2}
             >
