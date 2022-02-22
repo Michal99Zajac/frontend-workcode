@@ -1,17 +1,7 @@
-@import '../../../common/styles/colors.scss';
-
 .card {
   min-height: 200px;
   height: 200px;
   min-width: 450px;
   max-width: 450px;
   padding: 0.5em;
-}
-
-.darkCard {
-  background-color: $surface-bg--dark;
-}
-
-.lightCard {
-  background-color: $surface-bg--light;
 }

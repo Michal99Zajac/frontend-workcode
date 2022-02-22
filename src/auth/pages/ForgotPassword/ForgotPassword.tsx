@@ -24,8 +24,6 @@ import {
   Fail,
 } from '../../api/sendForgottenEmail'
 
-import classes from './ForgotPassword.module.scss'
-
 export function ForgotPassword(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
@@ -51,14 +49,14 @@ export function ForgotPassword(): JSX.Element {
   })
 
   return (
-    <Box className={classes.page}>
+    <Box>
       <DragPocket>
         <Box position="absolute">
           <Window
             title="Forget Password"
             onClick={() => navigate('/auth/signin')}
           >
-            <form className={classes.windowContent} onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <Alert
                 status="info"
                 flexDirection="column"

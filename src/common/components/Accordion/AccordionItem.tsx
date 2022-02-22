@@ -1,8 +1,5 @@
 import React from 'react'
-import { MenuItem, useColorMode } from '@chakra-ui/react'
-import clsx from 'clsx'
-
-import classes from './Accordion.module.scss'
+import { MenuItem } from '@chakra-ui/react'
 
 interface AccordionItemProps {
   children: React.ReactNode
@@ -10,22 +7,9 @@ interface AccordionItemProps {
 }
 
 export function AccordionItem(props: AccordionItemProps): JSX.Element {
-  const { children, isClickable } = props
-  const { colorMode } = useColorMode()
+  const { children } = props
 
-  return (
-    <MenuItem
-      className={clsx(
-        classes.accordionItem,
-        isClickable && classes.clickAccordionItem,
-        colorMode === 'dark'
-          ? classes.clickAccordionItemDark
-          : classes.clickAccordionItemLight
-      )}
-    >
-      {children}
-    </MenuItem>
-  )
+  return <MenuItem>{children}</MenuItem>
 }
 
 export default AccordionItem

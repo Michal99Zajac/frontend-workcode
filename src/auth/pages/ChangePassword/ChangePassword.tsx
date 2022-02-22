@@ -8,8 +8,6 @@ import { DragPocket, Window } from '../../../common/components'
 import { useToast } from '../../../common/hooks'
 import { changePassword, Form, Fail, FormType } from '../../api/changePassword'
 
-import classes from './ChangePassword.module.scss'
-
 export function ChangePassword(): JSX.Element {
   const runToast = useToast()
   const navigate = useNavigate()
@@ -40,11 +38,11 @@ export function ChangePassword(): JSX.Element {
   })
 
   return (
-    <Box className={classes.page}>
+    <Box>
       <DragPocket>
         <Box position="absolute">
           <Window title="Change Password" onClick={() => navigate('/')}>
-            <form className={classes.windowContent} onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <Controller
                 control={control}
                 name="password"

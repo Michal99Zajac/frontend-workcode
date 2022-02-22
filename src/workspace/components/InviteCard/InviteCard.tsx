@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import {
   Avatar,
-  useColorMode,
   Heading,
   Button,
   Stack,
@@ -9,7 +8,6 @@ import {
   Spacer,
   Tooltip,
 } from '@chakra-ui/react'
-import clsx from 'clsx'
 import { CheckIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,7 +16,6 @@ import { UserType } from '../../../common/schemas'
 import { WorkspaceType } from '../../schemas'
 import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
 
-import classes from './InviteCard.module.scss'
 import { InviteStatusType } from './InviteStatus'
 
 interface InviteCardProps {
@@ -28,7 +25,6 @@ interface InviteCardProps {
 
 export function InviteCard(props: InviteCardProps): JSX.Element {
   const { user, workspace } = props
-  const { colorMode } = useColorMode()
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
   const [failMessage, setFailMessage] = useState('')
@@ -39,9 +35,6 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
       workspaceId: workspace.id,
     },
   })
-
-  // variables
-  const isDark = colorMode === 'dark'
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
@@ -70,12 +63,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
   }, [status, failMessage])
 
   return (
-    <Flex
-      className={clsx(
-        classes.card,
-        isDark ? classes.darkCard : classes.lightCard
-      )}
-    >
+    <Flex>
       <Avatar
         size="sm"
         src={
@@ -97,13 +85,6 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
             )
           ) : undefined
         }
-        className={clsx(
-          classes.invitedAvatar,
-          user.src && classes.isSrcAvatar,
-          status === 'INVITED' &&
-            (isDark ? classes.invitedAvatarDark : classes.invitedAvatarLight),
-          failMessage && classes.failAvatar
-        )}
       />
       <Stack ml={2} spacing={0.5}>
         <Heading fontSize="sm" isTruncated>

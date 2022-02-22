@@ -10,8 +10,6 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
-import classes from './ModalWindow.module.scss'
-
 type onClose = () => void
 
 interface ModalWindowProps {
@@ -39,8 +37,8 @@ export function ModalWindow(props: ModalWindowProps): JSX.Element {
   return (
     <Modal size={size} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent className={classes.content}>
-        <ModalHeader className={classes.header}>
+      <ModalContent>
+        <ModalHeader>
           <Flex height="2rem" align="center" justifyContent="space-between">
             <Heading size="md">{title}</Heading>
             <CloseIcon
@@ -51,7 +49,7 @@ export function ModalWindow(props: ModalWindowProps): JSX.Element {
             />
           </Flex>
         </ModalHeader>
-        <ModalBody className={classes.body}>{children}</ModalBody>
+        <ModalBody>{children}</ModalBody>
       </ModalContent>
     </Modal>
   )

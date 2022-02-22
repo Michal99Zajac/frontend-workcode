@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import clsx from 'clsx'
 import {
   Avatar,
-  useColorMode,
   Spinner,
   Flex,
   Heading,
@@ -18,10 +16,7 @@ import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
 import { UserType } from '../../schemas/User'
 
-import classes from './UserBucket.module.scss'
-
 export function UserBucket(): JSX.Element | null {
-  const { colorMode } = useColorMode()
   const { user, logout } = useAuth((state) => ({
     user: state.user,
     logout: state.logout,
@@ -29,7 +24,6 @@ export function UserBucket(): JSX.Element | null {
   const navigate = useNavigate()
   const [loggedUser, setLoggedUser] = useState<UserType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const isDark = colorMode === 'dark'
 
   const fetchCurrentUser = useCallback(async () => {
     setIsLoading(true)
@@ -60,7 +54,6 @@ export function UserBucket(): JSX.Element | null {
         fontSize="1.2rem"
         src={loggedUser?.src || undefined}
         name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-        className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
       />
     ),
     [loggedUser]
@@ -69,15 +62,7 @@ export function UserBucket(): JSX.Element | null {
   if (isLoading) return <Spinner />
 
   return (
-    <MenuWindow
-      title="User"
-      placement="right-end"
-      menuButton={menuButton}
-      menuButtonClassName={clsx(
-        classes.menu,
-        isDark ? classes.darkMenu : classes.lightMenu
-      )}
-    >
+    <MenuWindow title="User" placement="right-end" menuButton={menuButton}>
       <Flex py={2} px={3} alignItems="center">
         <Avatar
           size="xs"

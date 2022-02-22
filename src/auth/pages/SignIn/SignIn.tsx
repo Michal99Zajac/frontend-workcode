@@ -17,8 +17,6 @@ import { Window, DragPocket } from '../../../common/components'
 import { useAuth } from '../../../common/store'
 import { useToast } from '../../../common/hooks'
 
-import classes from './SignIn.module.scss'
-
 export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
   const runToast = useToast()
@@ -50,11 +48,11 @@ export function SignIn(): JSX.Element {
   })
 
   return (
-    <Box className={classes.page}>
+    <Box>
       <DragPocket>
         <Box position="absolute">
           <Window title="Sign In" onClick={() => navigation('/')}>
-            <form className={classes.windowContent} onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <Controller
                 control={control}
                 name="email"

@@ -8,8 +8,6 @@ import { signup, Form, FormType, Fail } from '../../api/signup'
 import { useToast } from '../../../common/hooks'
 import { Window, DragPocket } from '../../../common/components'
 
-import classes from './SignUp.module.scss'
-
 export function SignUp(): JSX.Element {
   const navigation = useNavigate()
   const runToast = useToast()
@@ -44,11 +42,11 @@ export function SignUp(): JSX.Element {
   })
 
   return (
-    <Box className={classes.page}>
+    <Box>
       <DragPocket>
         <Box position="absolute">
           <Window title="Sign Up" onClick={() => navigation('/')}>
-            <form className={classes.windowContent} onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <Controller
                 control={control}
                 name="email"

@@ -22,8 +22,6 @@ import { FormType, Form, Fail, deleteAccount } from '../../api/deleteAccount'
 import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
 
-import classes from './DeleteAccount.module.scss'
-
 export function DeleteAccount(): JSX.Element {
   const logout = useAuth((state) => state.logout)
   const navigate = useNavigate()
@@ -90,7 +88,6 @@ export function DeleteAccount(): JSX.Element {
             />
             <Flex justifyContent="flex-end">
               <Button
-                className={classes.delete}
                 isLoading={isLoading}
                 type="submit"
                 onClick={() => runToast(formState.errors, 'Error', 'error')}

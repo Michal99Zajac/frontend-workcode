@@ -1560,7 +1560,7 @@
   dependencies:
     "@chakra-ui/utils" "^1.9.1"
 
-"@chakra-ui/react@^1.6.12", "@chakra-ui/react@^1.7.4":
+"@chakra-ui/react@^1.7.4":
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.7.4.tgz#dfeb9e2f34df3645448ee542e02390fdf5b58876"
   integrity sha512-wBxfQRcIz6YGXQh3S2E6sXCVcqrVuUygMeMdkCMMfZQTI2VFLkvn6SDYzLHcm1PtMygZnF1mU30GOcmArpVotA==
@@ -3099,29 +3099,6 @@
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
-
-"@workcode/components@git+https://github.com/Michal99Zajac/components-workcode.git":
-  version "1.0.0"
-  resolved "git+https://github.com/Michal99Zajac/components-workcode.git#39c7d2613923625ab9865f81d3da6f8adcb484d8"
-  dependencies:
-    "@chakra-ui/icons" "^1.1.1"
-    "@chakra-ui/react" "^1.6.12"
-    "@emotion/react" "^11"
-    "@emotion/styled" "^11"
-    "@testing-library/jest-dom" "^5.11.4"
-    "@testing-library/react" "^11.1.0"
-    "@testing-library/user-event" "^12.1.10"
-    "@types/jest" "^26.0.15"
-    "@types/node" "^12.0.0"
-    "@types/react" "^17.0.0"
-    "@types/react-dom" "^17.0.0"
-    framer-motion "^4"
-    node-sass "^6.0.1"
-    react "^17.0.2"
-    react-dom "^17.0.2"
-    react-scripts "4.0.3"
-    typescript "^4.1.2"
-    web-vitals "^1.0.1"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -12657,11 +12634,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typescript@^4.1.2:
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
-  integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==
 
 typescript@^4.4.4:
   version "4.4.4"
