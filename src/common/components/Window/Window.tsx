@@ -1,5 +1,12 @@
 import React from 'react'
-import { Flex, Heading, Box, Spacer, IconButton } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  Box,
+  Spacer,
+  IconButton,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
 import { Surface } from '../Surface'
@@ -12,11 +19,12 @@ interface WindowProps {
 
 export function Window(props: WindowProps): JSX.Element {
   const { children, title, onClick } = props
+  const buttonColor = useColorModeValue('black', 'white')
 
   return (
     <Surface>
       <Flex>
-        <Heading whiteSpace="nowrap" size="md">
+        <Heading whiteSpace="nowrap" size="lg">
           {title}
         </Heading>
         <Spacer />
@@ -27,7 +35,7 @@ export function Window(props: WindowProps): JSX.Element {
             variant="ghost"
             colorScheme="blue"
             onClick={onClick}
-            icon={<CloseIcon />}
+            icon={<CloseIcon color={buttonColor} />}
           />
         )}
       </Flex>

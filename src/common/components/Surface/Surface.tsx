@@ -3,7 +3,7 @@ import { BoxProps, Box, useColorModeValue } from '@chakra-ui/react'
 
 export const Surface = React.forwardRef<HTMLDivElement, BoxProps>(
   (props, ref) => {
-    const bg = useColorModeValue('white', 'gray.700')
+    const bg = useColorModeValue('gray.50', 'gray.700')
 
     return (
       <Box

@@ -7,8 +7,8 @@ import {
 export const workcodeTheme = extendTheme(
   {
     fonts: {
-      body: 'Ubuntu',
-      heading: 'Ubuntu',
+      body: 'Work Sans',
+      heading: 'Work Sans',
     },
     colors: {
       blue: {
