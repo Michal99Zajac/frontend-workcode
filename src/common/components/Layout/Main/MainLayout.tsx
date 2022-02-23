@@ -24,10 +24,10 @@ export function MainLayout(): JSX.Element {
         <BasicSetting />
       </Box>
       <Box className={classes.content}>
-        <Box w="40%" h="100%">
+        <Box w="40%" minW="max-content" h="100%" p={1}>
           <Outlet />
         </Box>
-        <Center w="60%">
+        <Center w="60%" minW="max-content" p={1}>
           <Heading style={{ fontSize: '184px' }}>Workcode</Heading>
         </Center>
       </Box>

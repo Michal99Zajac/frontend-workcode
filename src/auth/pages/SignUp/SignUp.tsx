@@ -7,6 +7,7 @@ import {
   Divider,
   Center,
   Stack,
+  Box,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
@@ -145,17 +146,19 @@ export function SignUp(): JSX.Element {
               sign up
             </Button>
             <Divider />
-            <Text alignSelf="flex-start" mb={1} fontSize="xs">
-              Have an account?
-            </Text>
-            <Button
-              colorScheme="gray"
-              isFullWidth
-              alignSelf="flex-start"
-              onClick={() => navigation('/auth')}
-            >
-              sign in
-            </Button>
+            <Box>
+              <Text alignSelf="flex-start" fontSize="xs">
+                Have an account?
+              </Text>
+              <Button
+                colorScheme="gray"
+                isFullWidth
+                alignSelf="flex-start"
+                onClick={() => navigation('/auth')}
+              >
+                sign in
+              </Button>
+            </Box>
           </Stack>
         </form>
       </Window>
