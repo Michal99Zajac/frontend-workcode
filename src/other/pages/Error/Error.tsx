@@ -42,7 +42,7 @@ export function Error(props: FallbackProps): JSX.Element {
             style={{ visibility: 'hidden' }}
             position="absolute"
           >
-            <Window title="Error" bg="#D90D00">
+            <Window title="Error">
               <Box className={classes.errorWindow}>
                 <Text fontSize="4xl" textAlign="center" marginBottom={5}>
                   Something went wrong... :(

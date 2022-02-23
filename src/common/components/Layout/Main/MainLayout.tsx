@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Image, Heading } from '@chakra-ui/react'
+import { Box, Image, Heading, Center } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 
 import { useAuth } from '../../../store'
@@ -24,15 +24,17 @@ export function MainLayout(): JSX.Element {
       <Box className={classes.setting}>
         <BasicSetting />
       </Box>
-      <Box className={classes.center}>
-        <Box width={40} height={40}>
-          <Image src={LogoImage} alt="Logo" />
+      <Box className={classes.content}>
+        <Box w="50%" h="100%">
+          <Outlet />
         </Box>
-        <Heading marginLeft={20} fontSize="9xl">
-          Workcode
-        </Heading>
+        <Center w="50%">
+          <Box width={40} height={40} mr={20}>
+            <Image src={LogoImage} alt="Logo" />
+          </Box>
+          <Heading fontSize="9xl">Workcode</Heading>
+        </Center>
       </Box>
-      <Outlet />
     </Box>
   )
 }

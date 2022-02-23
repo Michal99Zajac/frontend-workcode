@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading } from '@chakra-ui/react'
+import { Flex, Heading, Box, Spacer, IconButton } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
 import { Surface } from '../Surface'
@@ -7,28 +7,30 @@ import { Surface } from '../Surface'
 interface WindowProps {
   children: React.ReactNode
   title: string
-  bg?: string
   onClick?: () => void
 }
 
 export function Window(props: WindowProps): JSX.Element {
-  const { children, title, bg, onClick } = props
+  const { children, title, onClick } = props
 
   return (
     <Surface>
-      <Box padding={1} backgroundColor={bg}>
+      <Flex>
         <Heading whiteSpace="nowrap" size="md">
           {title}
         </Heading>
+        <Spacer />
         {onClick && (
-          <CloseIcon
-            w={4}
-            h={4}
-            _hover={{ cursor: 'pointer' }}
+          <IconButton
+            aria-label="close icon"
+            size="xs"
+            variant="ghost"
+            colorScheme="blue"
             onClick={onClick}
+            icon={<CloseIcon />}
           />
         )}
-      </Box>
+      </Flex>
       <Box>{children}</Box>
     </Surface>
   )
