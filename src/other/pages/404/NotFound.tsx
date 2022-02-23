@@ -1,27 +1,25 @@
 import React from 'react'
-import { Box, Heading } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
-
-import { Window, DragPocket } from '../../../common/components'
-
-import classes from './NotFound.module.scss'
+import { Heading, Center, Stack, Button } from '@chakra-ui/react'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 
 export function NotFound(): JSX.Element {
-  const { windowContent, page } = classes
-  const navigation = useNavigate()
-
   return (
-    <Box className={page}>
-      <DragPocket>
-        <Box position="absolute">
-          <Window title="Not Found" onClick={() => navigation('/')}>
-            <Box className={windowContent}>
-              <Heading fontSize="9xl">404</Heading>
-            </Box>
-          </Window>
-        </Box>
-      </DragPocket>
-    </Box>
+    <Center w="100%" h="100%">
+      <Stack align="center">
+        <Heading sx={{ fontSize: '360px' }}>404</Heading>
+        <Button
+          size="lg"
+          w="min-content"
+          as={Link}
+          to="/"
+          aria-label="menu return"
+          leftIcon={<ArrowBackIcon />}
+        >
+          menu
+        </Button>
+      </Stack>
+    </Center>
   )
 }
 
