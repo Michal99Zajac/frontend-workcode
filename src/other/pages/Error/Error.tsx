@@ -1,64 +1,91 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Text, Kbd, Button, Image } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Center,
+  Heading,
+  Stack,
+  Flex,
+  Spacer,
+  Accordion,
+  IconButton,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Button,
+  useColorModeValue,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
+} from '@chakra-ui/react'
 import { FallbackProps } from 'react-error-boundary'
 
-import { Window, DragPocket } from '../../../common/components'
-import { getRandomInt } from '../../utils'
-import LogoImage from '../../../assets/img/logo.png'
-
-import classes from './Error.module.scss'
+import { Surface } from '../../../common/components'
+import { RepeatIcon } from '@chakra-ui/icons'
 
 export function Error(props: FallbackProps): JSX.Element {
   const { error, resetErrorBoundary } = props
-  const windows = useRef<HTMLDivElement[]>([])
-  const array: number[] = Array(30)
-    .fill(0)
-    .map((_, i) => i)
-
-  useEffect(() => {
-    console.error(error.message)
-    windows.current.forEach((win, index) =>
-      setTimeout(() => (win.style.visibility = 'visible'), 40 * index)
-    )
-  }, [])
+  const schema = useColorModeValue('blackAlpha', 'whiteAlpha')
+  const color = useColorModeValue('black', 'white')
+  const accordionBG = useColorModeValue('gray.100', 'gray.600')
 
   return (
-    <Box className={classes.page}>
-      {array.map((val, index) => (
-        <DragPocket
-          key={val}
-          defaultPosition={{
-            x: getRandomInt(window.innerWidth - 450),
-            y: getRandomInt(window.innerHeight - 350),
-          }}
-        >
-          <Box
-            left={0}
-            top={0}
-            ref={(win) => {
-              if (win) windows.current[index] = win
-            }}
-            style={{ visibility: 'hidden' }}
-            position="absolute"
-          >
-            <Window title="Error">
-              <Box className={classes.errorWindow}>
-                <Text fontSize="4xl" textAlign="center" marginBottom={5}>
-                  Something went wrong... :(
-                </Text>
-                <Button as={Link} to="/" onClick={resetErrorBoundary}>
-                  <Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>Delete</Kbd>
-                </Button>
-              </Box>
-            </Window>
-          </Box>
-        </DragPocket>
-      ))}
-      <Box width={400} height={400}>
-        <Image src={LogoImage} alt="Logo" />
-      </Box>
-    </Box>
+    <Center w="100%" height="100%">
+      <Stack minW="520px" maxW="520px">
+        <Heading size="2xl">Workcode</Heading>
+        <Surface>
+          <Stack spacing={6}>
+            <Flex>
+              <Heading size="xl">{error.name}</Heading>
+              <Spacer />
+              <IconButton
+                ml={2}
+                aria-label="close"
+                size="sm"
+                colorScheme={schema}
+                icon={<RepeatIcon color={color} />}
+                variant="ghost"
+                onClick={resetErrorBoundary}
+              />
+            </Flex>
+            <Accordion allowToggle>
+              <AccordionItem border="none" bg={accordionBG} borderRadius={3}>
+                <AccordionButton
+                  _focus={{ boxShadow: 'none', bg: 'blackAlpha.50' }}
+                >
+                  <Text>details</Text>
+                  <Spacer />
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel p={0}>
+                  <Alert status="error">
+                    <AlertIcon />
+                    <Box w="100%">
+                      <AlertTitle>message</AlertTitle>
+                      <AlertDescription>{error.message}</AlertDescription>
+                    </Box>
+                  </Alert>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+            <Button
+              alignSelf="flex-end"
+              as={Link}
+              to="/"
+              colorScheme="red"
+              bg="red.600"
+              color="white"
+              w="min-content"
+            >
+              go menu
+            </Button>
+          </Stack>
+        </Surface>
+      </Stack>
+    </Center>
   )
 }
 

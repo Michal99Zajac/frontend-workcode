@@ -7,12 +7,12 @@ export const Surface = React.forwardRef<HTMLDivElement, BoxProps>(
 
     return (
       <Box
-        {...props}
         ref={ref}
         bg={bg}
         boxShadow="lg"
         borderRadius="md"
         p="6"
+        {...props}
       />
     )
   }

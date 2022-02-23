@@ -12,8 +12,6 @@ export function MainLayout(): JSX.Element {
   const user = useAuth((state) => state.user)
   const [isBigScreen] = useMediaQuery(['(min-width: 1920px)'])
 
-  console.log(isBigScreen)
-
   const userBucket = !user ? null : (
     <Box className={classes.bucket}>
       <UserBucket />
