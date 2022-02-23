@@ -52,7 +52,7 @@ export function SignIn(): JSX.Element {
     <Center w="100%" h="100%">
       <Window title="Sign In" onClick={() => navigation('/')}>
         <form onSubmit={onSubmit}>
-          <Stack mt={4} w="340px" spacing={5}>
+          <Stack mt={4} minW="340px" spacing={5}>
             <Controller
               control={control}
               name="email"

@@ -78,7 +78,7 @@ export const routes: WorkcodeRouteObject[] = [
         element: <ChangePassword />,
       },
       {
-        path: 'auth/forgot-password',
+        path: 'forgot-password',
         element: <ForgotPassword />,
       },
       {
