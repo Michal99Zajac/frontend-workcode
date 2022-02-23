@@ -1,47 +1,34 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button, Box } from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Button, Center, HStack } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/store'
-
-import classes from './Main.module.scss'
+import { SignupIcon, LockIcon } from '../../../assets/icons/common'
+import { ActionTile } from '../../components'
 
 export function Main(): JSX.Element {
   const navigation = useNavigate()
   const user = useAuth((state) => state.user)
 
   return (
-    <Box className={classes.page}>
-      <Box padding={5}>
+    <Center w="100%" h="100%">
+      <HStack>
         {user ? (
-          <Button
-            width="160px"
-            onClick={() => navigation('/workspace')}
-            size="lg"
-          >
+          <Button onClick={() => navigation('/workspace')} fontSize="5xl">
             menu
           </Button>
         ) : (
           <>
-            <Button
-              onClick={() => navigation('/auth')}
-              size="lg"
-              marginRight={2}
-            >
-              sign in
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => navigation('/auth/signup')}
-              size="lg"
-              marginLeft={2}
-            >
-              sign up
-            </Button>
+            <Link to="/auth">
+              <ActionTile Icon={LockIcon} title="Sign In" />
+            </Link>
+            <Link to="auth/signup">
+              <ActionTile Icon={SignupIcon} title="Sign Up" />
+            </Link>
           </>
         )}
-      </Box>
-    </Box>
+      </HStack>
+    </Center>
   )
 }
 
