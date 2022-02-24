@@ -14,7 +14,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { produce } from 'immer'
 
-import { ModalWindow, Select } from '../../../common/components'
+import { ModalWindow, FilterSelect } from '../../../common/components'
 import {
   Form,
   FormType,
@@ -114,13 +114,13 @@ export function CreateWorkspace(): JSX.Element {
               render={({ field }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">* Code</Text>
-                  <Select
+                  <FilterSelect
                     isDisabled={isLoading}
+                    identifer="value"
                     onChange={(value) => {
                       const codeTypeOption = value as CodeTypeOption
                       setValue('code', CodeType.parse(codeTypeOption.value))
                     }}
-                    ref={field.ref}
                     value={codeTypeOptions.find(
                       (cto) => cto.value === field.value
                     )}

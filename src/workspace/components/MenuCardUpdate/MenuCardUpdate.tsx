@@ -14,7 +14,7 @@ import { EditIcon } from '@chakra-ui/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { produce } from 'immer'
 
-import { ModalWindow, Select } from '../../../common/components'
+import { ModalWindow, FilterSelect } from '../../../common/components'
 import { CodeType, WorkspaceType } from '../../schemas'
 import { CodeTypeOption, codeTypeOptions } from '../../utils'
 import { useToast } from '../../../common/hooks'
@@ -118,13 +118,13 @@ export function MenuCardUpdate(props: MenuCardUpdateProps): JSX.Element {
               render={({ field }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">* Code</Text>
-                  <Select
+                  <FilterSelect
+                    identifer="value"
                     isDisabled={isLoading}
                     onChange={(value) => {
                       const codeTypeOption = value as CodeTypeOption
                       setValue('code', CodeType.parse(codeTypeOption.value))
                     }}
-                    ref={field.ref}
                     value={codeTypeOptions.find(
                       (cto) => cto.value === field.value
                     )}
