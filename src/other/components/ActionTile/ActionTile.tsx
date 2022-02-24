@@ -18,7 +18,7 @@ interface ActionTileProps {
 
 export function ActionTile(props: ActionTileProps): JSX.Element {
   const { Icon, title } = props
-  const tileColor = useColorModeValue('blue.50', 'blue.300')
+  const tileColor__hover = useColorModeValue('gray.200', 'gray.600')
   const iconColor = useColorModeValue('black', 'white')
 
   return (
@@ -27,7 +27,8 @@ export function ActionTile(props: ActionTileProps): JSX.Element {
       w="320px"
       transition="all 0.6s"
       _hover={{
-        bg: tileColor,
+        bg: tileColor__hover,
+        transform: 'scale(1.04)',
         cursor: 'pointer',
       }}
     >

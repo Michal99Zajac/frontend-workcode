@@ -1,22 +1,21 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Button, Center, HStack } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { Center, Stack } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/store'
-import { SignupIcon, LockIcon } from '../../../assets/icons/common'
+import { SignupIcon, LockIcon, FolderIcon } from '../../../assets/icons/common'
 import { ActionTile } from '../../components'
 
 export function Main(): JSX.Element {
-  const navigation = useNavigate()
   const user = useAuth((state) => state.user)
 
   return (
     <Center w="100%" h="100%">
-      <HStack>
+      <Stack spacing={8}>
         {user ? (
-          <Button onClick={() => navigation('/workspace')} fontSize="5xl">
-            menu
-          </Button>
+          <Link to="/workspace">
+            <ActionTile Icon={FolderIcon} title="Work" />
+          </Link>
         ) : (
           <>
             <Link to="/auth">
@@ -27,7 +26,7 @@ export function Main(): JSX.Element {
             </Link>
           </>
         )}
-      </HStack>
+      </Stack>
     </Center>
   )
 }
