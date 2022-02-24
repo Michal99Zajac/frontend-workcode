@@ -5,7 +5,6 @@ import clsx from 'clsx'
 
 import LogoImage from '../../../assets/img/logo.png'
 import { UserBucket } from '../UserBucket'
-import { NotifyBucket } from '../NotifyBucket'
 
 import classes from './MenuBar.module.scss'
 
@@ -21,7 +20,6 @@ export function MenuBar(): JSX.Element {
     >
       <Stack mt={2} mb={2}>
         <UserBucket />
-        <NotifyBucket />
       </Stack>
       <Spacer />
       <Box as={Link} to="/">
