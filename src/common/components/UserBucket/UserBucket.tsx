@@ -55,12 +55,13 @@ export function UserBucket(): JSX.Element | null {
 
   return (
     <Menu>
-      <MenuButton
-        {...AvatarButtonStyle}
-        as={Avatar}
-        src={loggedUser?.src || undefined}
-        name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-      />
+      <MenuButton>
+        <Avatar
+          {...AvatarButtonStyle}
+          src={loggedUser?.src || undefined}
+          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+        />
+      </MenuButton>
       <MenuList>
         <Flex py={2} px={3} alignItems="center">
           <Avatar
@@ -77,6 +78,9 @@ export function UserBucket(): JSX.Element | null {
         <MenuDivider />
         <MenuItem as={Link} to="/config">
           Configuration
+        </MenuItem>
+        <MenuItem as={Link} to="/workspace">
+          Workspaces
         </MenuItem>
         <MenuItem as={Link} to="/">
           Menu
