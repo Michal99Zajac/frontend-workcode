@@ -9,6 +9,13 @@ import {
   Flex,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
   useDisclosure,
@@ -17,7 +24,6 @@ import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { ModalWindow } from '../../../common/components'
 import { FormType, Form, Fail, deleteAccount } from '../../api/deleteAccount'
 import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
@@ -52,41 +58,48 @@ export function DeleteAccount(): JSX.Element {
         Delete Account
       </Heading>
       <Button onClick={onOpen}>Delete</Button>
-      <ModalWindow isOpen={isOpen} onClose={onClose} title="Delete Account">
-        <form onSubmit={onSubmit}>
-          <Stack spacing={4}>
-            <Alert
-              status="warning"
-              flexDirection="column"
-              alignItems="flex-start"
-            >
-              <Flex>
-                <AlertIcon />
-                <AlertTitle fontSize="xs">Warrning!</AlertTitle>
-              </Flex>
-              <AlertDescription fontSize="xs">
-                Remember, if you delete your account, you will not be able to
-                restore it
-              </AlertDescription>
-            </Alert>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <Box>
-                  <Text fontSize="sm">Password</Text>
-                  <Input
-                    type="password"
-                    isDisabled={isLoading}
-                    placeholder="Av+>mMUpw$aGQ"
-                    onChange={field.onChange}
-                    isInvalid={fieldState.invalid}
-                    ref={field.ref}
-                  />
-                </Box>
-              )}
-            />
-            <Flex justifyContent="flex-end">
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={onSubmit}>
+            <ModalHeader>Delete Account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Stack spacing={4}>
+                <Alert
+                  status="warning"
+                  flexDirection="column"
+                  alignItems="flex-start"
+                >
+                  <Flex>
+                    <AlertIcon />
+                    <AlertTitle fontSize="xs">Warrning!</AlertTitle>
+                  </Flex>
+                  <AlertDescription fontSize="xs">
+                    Remember, if you delete your account, you will not be able
+                    to restore it
+                  </AlertDescription>
+                </Alert>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field, fieldState }) => (
+                    <Box>
+                      <Text fontSize="sm">Password</Text>
+                      <Input
+                        type="password"
+                        isDisabled={isLoading}
+                        placeholder="Av+>mMUpw$aGQ"
+                        onChange={field.onChange}
+                        isInvalid={fieldState.invalid}
+                        ref={field.ref}
+                      />
+                    </Box>
+                  )}
+                />
+              </Stack>
+            </ModalBody>
+            <ModalFooter>
               <Button
                 isLoading={isLoading}
                 type="submit"
@@ -94,10 +107,10 @@ export function DeleteAccount(): JSX.Element {
               >
                 confirm
               </Button>
-            </Flex>
-          </Stack>
-        </form>
-      </ModalWindow>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </Box>
   )
 }
