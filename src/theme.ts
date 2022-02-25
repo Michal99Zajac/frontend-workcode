@@ -27,7 +27,7 @@ export const workcodeTheme = extendTheme(
   },
   withDefaultVariant({
     variant: 'filled',
-    components: ['Input'],
+    components: ['Input', 'Textarea'],
   }),
   withDefaultColorScheme({ colorScheme: 'blue' })
 )

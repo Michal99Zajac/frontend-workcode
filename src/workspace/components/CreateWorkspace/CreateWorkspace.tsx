@@ -8,13 +8,20 @@ import {
   useDisclosure,
   Text,
   Textarea,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { produce } from 'immer'
 
-import { ModalWindow, FilterSelect } from '../../../common/components'
+import { FilterSelect } from '../../../common/components'
 import {
   Form,
   FormType,
@@ -71,75 +78,84 @@ export function CreateWorkspace(): JSX.Element {
         icon={<AddIcon />}
         onClick={onOpen}
       />
-      <ModalWindow title="Create Workspace" onClose={onClose} isOpen={isOpen}>
-        <form onSubmit={onSubmit}>
-          <Stack spacing={3} align="flex-end">
-            <Controller
-              control={control}
-              name="name"
-              render={({ field, fieldState }) => (
-                <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Name</Text>
-                  <Input
-                    isDisabled={isLoading}
-                    placeholder="my workspace name"
-                    onChange={field.onChange}
-                    value={field.value}
-                    isInvalid={fieldState.invalid}
-                    ref={field.ref}
-                  />
-                </InputGroup>
-              )}
-            />
-            <Controller
-              control={control}
-              name="description"
-              render={({ field, fieldState }) => (
-                <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Description</Text>
-                  <Textarea
-                    isDisabled={isLoading}
-                    placeholder="my workspace description..."
-                    onChange={field.onChange}
-                    value={field.value}
-                    isInvalid={fieldState.invalid}
-                    ref={field.ref}
-                  />
-                </InputGroup>
-              )}
-            />
-            <Controller
-              control={control}
-              name="code"
-              render={({ field }) => (
-                <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Code</Text>
-                  <FilterSelect
-                    isDisabled={isLoading}
-                    identifer="value"
-                    onChange={(value) => {
-                      const codeTypeOption = value as CodeTypeOption
-                      setValue('code', CodeType.parse(codeTypeOption.value))
-                    }}
-                    value={codeTypeOptions.find(
-                      (cto) => cto.value === field.value
-                    )}
-                    options={codeTypeOptions}
-                  />
-                </InputGroup>
-              )}
-            />
-            <Button
-              isLoading={isLoading}
-              width="100px"
-              onClick={() => runToast(formState.errors, 'Error', 'error')}
-              type="submit"
-            >
-              submit
-            </Button>
-          </Stack>
-        </form>
-      </ModalWindow>
+      <Modal onClose={onClose} isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={onSubmit}>
+            <ModalHeader>Create Workspace</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Stack spacing={3} align="flex-end">
+                <Controller
+                  control={control}
+                  name="name"
+                  render={({ field, fieldState }) => (
+                    <InputGroup display="flex" flexDirection="column">
+                      <Text fontSize="sm">* Name</Text>
+                      <Input
+                        isDisabled={isLoading}
+                        placeholder="my workspace name"
+                        onChange={field.onChange}
+                        value={field.value}
+                        isInvalid={fieldState.invalid}
+                        ref={field.ref}
+                      />
+                    </InputGroup>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="description"
+                  render={({ field, fieldState }) => (
+                    <InputGroup display="flex" flexDirection="column">
+                      <Text fontSize="sm">* Description</Text>
+                      <Textarea
+                        isDisabled={isLoading}
+                        placeholder="my workspace description..."
+                        onChange={field.onChange}
+                        value={field.value}
+                        isInvalid={fieldState.invalid}
+                        ref={field.ref}
+                      />
+                    </InputGroup>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="code"
+                  render={({ field }) => (
+                    <InputGroup display="flex" flexDirection="column">
+                      <Text fontSize="sm">* Code</Text>
+                      <FilterSelect
+                        isDisabled={isLoading}
+                        identifer="value"
+                        onChange={(value) => {
+                          const codeTypeOption = value as CodeTypeOption
+                          setValue('code', CodeType.parse(codeTypeOption.value))
+                        }}
+                        value={codeTypeOptions.find(
+                          (cto) => cto.value === field.value
+                        )}
+                        options={codeTypeOptions}
+                      />
+                    </InputGroup>
+                  )}
+                />
+              </Stack>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                isLoading={isLoading}
+                width="100px"
+                onClick={() => runToast(formState.errors, 'Error', 'error')}
+                type="submit"
+              >
+                submit
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
