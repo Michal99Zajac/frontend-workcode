@@ -39,7 +39,6 @@ export const FilterSelect = <T,>(props: FilterSelectProps<T>): JSX.Element => {
 
   const onFocus = () => {
     setIsOpen(true)
-    setInput('')
   }
 
   const onClick = (option: T) => {
