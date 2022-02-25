@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import {
   Box,
-  Button,
   Center,
-  Flex,
   Input,
   InputGroup,
   InputLeftElement,
   MenuItem,
-  Spacer,
   Stack,
   useDisclosure,
   Heading,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/react'
 import { PlusSquareIcon, SearchIcon } from '@chakra-ui/icons'
 import { useForm, Controller } from 'react-hook-form'
@@ -19,7 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { produce } from 'immer'
 
 import { WorkspaceType } from '../../schemas/Workspace'
-import { ModalWindow, Pagination } from '../../../common/components'
+import { Pagination } from '../../../common/components'
 import {
   getUsers,
   Form,
@@ -52,15 +56,16 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
     count: 0,
   })
   const runToast = useToast()
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit, setValue, watch } = useForm({
     resolver: zodResolver(Form),
     defaultValues: {
       search: '',
       page: 0,
-      pagination: '5',
+      pagination: '10',
       workspaceId: workspace.id,
     },
   })
+  const search = watch('search', '')
 
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
@@ -94,58 +99,69 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
   }
 
   useEffect(() => {
-    onSubmit()
-  }, [])
+    const timeout = setTimeout(() => {
+      onSubmit()
+    }, 500)
+
+    return () => clearTimeout(timeout)
+  }, [search])
 
   return (
     <>
       <MenuItem onClick={onOpen}>
         <PlusSquareIcon mr={4} /> Invite
       </MenuItem>
-      <ModalWindow title="Invite" onClose={onClose} isOpen={isOpen}>
-        <Box as="form" mb={5} onSubmit={onSubmit}>
-          <Flex gap={2}>
-            <Controller
-              name="search"
-              control={control}
-              render={({ field }) => (
-                <InputGroup size="md">
-                  <InputLeftElement pointerEvents="none">
-                    <SearchIcon />
-                  </InputLeftElement>
-                  <Input
-                    placeholder="Search..."
-                    ref={field.ref}
-                    value={field.value}
-                    onChange={(event) => onSearch(event, field.onChange)}
-                  />
-                </InputGroup>
-              )}
-            />
-            <Button isLoading={isLoading} size="md" type="submit">
-              search
-            </Button>
-          </Flex>
-        </Box>
-        {users.users.length > 0 ? (
-          <Stack>
-            <InviteCardSkeleton amount={10} isLoaded={!isLoading}>
-              {users.users.map((user) => (
-                <InviteCard key={user.id} user={user} workspace={workspace} />
-              ))}
-            </InviteCardSkeleton>
-          </Stack>
-        ) : (
-          <Center flexDirection="column" height="400px">
-            <LoseConnection width={100} height={100} />
-            <Heading mt={5}>No Results</Heading>
-          </Center>
-        )}
-        <Flex mt={5}>
-          <Spacer />
-          <Pagination onChange={onPageChange} {...users.navigation} />
-        </Flex>
-      </ModalWindow>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Invite</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box mb={5}>
+              <form onSubmit={onSubmit}>
+                <Controller
+                  name="search"
+                  control={control}
+                  render={({ field }) => (
+                    <InputGroup size="md">
+                      <InputLeftElement pointerEvents="none">
+                        <SearchIcon />
+                      </InputLeftElement>
+                      <Input
+                        placeholder="Search..."
+                        ref={field.ref}
+                        value={field.value}
+                        onChange={(event) => onSearch(event, field.onChange)}
+                      />
+                    </InputGroup>
+                  )}
+                />
+              </form>
+            </Box>
+            {users.users.length > 0 ? (
+              <Stack>
+                <InviteCardSkeleton amount={10} isLoaded={!isLoading}>
+                  {users.users.map((user) => (
+                    <InviteCard
+                      key={user.id}
+                      user={user}
+                      workspace={workspace}
+                    />
+                  ))}
+                </InviteCardSkeleton>
+              </Stack>
+            ) : (
+              <Center flexDirection="column" height="270px">
+                <LoseConnection width={100} height={100} />
+                <Heading mt={5}>No Results</Heading>
+              </Center>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Pagination onChange={onPageChange} {...users.navigation} />
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }

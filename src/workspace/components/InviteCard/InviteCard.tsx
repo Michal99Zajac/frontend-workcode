@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Heading,
-  Button,
   Stack,
   Flex,
   Spacer,
   Tooltip,
+  IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react'
-import { CheckIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
+import { AddIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -35,13 +36,14 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
       workspaceId: workspace.id,
     },
   })
+  const errorBG = useColorModeValue('red.50', 'red.300')
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
+      setStatus('INVITED')
       await inviteContributor(data)
       setFailMessage('')
-      setStatus('INVITED')
     } catch (error) {
       const fail = Fail.parse(error)
       setFailMessage(fail.error)
@@ -49,42 +51,17 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
     setIsLoading(false)
   })
 
-  const getButtonMessage = useCallback(() => {
-    if (failMessage) return 'try again'
-
-    switch (status) {
-      case 'NOT_INVITED':
-        return 'invite'
-      case 'INVITED':
-        return 'repeat'
-      default:
-        throw new Error('isInvited is out of range')
-    }
-  }, [status, failMessage])
-
   return (
-    <Flex>
+    <Flex
+      alignItems="center"
+      bg={failMessage ? errorBG : undefined}
+      p={2}
+      borderRadius={4}
+    >
       <Avatar
         size="sm"
-        src={
-          status === 'NOT_INVITED' && !failMessage
-            ? user.src || undefined
-            : undefined
-        }
-        name={
-          status === 'NOT_INVITED' && !failMessage
-            ? `${user.firstname} ${user.lastname}`
-            : undefined
-        }
-        icon={
-          status === 'INVITED' || failMessage ? (
-            failMessage ? (
-              <RepeatIcon />
-            ) : (
-              <CheckIcon />
-            )
-          ) : undefined
-        }
+        src={user.src || undefined}
+        name={`${user.firstname} ${user.lastname}`}
       />
       <Stack ml={2} spacing={0.5}>
         <Heading fontSize="sm" isTruncated>
@@ -101,9 +78,15 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
         </Tooltip>
       )}
       <form onSubmit={onSubmit}>
-        <Button width="150px" type="submit" isLoading={isLoading}>
-          {getButtonMessage()}
-        </Button>
+        <IconButton
+          colorScheme="gray"
+          aria-label="add user"
+          size="sm"
+          icon={status === 'NOT_INVITED' ? <AddIcon /> : <RepeatIcon />}
+          variant="ghost"
+          type="submit"
+          isLoading={isLoading}
+        />
       </form>
     </Flex>
   )

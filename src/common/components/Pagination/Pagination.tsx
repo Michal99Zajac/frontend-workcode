@@ -1,5 +1,10 @@
 import React from 'react'
-import { ButtonGroup, IconButton, Center } from '@chakra-ui/react'
+import {
+  ButtonGroup,
+  IconButton,
+  Circle,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -20,39 +25,49 @@ interface PaginationProps {
 
 export function Pagination(props: PaginationProps): JSX.Element {
   const { onChange, current, last, first, next, previous } = props
+  const currentBG = useColorModeValue('blue.600', 'blue.200')
+  const currentColor = useColorModeValue('white', 'black')
 
   return (
-    <ButtonGroup isAttached gap={0.5}>
-      <Center>{current}</Center>
-      <IconButton
-        size="xs"
-        aria-label="first"
-        isDisabled={first === last || current === first}
-        icon={<ChevronLeftIcon />}
-        onClick={() => onChange(first)}
-      />
-      <IconButton
-        size="xs"
-        aria-label="previous"
-        icon={<MinusIcon />}
-        disabled={previous === null}
-        onClick={() => onChange(previous || first)}
-      />
-      <IconButton
-        size="xs"
-        aria-label="first"
-        icon={<AddIcon />}
-        onClick={() => onChange(next || last)}
-        disabled={next === null}
-      />
-      <IconButton
-        size="xs"
-        aria-label="last"
-        icon={<ChevronRightIcon />}
-        onClick={() => onChange(last)}
-        isDisabled={first === last || current === last}
-      />
-    </ButtonGroup>
+    <>
+      <Circle size="32px" bg={currentBG} mr={2} color={currentColor}>
+        {current}
+      </Circle>
+      <ButtonGroup isAttached colorScheme="gray">
+        <IconButton
+          variant="ghost"
+          size="sm"
+          aria-label="first"
+          isDisabled={first === last || current === first}
+          icon={<ChevronLeftIcon />}
+          onClick={() => onChange(first)}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          aria-label="previous"
+          icon={<MinusIcon />}
+          disabled={previous === null}
+          onClick={() => onChange(previous || first)}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          aria-label="first"
+          icon={<AddIcon />}
+          onClick={() => onChange(next || last)}
+          disabled={next === null}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          aria-label="last"
+          icon={<ChevronRightIcon />}
+          onClick={() => onChange(last)}
+          isDisabled={first === last || current === last}
+        />
+      </ButtonGroup>
+    </>
   )
 }
 
