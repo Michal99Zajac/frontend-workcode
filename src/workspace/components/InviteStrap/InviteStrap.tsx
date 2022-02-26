@@ -19,12 +19,12 @@ import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
 
 import { InviteStatusType } from './InviteStatus'
 
-interface InviteCardProps {
+interface InviteStrapProps {
   user: UserType
   workspace: WorkspaceType
 }
 
-export function InviteCard(props: InviteCardProps): JSX.Element {
+export function InviteStrap(props: InviteStrapProps): JSX.Element {
   const { user, workspace } = props
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
@@ -37,6 +37,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
     },
   })
   const errorBG = useColorModeValue('red.50', 'red.300')
+  const hoverStrap = useColorModeValue('gray.50', 'gray.600')
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
@@ -57,6 +58,7 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
       bg={failMessage ? errorBG : undefined}
       p={2}
       borderRadius={4}
+      _hover={{ bg: hoverStrap }}
     >
       <Avatar
         size="sm"
@@ -92,4 +94,4 @@ export function InviteCard(props: InviteCardProps): JSX.Element {
   )
 }
 
-export default InviteCard
+export default InviteStrap

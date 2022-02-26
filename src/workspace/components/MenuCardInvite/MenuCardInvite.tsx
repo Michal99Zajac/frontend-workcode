@@ -32,8 +32,8 @@ import {
   ResponseType,
 } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
-import { InviteCard } from '../InviteCard'
-import { LoseConnection } from '../../../assets/icons/common'
+import { InviteStrap } from '../InviteStrap'
+import { LoseConnection } from '../../../icons/common'
 import { InviteCardSkeleton } from '../Skeletons'
 
 interface MenuCardInviteProps {
@@ -142,7 +142,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
               <Stack>
                 <InviteCardSkeleton amount={10} isLoaded={!isLoading}>
                   {users.users.map((user) => (
-                    <InviteCard
+                    <InviteStrap
                       key={user.id}
                       user={user}
                       workspace={workspace}

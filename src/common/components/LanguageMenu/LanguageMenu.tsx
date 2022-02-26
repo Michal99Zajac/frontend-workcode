@@ -7,7 +7,7 @@ import {
   MenuOptionGroup,
 } from '@chakra-ui/react'
 
-import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
+import { PolishFlagIcon, EnglishFlagIcon } from '../../../icons/flags'
 import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageEnum'
 
 export function LanguageMenu(): JSX.Element {

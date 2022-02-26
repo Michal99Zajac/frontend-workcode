@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { ContributorSetter } from '../ContributorSetter'
+import { ContributorStrap } from '../ContributorStrap'
 import { WorkspaceType } from '../../schemas/Workspace'
 
 interface MenuCardContributorsProps {
@@ -35,13 +35,12 @@ export function MenuCardContributors(
         <ModalContent>
           <ModalHeader>Contributors</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody mb={4}>
             <Stack>
               {workspace.contributors.map((contributor) => (
-                <ContributorSetter
+                <ContributorStrap
                   key={contributor.id}
                   contributor={contributor}
-                  setContributor={(c) => alert(JSON.stringify(c))}
                 />
               ))}
             </Stack>

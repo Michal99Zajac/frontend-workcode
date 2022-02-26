@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Center, Stack } from '@chakra-ui/react'
 
 import { useAuth } from '../../../common/store'
-import { SignupIcon, LockIcon, FolderIcon } from '../../../assets/icons/common'
+import { SignupIcon, LockIcon, FolderIcon } from '../../../icons/common'
 import { ActionTile } from '../../components'
 
 export function Main(): JSX.Element {
