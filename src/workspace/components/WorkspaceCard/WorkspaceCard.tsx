@@ -9,8 +9,11 @@ import {
   Badge,
   Box,
   Text,
-  MenuOptionGroup,
   MenuItem,
+  Menu,
+  MenuButton,
+  MenuList,
+  IconButton,
 } from '@chakra-ui/react'
 import { CalendarIcon, HamburgerIcon } from '@chakra-ui/icons'
 import dayjs from 'dayjs'
@@ -23,7 +26,6 @@ import { MenuCardInvite } from '../MenuCardInvite'
 import { MenuCardContributors } from '../MenuCardContributors'
 import { WorkspaceType } from '../../schemas'
 import { codeColor } from '../../utils'
-import { MenuWindow } from '../../../common/components'
 
 import classes from './WorkspaceCard.module.scss'
 
@@ -72,15 +74,22 @@ export function WorkspaceCard(props: WorkspaceCardProps): JSX.Element {
       <Flex>
         <Box as="span">{!isAdmin && <AvatarTag user={workspace.admin} />}</Box>
         <Spacer />
-        <MenuWindow title="Actions" menuButton={<HamburgerIcon />}>
-          <MenuOptionGroup>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            variant="ghost"
+            colorScheme="gray"
+            icon={<HamburgerIcon />}
+            size="sm"
+          />
+          <MenuList>
             {isAdmin && <MenuCardUpdate workspace={workspace} />}
             {isAdmin && <MenuCardInvite workspace={workspace} />}
             {isAdmin && <MenuCardContributors workspace={workspace} />}
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
-          </MenuOptionGroup>
-        </MenuWindow>
+          </MenuList>
+        </Menu>
       </Flex>
     </Flex>
   )
