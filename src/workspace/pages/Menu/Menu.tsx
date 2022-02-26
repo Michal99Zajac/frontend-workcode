@@ -1,45 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { produce } from 'immer'
-import { Stack, Flex, Spacer, Heading, Box, Wrap } from '@chakra-ui/react'
+import {
+  Stack,
+  Flex,
+  Spacer,
+  Heading,
+  Box,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  useColorModeValue,
+} from '@chakra-ui/react'
 
 import { getWorkspaces, Fail } from '../../api/getWorkspaces'
-import {
-  CreateWorkspace,
-  WorkspaceCard,
-  WorkspaceCardGhosts,
-} from '../../components'
+import { CreateWorkspace, WorkspaceRecord } from '../../components'
 import { WorkspaceType } from '../../schemas'
 import { useToast } from '../../../common/hooks'
-import { splitWorkspaces } from '../../utils'
 import { useAuth } from '../../../common/store'
-import { Workspaces, WorkspacesProvider } from '../../context/Workspaces'
-
-import classes from './Menu.module.scss'
+import { WorkspacesProvider } from '../../context/Workspaces'
+import { Surface } from '../../../common/components'
 
 export function Menu(): JSX.Element {
   const runToast = useToast()
   const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
-  const [workspaces, setWorkspaces] = useState<Workspaces>({
-    my: [],
-    other: [],
-  })
-
-  const setMyWorkspaces = (workspaces: WorkspaceType[]) => {
-    setWorkspaces(
-      produce((draft) => {
-        draft.my = workspaces
-      })
-    )
-  }
-
-  const setOtherWorkspaces = (workspaces: WorkspaceType[]) => {
-    setWorkspaces(
-      produce((draft) => {
-        draft.other = workspaces
-      })
-    )
-  }
+  const [workspaces, setWorkspaces] = useState<WorkspaceType[]>([])
+  const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
+  const tableHeaderColor = useColorModeValue('white', 'gray.800')
 
   const fetchWorkspaces = async () => {
     setIsLoading(true)
@@ -48,7 +36,7 @@ export function Menu(): JSX.Element {
 
     try {
       const response = await getWorkspaces()
-      setWorkspaces(splitWorkspaces(response.workspaces, userId))
+      setWorkspaces(response.workspaces)
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')
@@ -61,47 +49,46 @@ export function Menu(): JSX.Element {
   }, [])
 
   return (
-    <WorkspacesProvider
-      workspaces={workspaces}
-      setMyWorkspaces={setMyWorkspaces}
-      setOtherWorkspaces={setOtherWorkspaces}
-    >
-      <Stack className={classes.page} p={5} spacing={5}>
-        <Flex align="center">
-          <Heading fontSize="7xl">Menu</Heading>
-          <Spacer />
-          <CreateWorkspace />
-        </Flex>
-        <Box>
-          <Heading fontSize="5xl" mb={5}>
-            Your Workspaces
-          </Heading>
-          <Wrap spacing={6}>
-            <WorkspaceCardGhosts amount={3} isLoaded={!isLoading}>
-              {workspaces.my.map((workspace) => (
-                <WorkspaceCard
-                  key={workspace.id}
-                  isAdmin
-                  workspace={workspace}
-                />
-              ))}
-            </WorkspaceCardGhosts>
-          </Wrap>
-        </Box>
-        <Box>
-          <Heading fontSize="5xl" mb={5}>
-            Friends Workspaces
-          </Heading>
-          <Wrap spacing={6}>
-            <WorkspaceCardGhosts amount={4} isLoaded={!isLoading}>
-              {workspaces.other.map((workspace) => (
-                <WorkspaceCard key={workspace.id} workspace={workspace} />
-              ))}
-            </WorkspaceCardGhosts>
-          </Wrap>
-        </Box>
-      </Stack>
-    </WorkspacesProvider>
+    <Box overflow="auto" h="100%" w="100%">
+      <WorkspacesProvider workspaces={workspaces} setWorkspaces={setWorkspaces}>
+        <Stack p={5} spacing={5} h="100%">
+          <Flex align="flex-start">
+            <Heading fontSize="8xl">Workspaces</Heading>
+            <Spacer />
+            <CreateWorkspace />
+          </Flex>
+          <Surface p={0} flexGrow={1} overflow="auto">
+            <Table size="lg" colorScheme="whiteAlpha">
+              <Thead bg={tableHeaderBG} position="sticky" top={0} zIndex={100}>
+                <Tr>
+                  <Th color={tableHeaderColor} w="25%">
+                    Title
+                  </Th>
+                  <Th color={tableHeaderColor}>Code</Th>
+                  <Th color={tableHeaderColor}>Owner</Th>
+                  <Th color={tableHeaderColor}>Contributors</Th>
+                  <Th color={tableHeaderColor} isNumeric>
+                    Created At
+                  </Th>
+                  <Th color={tableHeaderColor} isNumeric>
+                    Action
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {workspaces.map((workspace) => (
+                  <WorkspaceRecord
+                    key={workspace.id}
+                    isOwner
+                    workspace={workspace}
+                  />
+                ))}
+              </Tbody>
+            </Table>
+          </Surface>
+        </Stack>
+      </WorkspacesProvider>
+    </Box>
   )
 }
 

@@ -1,26 +1,26 @@
 import React from 'react'
 
+import { WorkspaceType } from '../../schemas'
+
 import { WorkspacesContext } from './Context'
-import { SetWorkspaces, Workspaces } from './types'
+import { SetWorkspaces } from './types'
 
 interface WorkspacesProviderProps {
   children: React.ReactNode
-  workspaces: Workspaces
-  setMyWorkspaces: SetWorkspaces
-  setOtherWorkspaces: SetWorkspaces
+  workspaces: WorkspaceType[]
+  setWorkspaces: SetWorkspaces
 }
 
 export const WorkspacesProvider = (
   props: WorkspacesProviderProps
 ): JSX.Element => {
-  const { children, workspaces, setMyWorkspaces, setOtherWorkspaces } = props
+  const { children, workspaces, setWorkspaces } = props
 
   return (
     <WorkspacesContext.Provider
       value={{
         workspaces: workspaces,
-        setMyWorkspaces: setMyWorkspaces,
-        setOtherWorkspaces: setOtherWorkspaces,
+        setWorkspaces: setWorkspaces,
       }}
     >
       {children}

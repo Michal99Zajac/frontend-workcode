@@ -40,7 +40,7 @@ interface MenuCardUpdateProps {
 export function MenuCardUpdate(props: MenuCardUpdateProps): JSX.Element {
   const { workspace } = props
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const { workspaces, setMyWorkspaces } = useWorkspaces()
+  const { workspaces, setWorkspaces } = useWorkspaces()
   const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
   const { control, formState, handleSubmit, reset, setValue } = useForm({
@@ -54,8 +54,8 @@ export function MenuCardUpdate(props: MenuCardUpdateProps): JSX.Element {
   })
 
   const replaceWorkspace = (workspace: WorkspaceType) => {
-    setMyWorkspaces(
-      produce(workspaces.my, (draft) => {
+    setWorkspaces(
+      produce(workspaces, (draft) => {
         const index = draft.findIndex((w) => w.id === workspace.id)
         draft[index] = workspace
       })

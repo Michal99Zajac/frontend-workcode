@@ -35,7 +35,7 @@ import { useWorkspaces } from '../../hooks/useWorkspaces'
 
 export function CreateWorkspace(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
-  const { setMyWorkspaces, workspaces } = useWorkspaces()
+  const { setWorkspaces, workspaces } = useWorkspaces()
   const runToast = useToast()
   const { onOpen, onClose, isOpen } = useDisclosure()
   const { control, formState, handleSubmit, reset, setValue } = useForm({
@@ -48,8 +48,8 @@ export function CreateWorkspace(): JSX.Element {
   })
 
   const addWorkspace = (workspace: WorkspaceType) => {
-    setMyWorkspaces(
-      produce(workspaces.my, (draft) => {
+    setWorkspaces(
+      produce(workspaces, (draft) => {
         draft.push(workspace)
       })
     )

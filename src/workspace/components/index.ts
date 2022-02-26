@@ -1,6 +1,6 @@
 export * from './Caption'
 export * from './CreateWorkspace'
-export * from './WorkspaceCard'
+export * from './WorkspaceRecord'
 export * from './AvatarTag'
 export * from './WorkspaceCardGhosts'
 export * from './MenuCardUpdate'

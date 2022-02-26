@@ -54,7 +54,7 @@ export function UserBucket(): JSX.Element | null {
   if (isLoading) return <SkeletonCircle />
 
   return (
-    <Menu>
+    <Menu placement="right-start">
       <MenuButton>
         <Avatar
           {...AvatarButtonStyle}
@@ -62,7 +62,7 @@ export function UserBucket(): JSX.Element | null {
           name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
         />
       </MenuButton>
-      <MenuList>
+      <MenuList zIndex="modal">
         <Flex py={2} px={3} alignItems="center">
           <Avatar
             size="sm"
