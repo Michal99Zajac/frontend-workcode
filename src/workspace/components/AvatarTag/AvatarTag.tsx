@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tag, Avatar, TagLabel, SkeletonCircle } from '@chakra-ui/react'
+import { Tag, Avatar, TagLabel, SkeletonCircle, HStack } from '@chakra-ui/react'
 
 import { UserType } from '../../../common/schemas'
 
@@ -13,16 +13,32 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
   if (!user) return <SkeletonCircle size="5" />
 
   return (
-    <Tag size="lg" borderRadius="full">
+    <HStack w="max-content">
       <Avatar
-        ml="-2"
-        mr="2"
-        size="xs"
+        size="sm"
         src={user.src || undefined}
         name={`${user.firstname} ${user.lastname}`}
+        sx={{
+          '& + span': {
+            width: '0px',
+            p: '0px',
+          },
+          '&:hover + span': {
+            width: '100%',
+            px: 3,
+          },
+        }}
       />
-      <TagLabel>{`${user.firstname} ${user.lastname}`}</TagLabel>
-    </Tag>
+      <Tag
+        transition="all 0.3s"
+        overflow="hidden"
+        size="lg"
+        colorScheme="twitter"
+        minW="0px"
+      >
+        <TagLabel>{`${user.firstname} ${user.lastname}`}</TagLabel>
+      </Tag>
+    </HStack>
   )
 }
 

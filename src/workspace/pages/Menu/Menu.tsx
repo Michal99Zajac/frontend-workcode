@@ -54,7 +54,7 @@ export function Menu(): JSX.Element {
   }, [])
 
   return (
-    <Box overflow="auto" h="100%" w="100%">
+    <Box h="100%" w="100%">
       <WorkspacesProvider workspaces={workspaces} setWorkspaces={setWorkspaces}>
         <Stack p={5} spacing={5} h="100%">
           <Flex align="flex-start">
@@ -74,13 +74,19 @@ export function Menu(): JSX.Element {
                   <Th color={tableHeaderColor} w="25%">
                     Title
                   </Th>
-                  <Th color={tableHeaderColor}>Code</Th>
-                  <Th color={tableHeaderColor}>Owner</Th>
-                  <Th color={tableHeaderColor}>Contributors</Th>
-                  <Th color={tableHeaderColor} isNumeric>
+                  <Th color={tableHeaderColor} w="10%">
+                    Code
+                  </Th>
+                  <Th color={tableHeaderColor} w="20%">
+                    Owner
+                  </Th>
+                  <Th color={tableHeaderColor} w="25%">
+                    Contributors
+                  </Th>
+                  <Th color={tableHeaderColor} isNumeric w="10%">
                     Created At
                   </Th>
-                  <Th color={tableHeaderColor} isNumeric>
+                  <Th color={tableHeaderColor} isNumeric w="10%">
                     Action
                   </Th>
                 </Tr>
