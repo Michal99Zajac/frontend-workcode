@@ -22,7 +22,7 @@ import { MenuCardCopy } from '../MenuCardCopy'
 import { MenuCardInvite } from '../MenuCardInvite'
 import { MenuCardContributors } from '../MenuCardContributors'
 import { WorkspaceType } from '../../schemas'
-import { codeColor } from '../../utils'
+import { codeColors } from '../../utils'
 
 interface WorkspaceRecordProps {
   workspace: WorkspaceType
@@ -42,7 +42,7 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
         </Link>
       </Td>
       <Td borderColor={borderColor}>
-        <Badge bg={codeColor(workspace.code)}>{workspace.code}</Badge>
+        <Badge {...codeColors[workspace.code]}>{workspace.code}</Badge>
       </Td>
       <Td borderColor={borderColor}>
         <AvatarTag user={workspace.admin} />
