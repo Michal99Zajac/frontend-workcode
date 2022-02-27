@@ -35,7 +35,7 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
   const borderColor = useColorModeValue('gray.100', 'gray.600')
 
   return (
-    <Tr _hover={{ bg: hoverRecord }} borderColor="gray.50">
+    <Tr _hover={{ bg: hoverRecord }}>
       <Td borderColor={borderColor}>
         <Link as={RouterLink} to={`/workspace/${workspace.id}`}>
           <Text isTruncated>{workspace.name}</Text>

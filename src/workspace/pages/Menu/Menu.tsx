@@ -14,7 +14,11 @@ import {
 } from '@chakra-ui/react'
 
 import { getWorkspaces, Fail } from '../../api/getWorkspaces'
-import { CreateWorkspace, WorkspaceRecord } from '../../components'
+import {
+  CreateWorkspace,
+  WorkspaceRecord,
+  TableRecordSkeleton,
+} from '../../components'
 import { WorkspaceType } from '../../schemas'
 import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
@@ -22,6 +26,7 @@ import { WorkspacesProvider } from '../../context/Workspaces'
 import { Surface } from '../../../common/components'
 
 export function Menu(): JSX.Element {
+  // TODO: add skeletons and remove unused components
   const runToast = useToast()
   const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
@@ -59,7 +64,12 @@ export function Menu(): JSX.Element {
           </Flex>
           <Surface p={0} flexGrow={1} overflow="auto">
             <Table size="lg" colorScheme="whiteAlpha">
-              <Thead bg={tableHeaderBG} position="sticky" top={0} zIndex={100}>
+              <Thead
+                bg={tableHeaderBG}
+                position="sticky"
+                top={0}
+                zIndex="banner"
+              >
                 <Tr>
                   <Th color={tableHeaderColor} w="25%">
                     Title
@@ -76,13 +86,19 @@ export function Menu(): JSX.Element {
                 </Tr>
               </Thead>
               <Tbody>
-                {workspaces.map((workspace) => (
-                  <WorkspaceRecord
-                    key={workspace.id}
-                    isOwner
-                    workspace={workspace}
-                  />
-                ))}
+                <TableRecordSkeleton
+                  isLoaded={!isLoading}
+                  amount={16}
+                  columns={6}
+                >
+                  {workspaces.map((workspace) => (
+                    <WorkspaceRecord
+                      key={workspace.id}
+                      isOwner={workspace.admin.id === userId}
+                      workspace={workspace}
+                    />
+                  ))}
+                </TableRecordSkeleton>
               </Tbody>
             </Table>
           </Surface>
