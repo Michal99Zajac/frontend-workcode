@@ -71,10 +71,10 @@ export function Menu(): JSX.Element {
                 zIndex="banner"
               >
                 <Tr>
-                  <Th color={tableHeaderColor} w="25%">
+                  <Th color={tableHeaderColor} w="25%" maxW="25%">
                     Title
                   </Th>
-                  <Th color={tableHeaderColor} w="10%">
+                  <Th color={tableHeaderColor} w="auto">
                     Code
                   </Th>
                   <Th color={tableHeaderColor} w="20%">
@@ -83,10 +83,10 @@ export function Menu(): JSX.Element {
                   <Th color={tableHeaderColor} w="25%">
                     Contributors
                   </Th>
-                  <Th color={tableHeaderColor} isNumeric w="10%">
+                  <Th color={tableHeaderColor} isNumeric w="auto">
                     Created At
                   </Th>
-                  <Th color={tableHeaderColor} isNumeric w="10%">
+                  <Th color={tableHeaderColor} isNumeric w="auto">
                     Action
                   </Th>
                 </Tr>

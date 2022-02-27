@@ -35,6 +35,7 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
         size="lg"
         colorScheme="twitter"
         minW="0px"
+        borderRadius="full"
       >
         <TagLabel>{`${user.firstname} ${user.lastname}`}</TagLabel>
       </Tag>
