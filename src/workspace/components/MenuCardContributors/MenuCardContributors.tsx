@@ -17,12 +17,13 @@ import { WorkspaceType } from '../../schemas/Workspace'
 
 interface MenuCardContributorsProps {
   workspace: WorkspaceType
+  isOwner?: boolean
 }
 
 export function MenuCardContributors(
   props: MenuCardContributorsProps
 ): JSX.Element {
-  const { workspace } = props
+  const { workspace, isOwner } = props
   const { onOpen, onClose, isOpen } = useDisclosure()
 
   return (
@@ -39,6 +40,7 @@ export function MenuCardContributors(
             <Stack>
               {workspace.contributors.map((contributor) => (
                 <ContributorStrap
+                  isOwner={isOwner}
                   key={contributor.id}
                   contributor={contributor}
                 />

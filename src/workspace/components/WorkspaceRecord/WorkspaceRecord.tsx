@@ -20,6 +20,7 @@ import { AvatarTag } from '../AvatarTag'
 import { MenuCardUpdate } from '../MenuCardUpdate'
 import { MenuCardCopy } from '../MenuCardCopy'
 import { MenuCardInvite } from '../MenuCardInvite'
+import { ContributorAvatars } from '../ContributorAvatars'
 import { MenuCardContributors } from '../MenuCardContributors'
 import { WorkspaceType } from '../../schemas'
 import { codeColors } from '../../utils'
@@ -47,7 +48,13 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
       <Td borderColor={borderColor}>
         <AvatarTag user={workspace.admin} />
       </Td>
-      <Td borderColor={borderColor}>contributors</Td>
+      <Td borderColor={borderColor}>
+        <ContributorAvatars
+          workspaceId={workspace.id}
+          contributors={workspace.contributors}
+          isOwner={isOwner}
+        />
+      </Td>
       <Td isNumeric borderColor={borderColor}>
         <Text>{dayjs(workspace.createdAt).format('D/MM/YYYY')}</Text>
       </Td>
@@ -63,7 +70,7 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
           <MenuList>
             {isOwner && <MenuCardUpdate workspace={workspace} />}
             {isOwner && <MenuCardInvite workspace={workspace} />}
-            {isOwner && <MenuCardContributors workspace={workspace} />}
+            <MenuCardContributors workspace={workspace} isOwner={isOwner} />
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuList>

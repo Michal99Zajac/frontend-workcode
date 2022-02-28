@@ -26,7 +26,6 @@ import { WorkspacesProvider } from '../../context/Workspaces'
 import { Surface } from '../../../common/components'
 
 export function Menu(): JSX.Element {
-  // TODO: add skeletons and remove unused components
   const runToast = useToast()
   const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
@@ -80,10 +79,10 @@ export function Menu(): JSX.Element {
                   <Th color={tableHeaderColor} w="20%">
                     Owner
                   </Th>
-                  <Th color={tableHeaderColor} w="25%">
+                  <Th color={tableHeaderColor} w="20%">
                     Contributors
                   </Th>
-                  <Th color={tableHeaderColor} isNumeric w="auto">
+                  <Th color={tableHeaderColor} isNumeric w="max-content">
                     Created At
                   </Th>
                   <Th color={tableHeaderColor} isNumeric w="auto">

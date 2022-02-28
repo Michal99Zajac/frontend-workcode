@@ -13,7 +13,7 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
   if (!user) return <SkeletonCircle size="5" />
 
   return (
-    <HStack w="max-content">
+    <HStack position="relative">
       <Avatar
         size="sm"
         src={user.src || undefined}
@@ -21,18 +21,21 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
         sx={{
           '& + span': {
             width: '0px',
+            maxWidth: 'max-content',
             p: '0px',
           },
           '&:hover + span': {
-            width: '100%',
+            width: '400px',
             px: 3,
           },
         }}
       />
       <Tag
-        transition="all 0.3s"
+        position="absolute"
+        transition="all 0.6s"
         overflow="hidden"
         size="lg"
+        left={8}
         colorScheme="twitter"
         minW="0px"
         borderRadius="full"

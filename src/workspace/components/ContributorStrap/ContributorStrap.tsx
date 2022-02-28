@@ -14,10 +14,11 @@ import { LeaveIcon } from '../../../icons/common'
 
 interface ContributorStrapProps {
   contributor: ContributorType
+  isOwner?: boolean
 }
 
 export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
-  const { contributor } = props
+  const { contributor, isOwner } = props
   const hoverStrap = useColorModeValue('gray.50', 'gray.600')
   const iconColor = useColorModeValue('black', 'white')
 
@@ -42,14 +43,16 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
         </Heading>
       </Stack>
       <Spacer />
-      <IconButton
-        aria-label="remove contributor"
-        colorScheme="gray"
-        onClick={() => alert(JSON.stringify(contributor))}
-        variant="ghost"
-        icon={<LeaveIcon fill={iconColor} />}
-        size="sm"
-      />
+      {isOwner && (
+        <IconButton
+          aria-label="remove contributor"
+          colorScheme="gray"
+          onClick={() => alert(JSON.stringify(contributor))}
+          variant="ghost"
+          icon={<LeaveIcon fill={iconColor} />}
+          size="sm"
+        />
+      )}
     </Flex>
   )
 }
