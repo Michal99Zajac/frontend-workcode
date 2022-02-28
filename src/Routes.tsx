@@ -4,7 +4,7 @@ import { useRoutes, RouteObject } from 'react-router-dom'
 
 import { MainLayout, WorkspaceLayout } from './common/components'
 import { Main, NotFound } from './other'
-import { Menu, Wait, Editor } from './workspace'
+import { Menu, Editor } from './workspace'
 import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
 import { UserConfig } from './config'
 import { PermissionArrayType } from './permissions'
@@ -51,10 +51,6 @@ export const routes: WorkcodeRouteObject[] = [
           {
             index: true,
             element: <Editor />,
-          },
-          {
-            path: 'wait',
-            element: <Wait />,
           },
         ],
       },

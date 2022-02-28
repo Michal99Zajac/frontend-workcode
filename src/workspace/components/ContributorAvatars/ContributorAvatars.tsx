@@ -1,6 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Box, IconButton, Tooltip } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Tooltip,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
 import { ContributorType } from '../../schemas'
@@ -18,10 +24,12 @@ export function ContributorAvatars(
   props: ContributorAvatarsProps
 ): JSX.Element {
   const { contributors, isOwner, workspaceId } = props
+  const moreIconColor = useColorModeValue('black', 'white')
 
   if (contributors.length === 0 && isOwner)
     return (
       <IconButton
+        colorScheme="gray"
         borderRadius="full"
         aria-label="invite link"
         to={`/workspace/${workspaceId}/invite`}
@@ -52,6 +60,7 @@ export function ContributorAvatars(
       ))}
       <Tooltip placement="top" label="more">
         <IconButton
+          colorScheme="gray"
           zIndex={1}
           transition="all 0.6s"
           position="absolute"
@@ -59,8 +68,8 @@ export function ContributorAvatars(
           aria-label="invite link"
           to={`/workspace/${workspaceId}/contributors`}
           as={Link}
-          icon={<MoreIcon />}
-          variant="outline"
+          icon={<MoreIcon fill={moreIconColor} />}
+          variant="ghost"
           size="sm"
         />
       </Tooltip>
