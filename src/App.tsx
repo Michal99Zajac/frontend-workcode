@@ -4,7 +4,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 
 import { Error } from './other'
 import { ToastProvider } from './common/context'
-import Guardian from './Guardian'
 import { AppRoutes } from './Routes'
 import { workcodeTheme } from './theme'
 import './App.scss'
@@ -14,9 +13,7 @@ export function App(): JSX.Element {
     <ThemeProvider theme={workcodeTheme}>
       <ErrorBoundary FallbackComponent={Error}>
         <ToastProvider>
-          <Guardian>
-            <AppRoutes />
-          </Guardian>
+          <AppRoutes />
         </ToastProvider>
       </ErrorBoundary>
     </ThemeProvider>

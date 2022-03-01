@@ -154,7 +154,7 @@ export function SignUp(): JSX.Element {
                 colorScheme="gray"
                 isFullWidth
                 alignSelf="flex-start"
-                onClick={() => navigation('/auth')}
+                onClick={() => navigation('/auth/signin')}
               >
                 sign in
               </Button>

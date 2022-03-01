@@ -51,7 +51,7 @@ export function ForgotPassword(): JSX.Element {
 
   return (
     <Center w="100%" h="100%">
-      <Window title="Forget Password" onClick={() => navigate('/auth')}>
+      <Window title="Forget Password" onClick={() => navigate('/auth/signin')}>
         <form onSubmit={onSubmit}>
           <Stack mt={4} minW="340px" w="340px" spacing={5}>
             <Alert status="info" flexDirection="column" alignItems="flex-start">

@@ -19,7 +19,7 @@ export const signin = (data: FormType): Promise<ResponseType> => {
         email: 'email is required',
         password: 'password is too week',
       })
-    }, 4000)
+    }, 1000)
   })
 }
 

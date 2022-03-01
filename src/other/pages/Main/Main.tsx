@@ -18,7 +18,7 @@ export function Main(): JSX.Element {
           </Link>
         ) : (
           <>
-            <Link to="/auth">
+            <Link to="/auth/signin">
               <ActionTile Icon={LockIcon} title="Sign In" />
             </Link>
             <Link to="auth/signup">

@@ -1,116 +1,108 @@
-/* eslint-disable prettier/prettier */
 import React from 'react'
-import { useRoutes, RouteObject } from 'react-router-dom'
+import { useRoutes, RouteObject, Navigate } from 'react-router-dom'
 
-import { MainLayout, WorkspaceLayout } from './common/components'
-import { Main, NotFound } from './other'
-import { Menu, Editor } from './workspace'
-import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
-import { UserConfig } from './config'
-import { PermissionArrayType } from './permissions'
+import { EditorWithLayout, MenuWithLayout } from './workspace'
+import {
+  ChangePasswordWithLayout,
+  ForgotPasswordWithLayout,
+  SignUpWithLayout,
+  SignInWithLayout,
+} from './auth'
+import { UserConfigWithLayout } from './config'
+import Guardian from './Guardian'
+import { MainWithLayout, NotFoundWithLayout } from './other'
 
-export interface WorkcodeRouteObject extends RouteObject {
-  path: string // path is required
-  permissions?: PermissionArrayType // permission to page
-  redirect?: string // where to redirect
-  forLogged: boolean // should logged user have access
-  auth?: boolean // should user be logged
-  message?: string // message for no permissions user
-}
-
-export const routes: WorkcodeRouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <MainLayout />,
-    permissions: [],
-    forLogged: true,
-    auth: false,
-    children: [
-      {
-        index: true,
-        element: <Main />,
-      },
-    ],
+    element: <MainWithLayout />,
   },
   {
     path: '/workspace',
-    element: <WorkspaceLayout />,
-    permissions: ['USER'],
-    redirect: '/auth/signin',
-    forLogged: true,
-    auth: true,
-    message: 'You should be sign in!',
+    element: (
+      <Guardian
+        redirect="/auth/signin"
+        auth
+        permissions={['USER']}
+        message="You should be sign in!"
+      >
+        <MenuWithLayout />
+      </Guardian>
+    ),
+  },
+  {
+    path: '/editor',
+    element: (
+      <Guardian
+        redirect="/auth/signin"
+        auth
+        permissions={['USER']}
+        message="You should be sign in!"
+        outlet
+      />
+    ),
     children: [
       {
-        index: true,
-        element: <Menu />,
-      },
-      {
         path: ':workspaceId',
-        children: [
-          {
-            index: true,
-            element: <Editor />,
-          },
-        ],
+        element: <EditorWithLayout />,
       },
     ],
   },
   {
     path: '/auth',
-    element: <MainLayout />,
-    permissions: [],
-    redirect: '/',
-    forLogged: false,
-    auth: false,
-    message: 'You are logged',
+    element: (
+      <Guardian
+        redirect="/"
+        notLogged
+        permissions={[]}
+        message="You are logged!"
+        outlet
+      />
+    ),
     children: [
       {
         index: true,
-        element: <SignIn />,
+        element: <Navigate to="/" />,
       },
       {
-        path: 'change-password/:token',
-        element: <ChangePassword />,
-      },
-      {
-        path: 'forgot-password',
-        element: <ForgotPassword />,
+        path: 'signin',
+        element: <SignInWithLayout />,
       },
       {
         path: 'signup',
-        element: <SignUp />,
+        element: <SignUpWithLayout />,
+      },
+      {
+        path: 'change-password/:token',
+        element: <ChangePasswordWithLayout />,
+      },
+      {
+        path: 'forgot-password',
+        element: <ForgotPasswordWithLayout />,
       },
     ],
   },
   {
     path: '/config',
-    element: <WorkspaceLayout />,
-    permissions: ['USER'],
-    redirect: '/',
-    forLogged: true,
-    auth: true,
-    message: 'You should be sign in!',
+    element: (
+      <Guardian
+        outlet
+        auth
+        message="You should be sign in!"
+        redirect="/auth/signin"
+        permissions={['USER']}
+      />
+    ),
     children: [
       {
         index: true,
-        element: <UserConfig />,
+        element: <UserConfigWithLayout />,
       },
     ],
   },
   {
     path: '*',
-    element: <MainLayout />,
-    permissions: [],
-    redirect: '/',
-    forLogged: true,
-    auth: false,
-    children: [
-      {
-        path: '*',
-        element: <NotFound />,
-      },
-    ],
+    element: <NotFoundWithLayout />,
   },
 ]
 
