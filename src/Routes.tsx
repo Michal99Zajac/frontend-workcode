@@ -1,7 +1,8 @@
 import React from 'react'
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom'
 
-import { EditorWithLayout, MenuWithLayout } from './workspace'
+import { EditorWithLayout } from './editor'
+import { MenuWithLayout } from './workspace'
 import {
   ChangePasswordWithLayout,
   ForgotPasswordWithLayout,
