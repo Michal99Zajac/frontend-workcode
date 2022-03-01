@@ -1,2 +1,2 @@
-export * from './InviteCard'
+export * from './Strap'
 export * from './TableRecord'

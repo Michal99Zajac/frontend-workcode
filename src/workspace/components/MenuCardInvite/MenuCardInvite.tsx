@@ -34,7 +34,7 @@ import {
 import { useToast } from '../../../common/hooks'
 import { InviteStrap } from '../InviteStrap'
 import { LoseConnection } from '../../../icons/common'
-import { InviteCardSkeleton } from '../Skeletons'
+import { StrapSkeleton } from '../Skeletons'
 
 interface MenuCardInviteProps {
   workspace: WorkspaceType
@@ -140,7 +140,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
             </Box>
             {users.users.length > 0 ? (
               <Stack>
-                <InviteCardSkeleton amount={10} isLoaded={!isLoading}>
+                <StrapSkeleton amount={10} isLoaded={!isLoading}>
                   {users.users.map((user) => (
                     <InviteStrap
                       key={user.id}
@@ -148,7 +148,7 @@ export function MenuCardInvite(props: MenuCardInviteProps): JSX.Element {
                       workspace={workspace}
                     />
                   ))}
-                </InviteCardSkeleton>
+                </StrapSkeleton>
               </Stack>
             ) : (
               <Center flexDirection="column" height="270px">

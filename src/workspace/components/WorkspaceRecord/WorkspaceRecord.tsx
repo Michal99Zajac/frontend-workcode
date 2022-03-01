@@ -13,7 +13,7 @@ import {
   Link,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, SettingsIcon } from '@chakra-ui/icons'
 import dayjs from 'dayjs'
 
 import { AvatarTag } from '../AvatarTag'
@@ -21,7 +21,6 @@ import { MenuCardUpdate } from '../MenuCardUpdate'
 import { MenuCardCopy } from '../MenuCardCopy'
 import { MenuCardInvite } from '../MenuCardInvite'
 import { ContributorAvatars } from '../ContributorAvatars'
-import { MenuCardContributors } from '../MenuCardContributors'
 import { WorkspaceType } from '../../schemas'
 import { codeColors } from '../../utils'
 
@@ -70,7 +69,9 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
           <MenuList>
             {isOwner && <MenuCardUpdate workspace={workspace} />}
             {isOwner && <MenuCardInvite workspace={workspace} />}
-            <MenuCardContributors workspace={workspace} isOwner={isOwner} />
+            <MenuItem as={RouterLink} to={`${workspace.id}/contributors`}>
+              <SettingsIcon mr={4} /> Contributors
+            </MenuItem>
             <MenuCardCopy workspace={workspace} />
             <MenuItem>Delete</MenuItem>
           </MenuList>

@@ -24,6 +24,7 @@ import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
 import { WorkspacesProvider } from '../../context/Workspaces'
 import { Surface } from '../../../common/components'
+import { Outlet } from 'react-router-dom'
 
 export function Menu(): JSX.Element {
   const runToast = useToast()
@@ -108,6 +109,7 @@ export function Menu(): JSX.Element {
             </Table>
           </Surface>
         </Stack>
+        <Outlet />
       </WorkspacesProvider>
     </Box>
   )
