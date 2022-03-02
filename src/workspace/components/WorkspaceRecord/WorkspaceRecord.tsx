@@ -1,32 +1,13 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import {
-  Badge,
-  Text,
-  MenuItem,
-  Menu,
-  MenuButton,
-  MenuList,
-  IconButton,
-  Tr,
-  Td,
-  Link,
-  useColorModeValue,
-} from '@chakra-ui/react'
-import {
-  CopyIcon,
-  EditIcon,
-  HamburgerIcon,
-  PlusSquareIcon,
-  SettingsIcon,
-} from '@chakra-ui/icons'
+import { Badge, Text, Tr, Td, Link, useColorModeValue } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 
 import { AvatarTag } from '../AvatarTag'
 import { ContributorAvatars } from '../ContributorAvatars'
 import { WorkspaceType } from '../../schemas'
 import { codeColors } from '../../utils'
-import { useWorkspaceCopy } from '../../hooks'
+import RecordMenu from '../RecordMenu'
 
 interface WorkspaceRecordProps {
   workspace: WorkspaceType
@@ -35,7 +16,6 @@ interface WorkspaceRecordProps {
 
 export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
   const { workspace, isOwner } = props
-  const [copy, hasCopied] = useWorkspaceCopy(workspace.id)
   const hoverRecord = useColorModeValue('gray.200', 'gray.600')
   const borderColor = useColorModeValue('gray.100', 'gray.600')
 
@@ -63,34 +43,7 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
         <Text>{dayjs(workspace.createdAt).format('D/MM/YYYY')}</Text>
       </Td>
       <Td isNumeric borderColor={borderColor}>
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            variant="ghost"
-            colorScheme="gray"
-            icon={<HamburgerIcon />}
-            size="sm"
-          />
-          <MenuList>
-            {isOwner && (
-              <MenuItem as={RouterLink} to={`${workspace.id}/update`}>
-                <EditIcon mr={4} /> Update
-              </MenuItem>
-            )}
-            {isOwner && (
-              <MenuItem as={RouterLink} to={`${workspace.id}/invite`}>
-                <PlusSquareIcon mr={4} /> Invite
-              </MenuItem>
-            )}
-            <MenuItem as={RouterLink} to={`${workspace.id}/contributors`}>
-              <SettingsIcon mr={4} /> Contributors
-            </MenuItem>
-            <MenuItem onClick={copy}>
-              <CopyIcon mr={4} /> {!hasCopied ? 'Copy Link' : 'Copied'}
-            </MenuItem>
-            <MenuItem>Delete</MenuItem>
-          </MenuList>
-        </Menu>
+        <RecordMenu workspaceId={workspace.id} isOwner={isOwner} />
       </Td>
     </Tr>
   )
