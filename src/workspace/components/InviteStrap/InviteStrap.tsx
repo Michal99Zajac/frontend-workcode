@@ -14,18 +14,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { UserType } from '../../../common/schemas'
-import { WorkspaceType } from '../../schemas'
 import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
 
 import { InviteStatusType } from './InviteStatus'
 
 interface InviteStrapProps {
   user: UserType
-  workspace: WorkspaceType
+  workspaceId: string
 }
 
 export function InviteStrap(props: InviteStrapProps): JSX.Element {
-  const { user, workspace } = props
+  const { user, workspaceId } = props
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
   const [failMessage, setFailMessage] = useState('')
@@ -33,7 +32,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
     resolver: zodResolver(Form),
     defaultValues: {
       userId: user.id,
-      workspaceId: workspace.id,
+      workspaceId: workspaceId,
     },
   })
   const errorBG = useColorModeValue('red.50', 'red.300')

@@ -2,7 +2,7 @@ import React from 'react'
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom'
 
 import { EditorWithLayout } from './editor'
-import { MenuWithLayout, Contributors } from './workspace'
+import { MenuWithLayout, Contributors, Invite } from './workspace'
 import {
   ChangePasswordWithLayout,
   ForgotPasswordWithLayout,
@@ -32,8 +32,21 @@ export const routes: RouteObject[] = [
     ),
     children: [
       {
-        path: ':workspaceId/contributors',
-        element: <Contributors />,
+        path: ':workspaceId',
+        children: [
+          {
+            index: true,
+            element: <NotFoundWithLayout />,
+          },
+          {
+            path: 'contributors',
+            element: <Contributors />,
+          },
+          {
+            path: 'invite',
+            element: <Invite />,
+          },
+        ],
       },
     ],
   },
