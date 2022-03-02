@@ -1,5 +1,4 @@
 export * from './Caption'
-export * from './CreateWorkspace'
 export * from './WorkspaceRecord'
 export * from './AvatarTag'
 export * from './MenuCardCopy'

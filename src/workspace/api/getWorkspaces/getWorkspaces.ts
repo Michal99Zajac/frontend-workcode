@@ -18,7 +18,7 @@ export const getWorkspaces = (): Promise<ResponseType> =>
       reject({
         error: 'Something went wrong.',
       } as FailType)
-    }, 3000)
+    }, 500)
   })
 
 export default getWorkspaces
