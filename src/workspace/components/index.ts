@@ -1,7 +1,6 @@
 export * from './Caption'
 export * from './WorkspaceRecord'
 export * from './AvatarTag'
-export * from './MenuCardCopy'
 export * from './InviteStrap'
 export * from './Skeletons'
 export * from './ContributorStrap'

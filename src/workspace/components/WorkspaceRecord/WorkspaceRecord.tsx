@@ -14,6 +14,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import {
+  CopyIcon,
   EditIcon,
   HamburgerIcon,
   PlusSquareIcon,
@@ -22,10 +23,10 @@ import {
 import dayjs from 'dayjs'
 
 import { AvatarTag } from '../AvatarTag'
-import { MenuCardCopy } from '../MenuCardCopy'
 import { ContributorAvatars } from '../ContributorAvatars'
 import { WorkspaceType } from '../../schemas'
 import { codeColors } from '../../utils'
+import { useWorkspaceCopy } from '../../hooks'
 
 interface WorkspaceRecordProps {
   workspace: WorkspaceType
@@ -34,6 +35,7 @@ interface WorkspaceRecordProps {
 
 export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
   const { workspace, isOwner } = props
+  const [copy, hasCopied] = useWorkspaceCopy(workspace.id)
   const hoverRecord = useColorModeValue('gray.200', 'gray.600')
   const borderColor = useColorModeValue('gray.100', 'gray.600')
 
@@ -83,7 +85,9 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
             <MenuItem as={RouterLink} to={`${workspace.id}/contributors`}>
               <SettingsIcon mr={4} /> Contributors
             </MenuItem>
-            <MenuCardCopy workspace={workspace} />
+            <MenuItem onClick={copy}>
+              <CopyIcon mr={4} /> {!hasCopied ? 'Copy Link' : 'Copied'}
+            </MenuItem>
             <MenuItem>Delete</MenuItem>
           </MenuList>
         </Menu>
