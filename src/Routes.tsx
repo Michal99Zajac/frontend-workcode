@@ -2,7 +2,7 @@ import React from 'react'
 import { useRoutes, RouteObject, Navigate } from 'react-router-dom'
 
 import { EditorWithLayout } from './editor'
-import { MenuWithLayout, Contributors, Invite } from './workspace'
+import { MenuWithLayout, Contributors, Invite, Update } from './workspace'
 import {
   ChangePasswordWithLayout,
   ForgotPasswordWithLayout,
@@ -45,6 +45,10 @@ export const routes: RouteObject[] = [
           {
             path: 'invite',
             element: <Invite />,
+          },
+          {
+            path: 'update',
+            element: <Update />,
           },
         ],
       },

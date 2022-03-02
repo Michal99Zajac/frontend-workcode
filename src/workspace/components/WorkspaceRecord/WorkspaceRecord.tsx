@@ -13,11 +13,15 @@ import {
   Link,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { HamburgerIcon, PlusSquareIcon, SettingsIcon } from '@chakra-ui/icons'
+import {
+  EditIcon,
+  HamburgerIcon,
+  PlusSquareIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons'
 import dayjs from 'dayjs'
 
 import { AvatarTag } from '../AvatarTag'
-import { MenuCardUpdate } from '../MenuCardUpdate'
 import { MenuCardCopy } from '../MenuCardCopy'
 import { ContributorAvatars } from '../ContributorAvatars'
 import { WorkspaceType } from '../../schemas'
@@ -66,7 +70,11 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
             size="sm"
           />
           <MenuList>
-            {isOwner && <MenuCardUpdate workspace={workspace} />}
+            {isOwner && (
+              <MenuItem as={RouterLink} to={`${workspace.id}/update`}>
+                <EditIcon mr={4} /> Update
+              </MenuItem>
+            )}
             {isOwner && (
               <MenuItem as={RouterLink} to={`${workspace.id}/invite`}>
                 <PlusSquareIcon mr={4} /> Invite
