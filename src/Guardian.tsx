@@ -57,7 +57,7 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
     if (!hasPermission) return false
 
     return true
-  }, [location.pathname])
+  }, [])
 
   if (!guard()) return disallow()
 

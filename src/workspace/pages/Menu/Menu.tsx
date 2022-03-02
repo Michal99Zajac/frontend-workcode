@@ -12,6 +12,7 @@ import {
   Tbody,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { getWorkspaces, Fail } from '../../api/getWorkspaces'
 import {
@@ -24,10 +25,10 @@ import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
 import { WorkspacesProvider } from '../../context/Workspaces'
 import { Surface } from '../../../common/components'
-import { Outlet } from 'react-router-dom'
 
 export function Menu(): JSX.Element {
   const runToast = useToast()
+  const location = useLocation()
   const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
   const [workspaces, setWorkspaces] = useState<WorkspaceType[]>([])
@@ -51,7 +52,7 @@ export function Menu(): JSX.Element {
 
   useEffect(() => {
     fetchWorkspaces()
-  }, [])
+  }, [location.pathname])
 
   return (
     <Box h="100%" w="100%">
