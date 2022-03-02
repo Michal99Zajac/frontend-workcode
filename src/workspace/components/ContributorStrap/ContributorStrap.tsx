@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Flex,
@@ -6,28 +6,58 @@ import {
   IconButton,
   Spacer,
   Stack,
+  Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
 import { ContributorType } from '../../schemas'
 import { LeaveIcon } from '../../../icons/common'
+import { removeContributor, Form, Fail } from '../../api/removeContributor'
 
 interface ContributorStrapProps {
   contributor: ContributorType
+  workspaceId: string
   isOwner?: boolean
 }
 
 export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
-  const { contributor, isOwner } = props
+  const { contributor, isOwner, workspaceId } = props
   const hoverStrap = useColorModeValue('gray.50', 'gray.600')
   const iconColor = useColorModeValue('black', 'white')
+  const errorBG = useColorModeValue('red.50', 'red.300')
+  const [failMessage, setFailMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const { handleSubmit } = useForm({
+    resolver: zodResolver(Form),
+    defaultValues: {
+      userId: contributor.id,
+      workspaceId: workspaceId,
+    },
+  })
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true)
+    try {
+      await removeContributor(data)
+      setFailMessage('')
+    } catch (error) {
+      const fail = Fail.parse(error)
+      setFailMessage(fail.error)
+    }
+    setIsLoading(false)
+  })
 
   return (
     <Flex
       alignItems="center"
       p={2}
+      transition="all 0.6s"
       borderRadius={4}
       _hover={{ bg: hoverStrap }}
+      bg={failMessage ? errorBG : undefined}
     >
       <Avatar
         name={`${contributor.firstname} ${contributor.lastname}`}
@@ -43,15 +73,23 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
         </Heading>
       </Stack>
       <Spacer />
+      {failMessage && (
+        <Tooltip label={failMessage}>
+          <QuestionOutlineIcon alignSelf="center" m={2} />
+        </Tooltip>
+      )}
       {isOwner && (
-        <IconButton
-          aria-label="remove contributor"
-          colorScheme="gray"
-          onClick={() => alert(JSON.stringify(contributor))}
-          variant="ghost"
-          icon={<LeaveIcon fill={iconColor} />}
-          size="sm"
-        />
+        <form onSubmit={onSubmit}>
+          <IconButton
+            aria-label="remove contributor"
+            colorScheme="gray"
+            type="submit"
+            variant="ghost"
+            icon={<LeaveIcon fill={iconColor} />}
+            size="sm"
+            isLoading={isLoading}
+          />
+        </form>
       )}
     </Flex>
   )

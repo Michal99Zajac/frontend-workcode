@@ -56,6 +56,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
       alignItems="center"
       bg={failMessage ? errorBG : undefined}
       p={2}
+      transition="all 0.6s"
       borderRadius={4}
       _hover={{ bg: hoverStrap }}
     >

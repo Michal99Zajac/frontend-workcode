@@ -36,7 +36,7 @@ import { StrapSkeleton, InviteStrap } from '../../components'
 export function Invite(): JSX.Element {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [users, setUsers] = useState<ResponseType>({
     users: [],
     navigation: {

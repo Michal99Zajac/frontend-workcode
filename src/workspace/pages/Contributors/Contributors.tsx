@@ -55,6 +55,7 @@ export function Contributors(): JSX.Element {
                   isOwner={workspace.admin.id === user?.id}
                   key={contributor.id}
                   contributor={contributor}
+                  workspaceId={workspace.id}
                 />
               ))}
             </StrapSkeleton>
