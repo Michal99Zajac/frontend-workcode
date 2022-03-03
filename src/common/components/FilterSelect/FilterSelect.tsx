@@ -53,7 +53,6 @@ export const FilterSelect = <T,>(props: FilterSelectProps<T>): JSX.Element => {
         placeholder={selectValue[identifer]}
         value={input}
         onChange={(_event) => setInput(_event.target.value)}
-        mb={1}
         _placeholder={{
           opacity: 1,
           color: placeholderColor,
@@ -61,6 +60,7 @@ export const FilterSelect = <T,>(props: FilterSelectProps<T>): JSX.Element => {
       />
       <Box
         position="relative"
+        zIndex="modal"
         sx={{
           '& > *': {
             width: '100%',
@@ -68,7 +68,7 @@ export const FilterSelect = <T,>(props: FilterSelectProps<T>): JSX.Element => {
         }}
       >
         <Menu isOpen={isOpen}>
-          <MenuList w="100%" onClick={onClose}>
+          <MenuList mt={1} w="100%" onClick={onClose}>
             {options
               .filter((option) => {
                 const menuOption = option as any
