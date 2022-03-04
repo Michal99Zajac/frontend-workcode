@@ -9,8 +9,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useColorModeValue,
 } from '@chakra-ui/react'
-import { SearchIcon } from '@chakra-ui/icons'
 
 import { useToast } from '../../../common/hooks'
 import {
@@ -24,6 +24,7 @@ import {
 import { WorkspaceType } from '../../schemas'
 import { useAuth } from '../../../common/store'
 import { FilterSelect } from '../../../common/components'
+import { FolderIcon, UserIcon } from '../../../icons/common'
 
 type SetWorkspaces = (workspaces: WorkspaceType[]) => void
 type SetIsLoading = (isLoading: boolean) => void
@@ -35,6 +36,7 @@ interface WorkspaceFiltersProps {
 
 export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const { setWorkspaces, setIsLoading } = props
+  const iconFill = useColorModeValue('black', 'white')
   const runToast = useToast()
   const location = useLocation()
   const userId = useAuth((state) => state.user?.id)
@@ -93,7 +95,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
           render={({ field }) => (
             <InputGroup w="min-content">
               <InputLeftElement>
-                <SearchIcon />
+                <FolderIcon fill={iconFill} />
               </InputLeftElement>
               <Input
                 {...field}
@@ -115,7 +117,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
           render={({ field }) => (
             <InputGroup w="min-content">
               <InputLeftElement>
-                <SearchIcon />
+                <UserIcon fill={iconFill} />
               </InputLeftElement>
               <Input
                 {...field}
