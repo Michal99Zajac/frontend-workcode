@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import {
   Button,
   Checkbox,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
 
 import { useToast } from '../../../common/hooks'
 import {
@@ -22,7 +24,6 @@ import {
   FormCodeType,
 } from '../../api/getWorkspaces'
 import { WorkspaceType } from '../../schemas'
-import { useAuth } from '../../../common/store'
 import { FilterSelect } from '../../../common/components'
 import { FolderIcon, UserIcon } from '../../../icons/common'
 
@@ -37,57 +38,55 @@ interface WorkspaceFiltersProps {
 export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const { setWorkspaces, setIsLoading } = props
   const iconFill = useColorModeValue('black', 'white')
+  const hoverBG = useColorModeValue('gray.50', 'gray.700')
   const runToast = useToast()
-  const location = useLocation()
-  const userId = useAuth((state) => state.user?.id)
-  const [search, setSearch] = useSearchParams(
-    new URLSearchParams({
-      self: 'false',
+  const { handleSubmit, control, setValue, reset, getValues } = useForm({
+    resolver: zodResolver(Form),
+    defaultValues: {
+      self: false,
       workspace: '',
       owner: '',
       code: FormCode.enum.ALL,
-    })
-  )
-  const { handleSubmit, control, setValue } = useForm({
-    resolver: zodResolver(Form),
-    defaultValues: {
-      self: search.get('self') === 'true' ? true : false,
-      workspace: search.get('workspace') || '',
-      owner: search.get('owner') || '',
-      code: search.get('code') || FormCode.enum.ALL,
     },
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const fetchWorkspaces = async (data: FormType) => {
     setIsLoading(true)
-
-    if (!userId) throw new Error('User is not authenticated')
 
     try {
       const response = await getWorkspaces(data)
-      setSearch(
-        new URLSearchParams({
-          workspace: data.workspace,
-          self: data.self.toString(),
-          owner: data.owner,
-          code: data.code,
-        })
-      )
       setWorkspaces(response.workspaces)
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')
     }
+
     setIsLoading(false)
-  })
+  }
+
+  const onSubmit = handleSubmit(fetchWorkspaces)
 
   useEffect(() => {
-    onSubmit()
-  }, [location.pathname])
+    fetchWorkspaces(Form.parse(getValues()))
+  }, [])
 
   return (
     <form onSubmit={onSubmit}>
       <HStack>
+        <Tooltip label="Clear Filter" placement="top">
+          <IconButton
+            mr={8}
+            colorScheme="gray"
+            _hover={{
+              backgroundColor: hoverBG,
+              color: 'red.600',
+            }}
+            variant="ghost"
+            aria-label="remove filter icon"
+            icon={<DeleteIcon />}
+            onClick={() => reset()}
+          />
+        </Tooltip>
         <Button type="submit">search</Button>
         <Controller
           name="workspace"
@@ -97,17 +96,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <FolderIcon fill={iconFill} />
               </InputLeftElement>
-              <Input
-                {...field}
-                placeholder="Workspace"
-                transition="all 0.3s"
-                w="10vw"
-                sx={{
-                  '&:focus': {
-                    width: '25vw',
-                  },
-                }}
-              />
+              <Input {...field} placeholder="Workspace" w="200px" />
             </InputGroup>
           )}
         />
@@ -119,17 +108,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <UserIcon fill={iconFill} />
               </InputLeftElement>
-              <Input
-                {...field}
-                placeholder="Owner"
-                transition="all 0.3s"
-                w="10vw"
-                sx={{
-                  '&:focus': {
-                    width: '25vw',
-                  },
-                }}
-              />
+              <Input {...field} placeholder="Owner" w="240px" />
             </InputGroup>
           )}
         />

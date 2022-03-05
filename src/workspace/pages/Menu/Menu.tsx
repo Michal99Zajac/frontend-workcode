@@ -12,6 +12,7 @@ import {
   Tbody,
   useColorModeValue,
   IconButton,
+  Tooltip,
 } from '@chakra-ui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
@@ -42,13 +43,15 @@ export function Menu(): JSX.Element {
             setWorkspaces={setWorkspaces}
           />
           <Spacer />
-          <IconButton
-            size="md"
-            aria-label="add workspace"
-            icon={<AddIcon />}
-            as={Link}
-            to="/workspace/create"
-          />
+          <Tooltip label="Add Workspace" placement="top">
+            <IconButton
+              size="md"
+              aria-label="add workspace"
+              icon={<AddIcon />}
+              as={Link}
+              to="/workspace/create"
+            />
+          </Tooltip>
         </Flex>
         <Surface p={0} flexGrow={1} overflow="auto">
           <Table size="lg" colorScheme="whiteAlpha">
