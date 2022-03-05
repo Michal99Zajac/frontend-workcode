@@ -26,7 +26,7 @@ import {
 import { WorkspaceType } from '../../schemas'
 import { FilterSelect } from '../../../common/components'
 import { FolderIcon, UserIcon } from '../../../icons/common'
-import { useWorkspaceFetch } from '../../store'
+import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 type SetWorkspaces = (workspaces: WorkspaceType[]) => void
 type SetIsLoading = (isLoading: boolean) => void
@@ -42,6 +42,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const hoverBG = useColorModeValue('gray.50', 'gray.700')
   const setRefetch = useWorkspaceFetch((state) => state.setRefetch)
   const runToast = useToast()
+  const updateQuery = useWorkspaceQuery((state) => state.update)
   const { handleSubmit, control, setValue, reset, getValues } = useForm({
     resolver: zodResolver(Form),
     defaultValues: {
@@ -58,6 +59,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
     try {
       const response = await getWorkspaces(data)
       setWorkspaces(response.workspaces)
+      updateQuery(data)
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')
