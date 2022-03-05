@@ -42,7 +42,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const hoverBG = useColorModeValue('gray.50', 'gray.700')
   const setRefetch = useWorkspaceFetch((state) => state.setRefetch)
   const runToast = useToast()
-  const updateQuery = useWorkspaceQuery((state) => state.update)
+  const lastQuery = useWorkspaceQuery()
   const { handleSubmit, control, setValue, reset, getValues } = useForm({
     resolver: zodResolver(Form),
     defaultValues: {
@@ -59,7 +59,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
     try {
       const response = await getWorkspaces(data)
       setWorkspaces(response.workspaces)
-      updateQuery(data)
+      lastQuery.update(data)
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')

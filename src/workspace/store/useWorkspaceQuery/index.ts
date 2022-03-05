@@ -7,6 +7,7 @@ type UpdateQuery = (query: FormType) => void
 interface WorkspaceQueryStore {
   query: FormType
   update: UpdateQuery
+  q: string
 }
 
 export const useWorkspaceQuery = create<WorkspaceQueryStore>(
@@ -18,7 +19,15 @@ export const useWorkspaceQuery = create<WorkspaceQueryStore>(
         self: false,
         code: 'ALL',
       },
-      update: (query) => set({ query: query }),
+      update: (query) => {
+        const parsedQuery = {
+          ...query,
+          self: query.self === false ? 'false' : 'true',
+        }
+        const q = '?' + new URLSearchParams(parsedQuery).toString()
+        set({ query: query, q: q })
+      },
+      q: '',
     }),
     {
       name: 'workspace query',
