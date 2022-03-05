@@ -18,17 +18,6 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
         size="sm"
         src={user.src || undefined}
         name={`${user.firstname} ${user.lastname}`}
-        sx={{
-          '& + span': {
-            width: '0px',
-            maxWidth: 'max-content',
-            p: '0px',
-          },
-          '&:hover + span': {
-            width: '400px',
-            px: 3,
-          },
-        }}
       />
       <Tag
         position="absolute"
@@ -36,7 +25,7 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
         overflow="hidden"
         size="lg"
         left={8}
-        colorScheme="twitter"
+        colorScheme="gray"
         minW="0px"
         borderRadius="full"
       >
