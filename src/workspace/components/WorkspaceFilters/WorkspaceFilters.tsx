@@ -64,14 +64,12 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
     setIsLoading(false)
   }
 
-  const onSubmit = handleSubmit(fetchWorkspaces)
-
   useEffect(() => {
     fetchWorkspaces(Form.parse(getValues()))
   }, [])
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(fetchWorkspaces)}>
       <HStack>
         <Tooltip label="Clear Filter" placement="top">
           <IconButton
