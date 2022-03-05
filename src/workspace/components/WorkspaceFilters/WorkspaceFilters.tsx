@@ -26,6 +26,7 @@ import {
 import { WorkspaceType } from '../../schemas'
 import { FilterSelect } from '../../../common/components'
 import { FolderIcon, UserIcon } from '../../../icons/common'
+import { useWorkspaceFetch } from '../../store'
 
 type SetWorkspaces = (workspaces: WorkspaceType[]) => void
 type SetIsLoading = (isLoading: boolean) => void
@@ -39,6 +40,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const { setWorkspaces, setIsLoading } = props
   const iconFill = useColorModeValue('black', 'white')
   const hoverBG = useColorModeValue('gray.50', 'gray.700')
+  const setRefetch = useWorkspaceFetch((state) => state.setRefetch)
   const runToast = useToast()
   const { handleSubmit, control, setValue, reset, getValues } = useForm({
     resolver: zodResolver(Form),
@@ -65,7 +67,9 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   }
 
   useEffect(() => {
-    fetchWorkspaces(Form.parse(getValues()))
+    const data = Form.parse(getValues())
+    fetchWorkspaces(data)
+    setRefetch(() => fetchWorkspaces(data))
   }, [])
 
   return (
