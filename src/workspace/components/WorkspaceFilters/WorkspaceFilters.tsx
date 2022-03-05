@@ -75,13 +75,11 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
       <HStack>
         <Tooltip label="Clear Filter" placement="top">
           <IconButton
-            mr={8}
             colorScheme="gray"
             _hover={{
               backgroundColor: hoverBG,
               color: 'red.600',
             }}
-            variant="ghost"
             aria-label="remove filter icon"
             icon={<DeleteIcon />}
             onClick={() => reset()}
@@ -96,7 +94,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <FolderIcon fill={iconFill} />
               </InputLeftElement>
-              <Input {...field} placeholder="Workspace" w="200px" />
+              <Input {...field} placeholder="Workspace" w="260px" />
             </InputGroup>
           )}
         />
@@ -108,7 +106,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <UserIcon fill={iconFill} />
               </InputLeftElement>
-              <Input {...field} placeholder="Owner" w="240px" />
+              <Input {...field} placeholder="Owner" w="260px" />
             </InputGroup>
           )}
         />
