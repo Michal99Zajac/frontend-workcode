@@ -36,7 +36,7 @@ export function ForgotPassword(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      await sendForgottenEmail(data)
+      await sendForgottenEmail(Form.parse(data))
       runToast(
         { success: 'Email for password change has been sent' },
         'Success',

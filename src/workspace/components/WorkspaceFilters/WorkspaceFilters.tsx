@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import {
   Button,
   Checkbox,
@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-import { useToast } from '../../../common/hooks'
+import { useQueryForm, useToast } from '../../../common/hooks'
 import {
   getWorkspaces,
   Fail,
@@ -43,21 +43,25 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const setRefetch = useWorkspaceFetch((state) => state.setRefetch)
   const runToast = useToast()
   const lastQuery = useWorkspaceQuery()
-  const { handleSubmit, control, setValue, reset, getValues } = useForm({
-    resolver: zodResolver(Form),
-    defaultValues: {
-      self: false,
-      workspace: '',
-      owner: '',
-      code: FormCode.enum.ALL,
-    },
-  })
+  const { handleSubmit, control, setValue, reset, getValues } =
+    useQueryForm<FormType>(
+      {
+        resolver: zodResolver(Form),
+        defaultValues: {
+          self: false,
+          workspace: '',
+          owner: '',
+          code: FormCode.enum.ALL,
+        },
+      },
+      Form as any
+    )
 
   const fetchWorkspaces = async (data: FormType) => {
     setIsLoading(true)
 
     try {
-      const response = await getWorkspaces(data)
+      const response = await getWorkspaces(Form.parse(data))
       setWorkspaces(response.workspaces)
       lastQuery.update(data)
     } catch (error) {
@@ -75,7 +79,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   }, [])
 
   return (
-    <form onSubmit={handleSubmit(fetchWorkspaces)}>
+    <form onSubmit={handleSubmit((data) => fetchWorkspaces(Form.parse(data)))}>
       <HStack>
         <Tooltip label="Clear Filter" placement="top">
           <IconButton

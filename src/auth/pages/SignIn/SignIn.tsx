@@ -30,7 +30,7 @@ export function SignIn(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await signin(data)
+      const response = await signin(Form.parse(data))
       login(
         {
           id: response.user.id,

@@ -40,7 +40,7 @@ export function SignUp(): JSX.Element {
     }
 
     try {
-      const response = await signup(data)
+      const response = await signup(Form.parse(data))
       runToast(response, 'Success', 'success')
       navigation('/auth/signin')
     } catch (error) {

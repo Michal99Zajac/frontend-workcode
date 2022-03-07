@@ -48,7 +48,7 @@ export function Create(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await createWorkspace(data)
+      const response = await createWorkspace(Form.parse(data))
       runToast({ success: response.success }, 'Success', 'success')
       refetchWorkspaces && refetchWorkspaces()
       navigate(`/workspace${lastQuery}`)

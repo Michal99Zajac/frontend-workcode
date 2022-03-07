@@ -66,7 +66,7 @@ export function Invite(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await getUsers(data)
+      const response = await getUsers(Form.parse(data))
       setUsers(
         produce((draft) => {
           draft.users = response.users

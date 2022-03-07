@@ -33,7 +33,7 @@ export function ChangePassword(): JSX.Element {
     }
 
     try {
-      const response = await changePassword(data)
+      const response = await changePassword(Form.parse(data))
       runToast(response, 'Success', 'success')
       navigate('/auth/signin')
     } catch (error) {

@@ -51,7 +51,7 @@ export function Update(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await updateWorkspace(data)
+      const response = await updateWorkspace(Form.parse(data))
       runToast({ success: response.success }, 'Success', 'success')
     } catch (error) {
       const fail = Fail.parse(error)

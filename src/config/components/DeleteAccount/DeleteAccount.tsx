@@ -41,7 +41,7 @@ export function DeleteAccount(): JSX.Element {
   const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
-      const response = await deleteAccount(data)
+      const response = await deleteAccount(Form.parse(data))
       runToast(response, 'Success', 'success')
       logout()
       navigate('/')
