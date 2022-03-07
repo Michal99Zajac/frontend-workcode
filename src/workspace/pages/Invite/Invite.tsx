@@ -32,11 +32,14 @@ import {
 import { useToast } from '../../../common/hooks'
 import { LoseConnection } from '../../../icons/common'
 import { StrapSkeleton, InviteStrap } from '../../components'
+import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 export function Invite(): JSX.Element {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
+  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
+  const lastQuery = useWorkspaceQuery((store) => store.q)
   const [users, setUsers] = useState<ResponseType>({
     users: [],
     navigation: {
@@ -91,6 +94,11 @@ export function Invite(): JSX.Element {
     onSubmit()
   }
 
+  const onClose = () => {
+    refetchWorkspaces && refetchWorkspaces()
+    navigate(`/workspace${lastQuery}`)
+  }
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       onSubmit()
@@ -102,7 +110,7 @@ export function Invite(): JSX.Element {
   if (!workspaceId) throw new Error('Workspace ID is not provided')
 
   return (
-    <Modal isOpen={true} onClose={() => navigate('/workspace')}>
+    <Modal isOpen={true} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Invite</ModalHeader>

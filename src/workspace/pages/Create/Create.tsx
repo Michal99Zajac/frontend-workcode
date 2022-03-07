@@ -28,9 +28,12 @@ import {
 import { useToast } from '../../../common/hooks'
 import { CodeType } from '../../schemas'
 import { codeTypeOptions, CodeTypeOption } from '../../utils'
+import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 export function Create(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
+  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
+  const lastQuery = useWorkspaceQuery((store) => store.q)
   const navigate = useNavigate()
   const runToast = useToast()
   const { control, formState, handleSubmit, setValue } = useForm({
@@ -47,7 +50,8 @@ export function Create(): JSX.Element {
     try {
       const response = await createWorkspace(data)
       runToast({ success: response.success }, 'Success', 'success')
-      navigate('/workspace')
+      refetchWorkspaces && refetchWorkspaces()
+      navigate(`/workspace${lastQuery}`)
     } catch (error) {
       const fail = Fail.parse(error)
       runToast(fail, 'Error', 'error')
@@ -56,7 +60,7 @@ export function Create(): JSX.Element {
   })
 
   return (
-    <Modal onClose={() => navigate('/workspace')} isOpen={true}>
+    <Modal onClose={() => navigate(`/workspace${lastQuery}`)} isOpen={true}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

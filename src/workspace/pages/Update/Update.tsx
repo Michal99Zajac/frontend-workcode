@@ -29,11 +29,14 @@ import {
   Fail,
 } from '../../api/updateWorkspace'
 import { getWorkspace } from '../../api'
+import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 export function Update(): JSX.Element {
   const { workspaceId } = useParams()
   const naviagate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
+  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
+  const lastQuery = useWorkspaceQuery((store) => store.q)
   const runToast = useToast()
   const { control, formState, handleSubmit, reset, setValue } = useForm({
     resolver: zodResolver(Form),
@@ -77,12 +80,17 @@ export function Update(): JSX.Element {
     setIsLoading(false)
   }, [workspaceId])
 
+  const onClose = () => {
+    refetchWorkspaces && refetchWorkspaces()
+    naviagate(`/workspace${lastQuery}`)
+  }
+
   useEffect(() => {
     fetchWorkspace()
   }, [])
 
   return (
-    <Modal onClose={() => naviagate('/workspace')} isOpen={true}>
+    <Modal onClose={onClose} isOpen={true}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

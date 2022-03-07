@@ -14,11 +14,14 @@ import { WorkspaceType } from '../../schemas/Workspace'
 import { getWorkspace, Fail } from '../../api/getWorkspace'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../../common/store'
+import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 export function Contributors(): JSX.Element {
   const navigate = useNavigate()
   const { workspaceId } = useParams()
   const user = useAuth((state) => state.user)
+  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
+  const lastQuery = useWorkspaceQuery((store) => store.q)
   const [isLoading, setIsLoading] = useState(true)
   const [workspace, setWorkspace] = useState<WorkspaceType | null>()
 
@@ -37,12 +40,17 @@ export function Contributors(): JSX.Element {
     setIsLoading(false)
   }, [workspaceId])
 
+  const onClose = () => {
+    refetchWorkspaces && refetchWorkspaces()
+    navigate(`/workspace${lastQuery}`)
+  }
+
   useEffect(() => {
     fetchWorkspace()
   }, [])
 
   return (
-    <Modal isOpen={true} onClose={() => navigate('/workspace')}>
+    <Modal isOpen={true} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Contributors</ModalHeader>
