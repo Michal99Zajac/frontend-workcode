@@ -1,19 +1,15 @@
-import { currentUser } from '../../../fixtures'
+import { FormType, ResponseType, FailType, Form } from './schema'
 
-import { Form, Response, Fail } from './schema'
-
-export const updateUserData = (data: Form): Promise<Response> =>
+export const updateUserData = (data: FormType): Promise<ResponseType> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
         Form.parse(data)
       } catch (error) {
-        reject(error as Fail)
+        console.log(error)
+        reject(error as FailType)
       }
 
-      currentUser.email = data.email
-      currentUser.firstname = data.firstname
-      currentUser.lastname = data.lastname
       resolve({
         success: 'User data has been updated',
       })

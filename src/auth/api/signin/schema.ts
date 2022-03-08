@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { AuthUser } from '../../../common/schemas'
+import { AuthUserSchema } from '../../../common/schemas'
 
 export const Form = z.object({
   email: z
@@ -18,7 +18,7 @@ export const Form = z.object({
 })
 
 export const Response = z.object({
-  user: AuthUser,
+  user: AuthUserSchema,
   token: z.string().nonempty(),
 })
 
@@ -27,8 +27,8 @@ export const Fail = z.object({
   password: z.string().optional(),
 })
 
-export type Form = z.infer<typeof Form>
+export type FormType = z.infer<typeof Form>
 
-export type Response = z.infer<typeof Response>
+export type ResponseType = z.infer<typeof Response>
 
-export type Fail = z.infer<typeof Fail>
+export type FailType = z.infer<typeof Fail>

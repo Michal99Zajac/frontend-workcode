@@ -14,13 +14,18 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { changePassword, Form, Fail } from '../../../auth/api/changePassword'
+import {
+  changePassword,
+  Form,
+  FormType,
+  Fail,
+} from '../../../auth/api/changePassword'
 import { useToast } from '../../../common/hooks'
 
 export function PasswordUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
-  const { control, formState, handleSubmit, reset } = useForm<Form>({
+  const { control, formState, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       password: '',
@@ -28,7 +33,7 @@ export function PasswordUpdate(): JSX.Element {
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
 
     if (data.password !== data.repeatedPassword) {

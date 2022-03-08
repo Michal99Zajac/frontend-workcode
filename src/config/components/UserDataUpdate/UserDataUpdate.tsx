@@ -14,7 +14,7 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Form, updateUserData, Fail } from '../../api/updateUserData'
+import { Form, FormType, updateUserData, Fail } from '../../api/updateUserData'
 import { useToast } from '../../../common/hooks'
 import { fetchUser } from '../../../common/api'
 import { useAuth } from '../../../common/store'
@@ -23,8 +23,8 @@ export function UserDataUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const userId = useAuth((state) => state.user?.id)
   const runToast = useToast()
-  const [formCopy, setFormCopy] = useState<Form | null>(null)
-  const { control, formState, handleSubmit, reset } = useForm<Form>({
+  const [formCopy, setFormCopy] = useState<FormType | null>(null)
+  const { control, formState, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       email: '',
@@ -33,7 +33,7 @@ export function UserDataUpdate(): JSX.Element {
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit<FormType>(async (data) => {
     setIsLoading(true)
     try {
       const response = await updateUserData(data)

@@ -1,6 +1,6 @@
-import { Form, Response, Fail } from './schema'
+import { FormType, ResponseType } from './schema'
 
-export const sendForgottenEmail = (data: Form): Promise<Response> => {
+export const sendForgottenEmail = (data: FormType): Promise<ResponseType> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (data.email === correctEmail)
@@ -8,7 +8,7 @@ export const sendForgottenEmail = (data: Form): Promise<Response> => {
 
       reject({
         email: 'email is not in database',
-      } as Fail)
+      })
     }, 3000)
   })
 }

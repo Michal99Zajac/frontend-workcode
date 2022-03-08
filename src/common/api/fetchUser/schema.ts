@@ -1,15 +1,13 @@
 import { z } from 'zod'
 
-import { User } from '../../schemas/User'
+import { UserSchema } from '../../schemas/UserSchema'
 
-export const Form = z.object({
+export const FormSchema = z.object({
   id: z.string().uuid(),
 })
 
-export const Response = z.object({
-  user: User.nullable(),
-})
+export const ResponseSchema = UserSchema
 
-export type Response = z.infer<typeof Response>
+export type ResponseType = z.infer<typeof ResponseSchema>
 
-export type Form = z.infer<typeof Form>
+export type FormType = z.infer<typeof FormSchema>

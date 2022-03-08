@@ -1,8 +1,6 @@
-import { authUser } from '../../../fixtures'
+import { FormType, ResponseType } from './schema'
 
-import { Form, Response, Fail } from './schema'
-
-export const signin = (data: Form): Promise<Response> => {
+export const signin = (data: FormType): Promise<ResponseType> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (
@@ -10,7 +8,11 @@ export const signin = (data: Form): Promise<Response> => {
         data.password === correctUser.password
       ) {
         resolve({
-          user: authUser,
+          user: {
+            id: 'd04a84b7-b866-4b55-8d79-2f47edb07d13',
+            email: data.email,
+            permissions: ['USER'],
+          },
           token: 'afafasbfjhjbejb',
         })
       }
@@ -18,8 +20,8 @@ export const signin = (data: Form): Promise<Response> => {
       reject({
         email: 'email is required',
         password: 'password is too week',
-      } as Fail)
-    }, 1000)
+      })
+    }, 4000)
   })
 }
 

@@ -14,8 +14,8 @@ export const Fail = z.object({
   email: z.string().optional(),
 })
 
-export type Form = z.infer<typeof Form>
+export type FormType = z.infer<typeof Form>
 
-export type Response = z.infer<typeof Response>
+export type ResponseType = z.infer<typeof Response>
 
-export type Fail = z.infer<typeof Fail>
+export type FailType = z.infer<typeof Fail>
