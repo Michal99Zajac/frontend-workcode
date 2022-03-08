@@ -1,142 +1,151 @@
+/* eslint-disable prettier/prettier */
 import React from 'react'
-import { useRoutes, RouteObject, Navigate } from 'react-router-dom'
+import { useRoutes, RouteObject } from 'react-router-dom'
 
-import { EditorWithLayout } from './editor'
-import {
-  MenuWithLayout,
-  Contributors,
-  Invite,
-  Update,
-  Create,
-} from './workspace'
-import {
-  ChangePasswordWithLayout,
-  ForgotPasswordWithLayout,
-  SignUpWithLayout,
-  SignInWithLayout,
-} from './auth'
-import { UserConfigWithLayout } from './config'
-import Guardian from './Guardian'
-import { MainWithLayout, NotFoundWithLayout } from './other'
+import { MainLayout, OperationLayout } from './common/components'
+import { Index, NotFound } from './other'
+import { Menu, Wait, Editor } from './workspace'
+import { ChangePassword, ForgotPassword, SignIn, SignUp } from './auth'
+import { UserConfig } from './config'
+import { PermissionArrayType } from './permissions'
 
-export const routes: RouteObject[] = [
+export interface WorkcodeRouteObject extends RouteObject {
+  path: string // path is required
+  permissions?: PermissionArrayType // permission to page
+  redirect?: string // where to redirect
+  forLogged: boolean // should logged user have access
+  auth?: boolean // should user be logged
+  message?: string // message for no permissions user
+}
+
+export const routes: WorkcodeRouteObject[] = [
   {
     path: '/',
-    element: <MainWithLayout />,
+    index: true,
+    element: (
+      <MainLayout>
+        <Index />
+      </MainLayout>
+    ),
+    permissions: [],
+    forLogged: true,
+    auth: false,
   },
   {
-    path: '/workspace',
+    path: '/workspace/menu',
     element: (
-      <Guardian
-        redirect="/auth/signin"
-        auth
-        permissions={['USER']}
-        message="You should be sign in!"
-      >
-        <MenuWithLayout />
-      </Guardian>
+      <OperationLayout>
+        <Menu />
+      </OperationLayout>
     ),
-    children: [
-      {
-        path: ':workspaceId',
-        children: [
-          {
-            index: true,
-            element: <NotFoundWithLayout />,
-          },
-          {
-            path: 'contributors',
-            element: <Contributors />,
-          },
-          {
-            path: 'invite',
-            element: <Invite />,
-          },
-          {
-            path: 'update',
-            element: <Update />,
-          },
-        ],
-      },
-      {
-        path: 'create',
-        element: <Create />,
-      },
-    ],
+    permissions: ['USER'],
+    redirect: '/auth/signin',
+    forLogged: true,
+    auth: true,
+    message: 'You should be sign in!',
   },
   {
-    path: '/editor',
+    path: '/workspace/wait',
     element: (
-      <Guardian
-        redirect="/auth/signin"
-        auth
-        permissions={['USER']}
-        message="You should be sign in!"
-        outlet
-      />
+      <OperationLayout>
+        <Wait />
+      </OperationLayout>
     ),
-    children: [
-      {
-        path: ':workspaceId',
-        element: <EditorWithLayout />,
-      },
-    ],
+    permissions: ['USER'],
+    redirect: '/auth/signin',
+    forLogged: true,
+    auth: true,
+    message: 'You should be sign in!',
   },
   {
-    path: '/auth',
+    path: '/workspace/editor',
     element: (
-      <Guardian
-        redirect="/"
-        notLogged
-        permissions={[]}
-        message="You are logged!"
-        outlet
-      />
+      <OperationLayout>
+        <Editor />
+      </OperationLayout>
     ),
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/" />,
-      },
-      {
-        path: 'signin',
-        element: <SignInWithLayout />,
-      },
-      {
-        path: 'signup',
-        element: <SignUpWithLayout />,
-      },
-      {
-        path: 'change-password/:token',
-        element: <ChangePasswordWithLayout />,
-      },
-      {
-        path: 'forgot-password',
-        element: <ForgotPasswordWithLayout />,
-      },
-    ],
+    permissions: ['USER'],
+    redirect: '/auth/signin',
+    forLogged: true,
+    auth: true,
+    message: 'You should be sign in!',
+  },
+  {
+    path: '/auth/change-password/:token',
+    element: (
+      <MainLayout>
+        <ChangePassword />
+      </MainLayout>
+    ),
+    permissions: [],
+    redirect: '/',
+    forLogged: false,
+    auth: false,
+    message: 'You are logged',
+  },
+  {
+    path: '/auth/forgot-password',
+    element: (
+      <MainLayout>
+        <ForgotPassword />
+      </MainLayout>
+    ),
+    permissions: [],
+    redirect: '/',
+    forLogged: false,
+    auth: false,
+    message: 'You are logged',
+  },
+  {
+    path: '/auth/signin',
+    element: (
+      <MainLayout>
+        <SignIn />
+      </MainLayout>
+    ),
+    permissions: [],
+    redirect: '/',
+    forLogged: false,
+    auth: false,
+    message: 'You are logged',
+  },
+  {
+    path: '/auth/signup',
+    element: (
+      <MainLayout>
+        <SignUp />
+      </MainLayout>
+    ),
+    permissions: [],
+    redirect: '/',
+    forLogged: false,
+    auth: false,
+    message: 'You are logged',
   },
   {
     path: '/config',
     element: (
-      <Guardian
-        outlet
-        auth
-        message="You should be sign in!"
-        redirect="/auth/signin"
-        permissions={['USER']}
-      />
+      <OperationLayout>
+        <UserConfig />
+      </OperationLayout>
     ),
-    children: [
-      {
-        index: true,
-        element: <UserConfigWithLayout />,
-      },
-    ],
+    permissions: ['USER'],
+    redirect: '/',
+    forLogged: true,
+    auth: true,
+    message: 'You should be sign in!',
   },
   {
     path: '*',
-    element: <NotFoundWithLayout />,
+    element: (
+      <MainLayout>
+        <NotFound />
+      </MainLayout>
+    ),
+    permissions: [],
+    redirect: '/',
+    forLogged: true,
+    auth: false,
   },
 ]
 

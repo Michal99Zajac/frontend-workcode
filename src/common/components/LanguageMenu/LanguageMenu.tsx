@@ -1,17 +1,12 @@
 import React, { useState, useCallback } from 'react'
-import {
-  Menu,
-  MenuButton,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-} from '@chakra-ui/react'
+import { MenuItemOption, MenuOptionGroup } from '@chakra-ui/react'
 
-import { PolishFlagIcon, EnglishFlagIcon } from '../../../icons/flags'
-import { LanguageEnum } from '../../schemas/LanguageEnum'
+import { MenuWindow } from '../MenuWindow'
+import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
+import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageSchema'
 
 export function LanguageMenu(): JSX.Element {
-  const [lang, setLang] = useState<LanguageEnum>(LanguageEnum.enum.ENGLISH)
+  const [lang, setLang] = useState<LanguageEnumType>(LanguageEnum.enum.ENGLISH)
 
   const getLanguageIcon = useCallback(() => {
     switch (lang) {
@@ -29,19 +24,16 @@ export function LanguageMenu(): JSX.Element {
   }
 
   return (
-    <Menu>
-      <MenuButton>{getLanguageIcon()}</MenuButton>
-      <MenuList>
-        <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
-          <MenuItemOption value={LanguageEnum.enum.POLISH}>
-            <PolishFlagIcon /> Polish
-          </MenuItemOption>
-          <MenuItemOption value={LanguageEnum.enum.ENGLISH}>
-            <EnglishFlagIcon /> English
-          </MenuItemOption>
-        </MenuOptionGroup>
-      </MenuList>
-    </Menu>
+    <MenuWindow title="language" menuButton={getLanguageIcon()}>
+      <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
+        <MenuItemOption value={LanguageEnum.enum.POLISH}>
+          <PolishFlagIcon /> Polish
+        </MenuItemOption>
+        <MenuItemOption value={LanguageEnum.enum.ENGLISH}>
+          <EnglishFlagIcon /> English
+        </MenuItemOption>
+      </MenuOptionGroup>
+    </MenuWindow>
   )
 }
 

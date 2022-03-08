@@ -1,12 +1,17 @@
-import { users } from '../../../fixtures'
+import UserImage from '../../../assets/mock/user.jpg'
 
-import { Form, Response } from './schema'
+import { FormType, ResponseType } from './schema'
 
-export const fetchUser = (form: Form): Promise<Response> => {
-  return new Promise<Response>((resolve) => {
+export const fetchUser = (form: FormType): Promise<ResponseType> => {
+  return new Promise<ResponseType>((resolve) => {
     setTimeout(() => {
-      const user = users.find((user) => user.id === form.id)
-      resolve({ user: user || null })
+      resolve({
+        id: form.id,
+        email: 'admin@example.com',
+        firstname: 'Jhon',
+        lastname: 'Snow',
+        src: UserImage,
+      })
     }, 1000)
   })
 }

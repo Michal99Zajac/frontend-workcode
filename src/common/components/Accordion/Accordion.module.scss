@@ -1,0 +1,73 @@
+@import '../../styles/colors.scss';
+
+// accordion
+.accordion {
+  border: 0 !important;
+  border-style: none !important;
+}
+
+// accordion button
+.accordionButton {
+  border: 1px solid transparent;
+
+  &:focus, &:hover {
+    box-shadow: none !important;
+  }
+}
+
+.accordionButtonDark {
+  background-color: $bar-bg--dark !important;
+
+  &:focus, &:hover {
+    border-color: $border-hover--dark;
+  }
+}
+
+.accordionButtonLight {
+  background-color: $bar-bg--light !important;
+
+  &:focus, &:hover {
+    border-color: $border-hover--light;
+  }
+}
+
+// accordion panel
+.accordionPanel {
+  padding: 0 !important;
+}
+
+// accordion item (self)
+.accordionItem {
+  background-color: inherit;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  text-indent: 4px;
+
+  & > * {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.clickAccordionItem {
+  border: 1px solid transparent;
+
+  &:hover, &:focus {
+    border-color: $border-hover--dark;
+    cursor: pointer !important;
+  }
+}
+
+.clickAccordionItemDark {
+  &:hover, &:focus {
+    border-color: $border-hover--dark;
+  }
+}
+
+.clickAccordionItemLight {
+  &:hover, &:focus {
+    border-color: $border-hover--light;
+  }
+}

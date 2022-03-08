@@ -1,31 +1,16 @@
-import { produce } from 'immer'
-import { v4 } from 'uuid'
+import { FormType, ResponseType } from './schema'
 
-import { setUsers, users } from '../../../fixtures'
-
-import { Form, Response, Fail } from './schema'
-
-export const signup = (form: Form): Promise<Response> => {
+export const signup = (form: FormType): Promise<ResponseType> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      setUsers(
-        produce(users, (draft) => {
-          draft.push({
-            id: v4(),
-            email: form.email,
-            lastname: form.lastname,
-            firstname: form.firstname,
-            src: null,
-          })
-        })
-      )
+      console.log(form)
       resolve({
         success: 'You are signed up!',
       })
 
       reject({
         email: 'email is required',
-      } as Fail)
+      })
     }, 4000)
   })
 }

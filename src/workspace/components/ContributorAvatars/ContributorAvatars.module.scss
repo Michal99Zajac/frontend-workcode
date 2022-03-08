@@ -1,7 +1,0 @@
-.stack {
-  @for $index from 1 to 5 {
-    &:hover *:nth-child(#{$index}) {
-      transform: translateX(40px * ($index - 1))
-    }
-  }
-}

@@ -1,18 +1,22 @@
 import React from 'react'
-import { BoxProps, Box, useColorModeValue } from '@chakra-ui/react'
+import clsx from 'clsx'
+import { BoxProps, Box, useColorMode } from '@chakra-ui/react'
+
+import classes from './Surface.module.scss'
 
 export const Surface = React.forwardRef<HTMLDivElement, BoxProps>(
   (props, ref) => {
-    const bg = useColorModeValue('gray.50', 'gray.700')
+    const { surface, surfaceDark, surfaceLight } = classes
+    const { colorMode } = useColorMode()
 
     return (
       <Box
-        ref={ref}
-        bg={bg}
-        boxShadow="lg"
-        borderRadius="md"
-        p="6"
         {...props}
+        ref={ref}
+        className={clsx(
+          surface,
+          colorMode === 'dark' ? surfaceDark : surfaceLight
+        )}
       />
     )
   }
