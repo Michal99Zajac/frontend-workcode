@@ -1,21 +1,19 @@
 import React from 'react'
-import ThemeProvider from '@workcode/components'
+import { ChakraProvider as ThemeProvider } from '@chakra-ui/react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { Error } from './other'
 import { ToastProvider } from './common/context'
-import Guardian from './Guardian'
 import { AppRoutes } from './Routes'
+import { workcodeTheme } from './theme'
 import './App.scss'
 
 export function App(): JSX.Element {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={workcodeTheme}>
       <ErrorBoundary FallbackComponent={Error}>
         <ToastProvider>
-          <Guardian>
-            <AppRoutes />
-          </Guardian>
+          <AppRoutes />
         </ToastProvider>
       </ErrorBoundary>
     </ThemeProvider>

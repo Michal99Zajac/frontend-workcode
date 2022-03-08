@@ -1,12 +1,12 @@
-import { FormType, ResponseType, FailType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const deleteAccount = (form: FormType): Promise<ResponseType> =>
+export const deleteAccount = (form: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       if (form.password !== 'password') {
         reject({
           password: 'Password is incorrect',
-        } as FailType)
+        } as Fail)
       }
 
       resolve({
