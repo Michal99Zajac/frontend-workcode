@@ -19,11 +19,11 @@ export function ChangePassword(): JSX.Element {
   const runToast = useToast()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const { control, formState, handleSubmit } = useForm({
+  const { control, formState, handleSubmit } = useForm<FormType>({
     resolver: zodResolver(Form),
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
 
     if (data.password !== data.repeatedPassword) {
@@ -33,7 +33,7 @@ export function ChangePassword(): JSX.Element {
     }
 
     try {
-      const response = await changePassword(Form.parse(data))
+      const response = await changePassword(data)
       runToast(response, 'Success', 'success')
       navigate('/auth/signin')
     } catch (error) {

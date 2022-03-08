@@ -20,12 +20,12 @@ import { Window } from '../../../common/components'
 export function SignUp(): JSX.Element {
   const navigation = useNavigate()
   const runToast = useToast()
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm<FormType>({
     resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
 
     try {
@@ -40,7 +40,7 @@ export function SignUp(): JSX.Element {
     }
 
     try {
-      const response = await signup(Form.parse(data))
+      const response = await signup(data)
       runToast(response, 'Success', 'success')
       navigation('/auth/signin')
     } catch (error) {

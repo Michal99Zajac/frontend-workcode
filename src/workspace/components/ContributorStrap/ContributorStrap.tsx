@@ -15,7 +15,12 @@ import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
 import { ContributorType } from '../../schemas'
 import { LeaveIcon } from '../../../icons/common'
-import { removeContributor, Form, Fail } from '../../api/removeContributor'
+import {
+  removeContributor,
+  Form,
+  Fail,
+  FormType,
+} from '../../api/removeContributor'
 
 interface ContributorStrapProps {
   contributor: ContributorType
@@ -30,7 +35,7 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
   const errorBG = useColorModeValue('red.50', 'red.300')
   const [failMessage, setFailMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { handleSubmit } = useForm({
+  const { handleSubmit } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       userId: contributor.id,

@@ -33,7 +33,7 @@ export function UserDataUpdate(): JSX.Element {
     },
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
       const response = await updateUserData(data)

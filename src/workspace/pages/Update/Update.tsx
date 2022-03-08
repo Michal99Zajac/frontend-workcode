@@ -38,20 +38,21 @@ export function Update(): JSX.Element {
   const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const runToast = useToast()
-  const { control, formState, handleSubmit, reset, setValue } = useForm({
-    resolver: zodResolver(Form),
-    defaultValues: {
-      id: '',
-      name: '',
-      description: '',
-      code: CodeType.enum.JAVASCRIPT,
-    },
-  })
+  const { control, formState, handleSubmit, reset, setValue } =
+    useForm<FormType>({
+      resolver: zodResolver(Form),
+      defaultValues: {
+        id: '',
+        name: '',
+        description: '',
+        code: CodeType.enum.JAVASCRIPT,
+      },
+    })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await updateWorkspace(Form.parse(data))
+      const response = await updateWorkspace(data)
       runToast({ success: response.success }, 'Success', 'success')
     } catch (error) {
       const fail = Fail.parse(error)

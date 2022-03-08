@@ -8,7 +8,7 @@ type Type =
   | 'symbol'
   | 'undefined'
 
-export const typo = (type: Type, value: string | null) => {
+export const parseQ = (type: Type, value: string | null) => {
   if (value === null) return null
 
   switch (type) {
@@ -25,4 +25,4 @@ export const typo = (type: Type, value: string | null) => {
   }
 }
 
-export default typo
+export default parseQ

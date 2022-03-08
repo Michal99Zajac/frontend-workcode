@@ -44,18 +44,16 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const runToast = useToast()
   const lastQuery = useWorkspaceQuery()
   const { handleSubmit, control, setValue, reset, getValues } =
-    useQueryForm<FormType>(
-      {
-        resolver: zodResolver(Form),
-        defaultValues: {
-          self: false,
-          workspace: '',
-          owner: '',
-          code: FormCode.enum.ALL,
-        },
+    useQueryForm<FormType>({
+      resolver: zodResolver(Form),
+      schema: Form,
+      defaultValues: {
+        self: false,
+        workspace: '',
+        owner: '',
+        code: FormCode.enum.ALL,
       },
-      Form as any
-    )
+    })
 
   const fetchWorkspaces = async (data: FormType) => {
     setIsLoading(true)

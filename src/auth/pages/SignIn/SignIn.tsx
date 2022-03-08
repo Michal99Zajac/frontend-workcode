@@ -22,15 +22,15 @@ export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
   const runToast = useToast()
   const navigation = useNavigate()
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm<FormType>({
     resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await signin(Form.parse(data))
+      const response = await signin(data)
       login(
         {
           id: response.user.id,

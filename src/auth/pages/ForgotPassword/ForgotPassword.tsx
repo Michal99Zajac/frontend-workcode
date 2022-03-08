@@ -29,14 +29,14 @@ export function ForgotPassword(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const runToast = useToast()
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm<FormType>({
     resolver: zodResolver(Form),
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      await sendForgottenEmail(Form.parse(data))
+      await sendForgottenEmail(data)
       runToast(
         { success: 'Email for password change has been sent' },
         'Success',

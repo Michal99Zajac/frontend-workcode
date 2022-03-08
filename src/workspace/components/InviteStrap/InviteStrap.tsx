@@ -14,7 +14,12 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { UserType } from '../../../common/schemas'
-import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
+import {
+  Form,
+  Fail,
+  inviteContributor,
+  FormType,
+} from '../../api/inviteContributor'
 
 import { InviteStatusType } from './InviteStatus'
 
@@ -28,7 +33,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
   const [failMessage, setFailMessage] = useState('')
-  const { handleSubmit } = useForm({
+  const { handleSubmit } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       userId: user.id,

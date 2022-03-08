@@ -52,7 +52,7 @@ export function Invite(): JSX.Element {
     count: 0,
   })
   const runToast = useToast()
-  const { control, handleSubmit, setValue, watch } = useForm({
+  const { control, handleSubmit, setValue, watch } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       search: '',
@@ -63,10 +63,10 @@ export function Invite(): JSX.Element {
   })
   const search = watch('search', '')
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await getUsers(Form.parse(data))
+      const response = await getUsers(data)
       setUsers(
         produce((draft) => {
           draft.users = response.users

@@ -33,6 +33,10 @@ export function Menu(): JSX.Element {
   const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
 
+  // TODO: add all area link click
+  // TODO: add delete option
+  // TODO: add leave option
+
   return (
     <Box h="100%" w="100%">
       <Stack p={5} spacing={5} h="100%">

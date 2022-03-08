@@ -36,7 +36,7 @@ export function Create(): JSX.Element {
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const navigate = useNavigate()
   const runToast = useToast()
-  const { control, formState, handleSubmit, setValue } = useForm({
+  const { control, formState, handleSubmit, setValue } = useForm<FormType>({
     resolver: zodResolver(Form),
     defaultValues: {
       name: '',
@@ -45,10 +45,10 @@ export function Create(): JSX.Element {
     },
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await createWorkspace(Form.parse(data))
+      const response = await createWorkspace(data)
       runToast({ success: response.success }, 'Success', 'success')
       refetchWorkspaces && refetchWorkspaces()
       navigate(`/workspace${lastQuery}`)

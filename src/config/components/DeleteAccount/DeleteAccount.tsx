@@ -33,15 +33,15 @@ export function DeleteAccount(): JSX.Element {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm<FormType>({
     resolver: zodResolver(Form),
   })
   const runToast = useToast()
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await deleteAccount(Form.parse(data))
+      const response = await deleteAccount(data)
       runToast(response, 'Success', 'success')
       logout()
       navigate('/')

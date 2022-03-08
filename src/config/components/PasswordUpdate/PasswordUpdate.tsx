@@ -33,7 +33,7 @@ export function PasswordUpdate(): JSX.Element {
     },
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
 
     if (data.password !== data.repeatedPassword) {
