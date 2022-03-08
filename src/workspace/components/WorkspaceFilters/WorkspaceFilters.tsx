@@ -71,7 +71,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   }
 
   useEffect(() => {
-    const data = Form.parse(getValues())
+    const data = getValues()
     fetchWorkspaces(data)
     setRefetch(() => fetchWorkspaces(data))
   }, [])

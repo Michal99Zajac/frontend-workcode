@@ -1,5 +1,7 @@
+import React from 'react'
 import {
   CopyIcon,
+  DeleteIcon,
   EditIcon,
   HamburgerIcon,
   PlusSquareIcon,
@@ -12,10 +14,9 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { useWorkspaceCopy } from '../../hooks'
+import { useWorkspaceCopy, useDeleteWorkspace } from '../../hooks'
 
 interface RecordMenuProps {
   workspaceId: string
@@ -25,10 +26,12 @@ interface RecordMenuProps {
 export function RecordMenu(props: RecordMenuProps): JSX.Element {
   const { workspaceId, isOwner } = props
   const [copy, hasCopied] = useWorkspaceCopy(workspaceId)
+  const [deleteWorkspace, isLoading] = useDeleteWorkspace(workspaceId)
 
   return (
     <Menu>
       <MenuButton
+        isLoading={isLoading}
         as={IconButton}
         variant="ghost"
         colorScheme="gray"
@@ -52,7 +55,25 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
         <MenuItem onClick={copy}>
           <CopyIcon mr={4} /> {!hasCopied ? 'Copy Link' : 'Copied'}
         </MenuItem>
-        <MenuItem>Delete</MenuItem>
+        {isOwner ? (
+          <MenuItem
+            _hover={{
+              bg: 'red.500',
+            }}
+            onClick={deleteWorkspace}
+          >
+            <DeleteIcon mr={4} /> Delete
+          </MenuItem>
+        ) : (
+          <MenuItem
+            _hover={{
+              bg: 'red.500',
+            }}
+            onClick={deleteWorkspace}
+          >
+            <DeleteIcon mr={4} /> Delete
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   )
