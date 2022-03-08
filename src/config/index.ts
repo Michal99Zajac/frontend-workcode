@@ -1,1 +1,1 @@
-export { UserConfig } from './pages/UserConfig'
+export * from './pages'

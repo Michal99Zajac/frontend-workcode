@@ -1,115 +1,93 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import clsx from 'clsx'
 import {
   Avatar,
-  useColorMode,
-  Spinner,
   Flex,
   Heading,
-  Box,
   Stack,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  SkeletonCircle,
 } from '@chakra-ui/react'
 
-import { Accordion, AccordionItem } from '../Accordion'
-import { MenuWindow } from '../MenuWindow'
 import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
-import { UserType } from '../../schemas/UserSchema'
+import { User } from '../../schemas/User'
 
-import classes from './UserBucket.module.scss'
+import { AvatarButtonStyle } from './styles'
 
 export function UserBucket(): JSX.Element | null {
-  const { colorMode } = useColorMode()
   const { user, logout } = useAuth((state) => ({
     user: state.user,
     logout: state.logout,
   }))
   const navigate = useNavigate()
-  const [loggedUser, setLoggedUser] = useState<UserType | null>(null)
+  const [loggedUser, setLoggedUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const isDark = colorMode === 'dark'
 
-  const fetchImage = useCallback(async () => {
+  const fetchCurrentUser = useCallback(async () => {
     setIsLoading(true)
     try {
       if (!user) throw new Error('User is not logged')
       const response = await fetchUser({ id: user.id })
 
-      setLoggedUser(response)
+      setLoggedUser(response.user)
     } catch (error) {
       console.error(error)
     }
     setIsLoading(false)
   }, [user])
 
-  useEffect(() => {
-    fetchImage()
-  }, [])
-
   const logoutUser = useCallback(async () => {
     logout()
     navigate('/')
   }, [user, logout])
 
-  const menuButton = useMemo(
-    () => (
-      <Avatar
-        size="sm"
-        fontSize="1.2rem"
-        src={loggedUser?.src || undefined}
-        name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-        className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
-      />
-    ),
-    [loggedUser]
-  )
+  useEffect(() => {
+    fetchCurrentUser()
+  }, [])
 
-  if (isLoading) return <Spinner />
+  if (isLoading) return <SkeletonCircle />
 
   return (
-    <MenuWindow
-      title="User"
-      placement="right-end"
-      menuButton={menuButton}
-      menuButtonClassName={clsx(
-        classes.menu,
-        isDark ? classes.darkMenu : classes.lightMenu
-      )}
-    >
-      <Flex py={2} px={3} alignItems="center">
+    <Menu placement="right-start">
+      <MenuButton>
         <Avatar
-          size="xs"
-          fontSize="1.2rem"
+          {...AvatarButtonStyle}
           src={loggedUser?.src || undefined}
           name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-          className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
-          mr={2}
         />
-        <Stack spacing={0}>
-          <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
-          <Text fontSize="xs">{loggedUser?.email}</Text>
-        </Stack>
-      </Flex>
-      <Accordion isInitialOpen title="Actions">
-        <AccordionItem isClickable>
-          <Box fontSize="xs" as={Link} to="/config">
-            config
-          </Box>
-        </AccordionItem>
-        <AccordionItem isClickable>
-          <Box fontSize="xs" as={Link} to="/workspace/menu">
-            menu
-          </Box>
-        </AccordionItem>
-        <AccordionItem isClickable={true}>
-          <Box fontSize="xs" onClick={logoutUser}>
-            logout
-          </Box>
-        </AccordionItem>
-      </Accordion>
-    </MenuWindow>
+      </MenuButton>
+      <MenuList zIndex="modal">
+        <Flex py={2} px={3} alignItems="center">
+          <Avatar
+            size="sm"
+            src={loggedUser?.src || undefined}
+            name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+            mr={2}
+          />
+          <Stack spacing={0}>
+            <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
+            <Text fontSize="xs">{loggedUser?.email}</Text>
+          </Stack>
+        </Flex>
+        <MenuDivider />
+        <MenuItem as={Link} to="/config">
+          Configuration
+        </MenuItem>
+        <MenuItem as={Link} to="/workspace">
+          Workspaces
+        </MenuItem>
+        <MenuItem as={Link} to="/">
+          Menu
+        </MenuItem>
+        <MenuItem onClick={logoutUser}>Logout</MenuItem>
+      </MenuList>
+    </Menu>
   )
 }
 

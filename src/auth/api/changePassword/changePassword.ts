@@ -1,16 +1,16 @@
-import { FormType, ResponseType, FailType } from './schema'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Form, Response, Fail } from './schema'
 
-export const changePassword = (data: FormType): Promise<ResponseType> => {
+export const changePassword = (data: Form): Promise<Response> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(data)
       resolve({
         success: 'Password has been changed',
       })
 
       reject({
         password: 'Password is too weak',
-      } as FailType)
+      } as Fail)
     }, 4000)
   })
 }

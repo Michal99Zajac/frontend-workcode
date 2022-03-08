@@ -1,8 +1,6 @@
 import Draggable, { DraggableBounds, ControlPosition } from 'react-draggable'
 import clsx from 'clsx'
 
-import classes from './DragPocket.module.scss'
-
 interface DragPocketProps {
   bounds?: string | DraggableBounds
   defaultClassName?: string
@@ -23,10 +21,8 @@ export function DragPocket(props: DragPocketProps): JSX.Element {
   return (
     <Draggable
       bounds={bounds ? bounds : 'parent'}
-      defaultClassName={clsx(defaultClassName || classes.grab)}
-      defaultClassNameDragging={clsx(
-        defaultClassNameDragging || classes.grabbing
-      )}
+      defaultClassName={clsx(defaultClassName)}
+      defaultClassNameDragging={clsx(defaultClassNameDragging)}
       defaultPosition={defaultPosition}
     >
       {children}
