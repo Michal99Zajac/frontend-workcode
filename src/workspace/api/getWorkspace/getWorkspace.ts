@@ -1,8 +1,8 @@
 import { workspaces } from '../../../fixtures'
 
-import { FormType, ResponseType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const getWorkspace = (data: FormType): Promise<ResponseType> =>
+export const getWorkspace = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       const workspace = workspaces.find(
@@ -18,7 +18,7 @@ export const getWorkspace = (data: FormType): Promise<ResponseType> =>
       } else {
         reject({
           error: 'Workspace doesnt exists',
-        })
+        } as Fail)
       }
     }, 6000)
   })

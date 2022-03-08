@@ -2,10 +2,10 @@ import { v4 } from 'uuid'
 import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 
-import { UserType, AuthUserType } from './common/schemas'
-import { WorkspaceType, CodeType, WorkspaceRole } from './workspace/schemas'
+import { User, AuthUser } from './common/schemas'
+import { Workspace, CodeType, WorkspaceRole } from './workspace/schemas'
 
-export let users: UserType[] = Array(100)
+export let users: User[] = Array(100)
   .fill(null)
   .map(() => ({
     email: faker.internet.email(),
@@ -15,15 +15,15 @@ export let users: UserType[] = Array(100)
     src: faker.image.avatar(),
   }))
 
-export let currentUser: UserType = users[50]
+export let currentUser: User = users[50]
 
-export const authUser: AuthUserType = {
+export const authUser: AuthUser = {
   email: currentUser.email,
   id: currentUser.id,
   permissions: ['USER'],
 }
 
-export let workspaces: WorkspaceType[] = Array(100)
+export let workspaces: Workspace[] = Array(100)
   .fill(null)
   .map(() => ({
     id: v4(),
@@ -48,14 +48,14 @@ export let workspaces: WorkspaceType[] = Array(100)
       })),
   }))
 
-export const setWorkspaces = (newWorkspaces: WorkspaceType[]): void => {
+export const setWorkspaces = (newWorkspaces: Workspace[]): void => {
   workspaces = newWorkspaces
 }
 
-export const setCurrentUser = (newCurrentUser: UserType): void => {
+export const setCurrentUser = (newCurrentUser: User): void => {
   currentUser = newCurrentUser
 }
 
-export const setUsers = (newUsers: UserType[]): void => {
+export const setUsers = (newUsers: User[]): void => {
   users = newUsers
 }

@@ -1,11 +1,11 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { FormType } from '../../api/getWorkspaces'
+import { Form } from '../../api/getWorkspaces'
 
-type UpdateQuery = (query: FormType) => void
+type UpdateQuery = (query: Form) => void
 interface WorkspaceQueryStore {
-  query: FormType
+  query: Form
   update: UpdateQuery
   q: string
 }

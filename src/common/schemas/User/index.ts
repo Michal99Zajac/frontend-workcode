@@ -8,4 +8,4 @@ export const User = z.object({
   src: z.string().nullable(), // src to profile image
 })
 
-export type UserType = z.infer<typeof User>
+export type User = z.infer<typeof User>

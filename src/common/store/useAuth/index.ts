@@ -1,12 +1,12 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { AuthUserType } from '../../schemas/AuthUser'
+import { AuthUser } from '../../schemas/AuthUser'
 
 export interface AuthStore {
-  user: AuthUserType | null
+  user: AuthUser | null
   token: string | null
-  login: (user: AuthUserType, token: string) => void
+  login: (user: AuthUser, token: string) => void
   logout: () => void
 }
 

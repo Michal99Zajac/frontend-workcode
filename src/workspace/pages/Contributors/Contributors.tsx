@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 
 import { ContributorStrap, StrapSkeleton } from '../../components'
-import { WorkspaceType } from '../../schemas/Workspace'
+import { Workspace } from '../../schemas/Workspace'
 import { getWorkspace, Fail } from '../../api/getWorkspace'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../../common/store'
@@ -23,7 +23,7 @@ export function Contributors(): JSX.Element {
   const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const [isLoading, setIsLoading] = useState(true)
-  const [workspace, setWorkspace] = useState<WorkspaceType | null>()
+  const [workspace, setWorkspace] = useState<Workspace | null>()
 
   const fetchWorkspace = useCallback(async () => {
     setIsLoading(true)

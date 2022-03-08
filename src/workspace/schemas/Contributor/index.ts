@@ -7,4 +7,4 @@ export const Contributor = User.extend({
   role: WorkspaceRole,
 })
 
-export type ContributorType = z.infer<typeof Contributor>
+export type Contributor = z.infer<typeof Contributor>

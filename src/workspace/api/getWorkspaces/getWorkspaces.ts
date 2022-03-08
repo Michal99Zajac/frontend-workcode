@@ -1,8 +1,8 @@
 import { workspaces, currentUser } from '../../../fixtures'
 
-import { ResponseType, FailType, FormType } from './schema'
+import { Response, Form, Fail } from './schema'
 
-export const getWorkspaces = (form: FormType): Promise<ResponseType> =>
+export const getWorkspaces = (form: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({
@@ -32,7 +32,7 @@ export const getWorkspaces = (form: FormType): Promise<ResponseType> =>
 
       reject({
         error: 'Something went wrong.',
-      } as FailType)
+      } as Fail)
     }, 500)
   })
 

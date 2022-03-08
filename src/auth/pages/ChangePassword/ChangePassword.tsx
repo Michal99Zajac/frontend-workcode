@@ -13,13 +13,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Window } from '../../../common/components'
 import { useToast } from '../../../common/hooks'
-import { changePassword, Form, Fail, FormType } from '../../api/changePassword'
+import { changePassword, Fail, Form } from '../../api/changePassword'
 
 export function ChangePassword(): JSX.Element {
   const runToast = useToast()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const { control, formState, handleSubmit } = useForm<FormType>({
+  const { control, formState, handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
   })
 

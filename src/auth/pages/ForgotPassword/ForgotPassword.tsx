@@ -18,18 +18,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { Window } from '../../../common/components'
 import { useToast } from '../../../common/hooks'
-import {
-  sendForgottenEmail,
-  Form,
-  FormType,
-  Fail,
-} from '../../api/sendForgottenEmail'
+import { sendForgottenEmail, Form, Fail } from '../../api/sendForgottenEmail'
 
 export function ForgotPassword(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const runToast = useToast()
-  const { control, handleSubmit, formState } = useForm<FormType>({
+  const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
 

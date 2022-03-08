@@ -8,4 +8,4 @@ export const Navigation = z.object({
   first: z.number(),
 })
 
-export type NavigationType = z.infer<typeof Navigation>
+export type Navigation = z.infer<typeof Navigation>

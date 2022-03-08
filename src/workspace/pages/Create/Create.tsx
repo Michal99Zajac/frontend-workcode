@@ -19,12 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 
 import { FilterSelect } from '../../../common/components'
-import {
-  Form,
-  FormType,
-  Fail,
-  createWorkspace,
-} from '../../api/createWorkspace'
+import { Form, Fail, createWorkspace } from '../../api/createWorkspace'
 import { useToast } from '../../../common/hooks'
 import { CodeType } from '../../schemas'
 import { codeTypeOptions, CodeTypeOption } from '../../utils'
@@ -36,7 +31,7 @@ export function Create(): JSX.Element {
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const navigate = useNavigate()
   const runToast = useToast()
-  const { control, formState, handleSubmit, setValue } = useForm<FormType>({
+  const { control, formState, handleSubmit, setValue } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       name: '',

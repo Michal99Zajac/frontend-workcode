@@ -9,14 +9,14 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
-import { ContributorType } from '../../schemas'
+import { Contributor } from '../../schemas'
 import { MoreIcon } from '../../../icons/common'
 
 import classes from './ContributorAvatars.module.scss'
 
 interface ContributorAvatarsProps {
   workspaceId: string
-  contributors: ContributorType[]
+  contributors: Contributor[]
   isOwner?: boolean
 }
 

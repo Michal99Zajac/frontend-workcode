@@ -10,4 +10,4 @@ export const LocationState = z
   })
   .nullable()
 
-export type LocationStateType = z.infer<typeof LocationState>
+export type LocationState = z.infer<typeof LocationState>

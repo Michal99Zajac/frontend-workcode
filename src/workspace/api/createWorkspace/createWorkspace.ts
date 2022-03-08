@@ -1,15 +1,15 @@
 import { v4 } from 'uuid'
 import dayjs from 'dayjs'
 
-import { CodeType, WorkspaceType } from '../../schemas'
+import { CodeType, Workspace } from '../../schemas'
 import { currentUser, workspaces } from '../../../fixtures'
 
-import { FormType, ResponseType, FailType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const createWorkspace = (data: FormType): Promise<ResponseType> =>
+export const createWorkspace = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      const workspace: WorkspaceType = {
+      const workspace: Workspace = {
         id: v4(),
         admin: currentUser,
         code: CodeType.parse(data.code),
@@ -24,7 +24,7 @@ export const createWorkspace = (data: FormType): Promise<ResponseType> =>
         workspace: workspace,
       })
 
-      reject({ error: 'Something went wrong' } as FailType)
+      reject({ error: 'Something went wrong' } as Fail)
     }, 2000)
   })
 

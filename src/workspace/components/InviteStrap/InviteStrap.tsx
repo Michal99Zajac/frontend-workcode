@@ -13,18 +13,13 @@ import { AddIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { UserType } from '../../../common/schemas'
-import {
-  Form,
-  Fail,
-  inviteContributor,
-  FormType,
-} from '../../api/inviteContributor'
+import { User } from '../../../common/schemas'
+import { Form, Fail, inviteContributor } from '../../api/inviteContributor'
 
 import { InviteStatusType } from './InviteStatus'
 
 interface InviteStrapProps {
-  user: UserType
+  user: User
   workspaceId: string
 }
 
@@ -33,7 +28,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
   const [failMessage, setFailMessage] = useState('')
-  const { handleSubmit } = useForm<FormType>({
+  const { handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       userId: user.id,

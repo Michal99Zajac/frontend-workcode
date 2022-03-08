@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormType, ResponseType, FailType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const removeContributor = (form: FormType): Promise<ResponseType> =>
+export const removeContributor = (form: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       if (Math.floor(10 * Math.random()) !== 0) {
         resolve({ success: 'Contributor has been removed' })
       } else {
-        reject({ error: 'Something went wrong' } as FailType)
+        reject({ error: 'Something went wrong' } as Fail)
       }
     }, 1000)
   })

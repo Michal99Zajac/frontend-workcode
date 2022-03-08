@@ -1,8 +1,8 @@
-import { FormType, ResponseType, FailType } from './schema'
+import { Form, Response, Fail } from './schema'
 
 let count = 0
 
-export const accessWorkspace = (data: FormType): Promise<ResponseType> =>
+export const accessWorkspace = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       count++
@@ -22,7 +22,7 @@ export const accessWorkspace = (data: FormType): Promise<ResponseType> =>
 
       reject({
         error: 'Workspace doesnt exists',
-      } as FailType)
+      } as Fail)
     }, 1000)
   })
 

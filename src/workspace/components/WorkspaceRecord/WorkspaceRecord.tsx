@@ -5,12 +5,12 @@ import dayjs from 'dayjs'
 
 import { AvatarTag } from '../AvatarTag'
 import { ContributorAvatars } from '../ContributorAvatars'
-import { WorkspaceType } from '../../schemas'
+import { Workspace } from '../../schemas'
 import { codeColors } from '../../utils'
 import RecordMenu from '../RecordMenu'
 
 interface WorkspaceRecordProps {
-  workspace: WorkspaceType
+  workspace: Workspace
   isOwner?: boolean
 }
 

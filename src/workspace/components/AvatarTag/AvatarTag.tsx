@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tag, Avatar, TagLabel, SkeletonCircle, HStack } from '@chakra-ui/react'
 
-import { UserType } from '../../../common/schemas'
+import { User } from '../../../common/schemas'
 
 interface AvatarTagProps {
-  user?: UserType
+  user?: User
 }
 
 export function AvatarTag(props: AvatarTagProps): JSX.Element {

@@ -4,6 +4,6 @@ export const LanguageEnum = z.enum(['POLISH', 'ENGLISH'])
 
 export const LanguageEnumArray = LanguageEnum.array()
 
-export type LanguageEnumType = z.infer<typeof LanguageEnum>
+export type LanguageEnum = z.infer<typeof LanguageEnum>
 
-export type LanguageEnumArrayType = z.infer<typeof LanguageEnumArray>
+export type LanguageEnumArray = z.infer<typeof LanguageEnumArray>

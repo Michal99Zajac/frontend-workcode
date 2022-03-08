@@ -10,6 +10,6 @@ export const Response = z.object({
   user: User.nullable(),
 })
 
-export type ResponseType = z.infer<typeof Response>
+export type Response = z.infer<typeof Response>
 
-export type FormType = z.infer<typeof Form>
+export type Form = z.infer<typeof Form>

@@ -14,4 +14,4 @@ export const Workspace = z.object({
   contributors: Contributor.array(),
 })
 
-export type WorkspaceType = z.infer<typeof Workspace>
+export type Workspace = z.infer<typeof Workspace>

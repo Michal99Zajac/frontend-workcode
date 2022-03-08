@@ -15,20 +15,13 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons'
 
 import { useQueryForm, useToast } from '../../../common/hooks'
-import {
-  getWorkspaces,
-  Fail,
-  Form,
-  FormType,
-  FormCode,
-  FormCodeType,
-} from '../../api/getWorkspaces'
-import { WorkspaceType } from '../../schemas'
+import { getWorkspaces, Fail, Form, FormCode } from '../../api/getWorkspaces'
+import { Workspace } from '../../schemas'
 import { FilterSelect } from '../../../common/components'
 import { FolderIcon, UserIcon } from '../../../icons/common'
 import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
-type SetWorkspaces = (workspaces: WorkspaceType[]) => void
+type SetWorkspaces = (workspaces: Workspace[]) => void
 type SetIsLoading = (isLoading: boolean) => void
 
 interface WorkspaceFiltersProps {
@@ -44,7 +37,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const runToast = useToast()
   const lastQuery = useWorkspaceQuery()
   const { handleSubmit, control, setValue, reset, getValues } =
-    useQueryForm<FormType>({
+    useQueryForm<Form>({
       resolver: zodResolver(Form),
       schema: Form,
       defaultValues: {
@@ -55,7 +48,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
       },
     })
 
-  const fetchWorkspaces = async (data: FormType) => {
+  const fetchWorkspaces = async (data: Form) => {
     setIsLoading(true)
 
     try {
@@ -129,7 +122,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
                   value: option,
                 }))}
                 onChange={(option) =>
-                  setValue('code', option.value as FormCodeType)
+                  setValue('code', option.value as FormCode)
                 }
                 value={{
                   value: FormCode.options.find(

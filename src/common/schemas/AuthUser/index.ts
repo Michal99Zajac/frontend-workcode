@@ -8,4 +8,4 @@ export const AuthUser = z.object({
   permissions: Permission.array(),
 })
 
-export type AuthUserType = z.infer<typeof AuthUser>
+export type AuthUser = z.infer<typeof AuthUser>

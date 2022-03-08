@@ -13,14 +13,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { signup, Form, FormType, Fail } from '../../api/signup'
+import { signup, Form, Fail } from '../../api/signup'
 import { useToast } from '../../../common/hooks'
 import { Window } from '../../../common/components'
 
 export function SignUp(): JSX.Element {
   const navigation = useNavigate()
   const runToast = useToast()
-  const { control, handleSubmit, formState } = useForm<FormType>({
+  const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)

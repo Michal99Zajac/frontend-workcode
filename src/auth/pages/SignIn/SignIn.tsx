@@ -13,7 +13,7 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
-import { signin, Form, FormType, Fail } from '../../api/signin'
+import { signin, Form, Fail } from '../../api/signin'
 import { Window } from '../../../common/components'
 import { useAuth } from '../../../common/store'
 import { useToast } from '../../../common/hooks'
@@ -22,7 +22,7 @@ export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
   const runToast = useToast()
   const navigation = useNavigate()
-  const { control, handleSubmit, formState } = useForm<FormType>({
+  const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
   const [isLoading, setIsLoading] = useState(false)

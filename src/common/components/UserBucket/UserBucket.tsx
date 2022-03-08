@@ -16,7 +16,7 @@ import {
 
 import { useAuth } from '../../store'
 import { fetchUser } from '../../api'
-import { UserType } from '../../schemas/User'
+import { User } from '../../schemas/User'
 
 import { AvatarButtonStyle } from './styles'
 
@@ -26,7 +26,7 @@ export function UserBucket(): JSX.Element | null {
     logout: state.logout,
   }))
   const navigate = useNavigate()
-  const [loggedUser, setLoggedUser] = useState<UserType | null>(null)
+  const [loggedUser, setLoggedUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchCurrentUser = useCallback(async () => {

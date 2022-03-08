@@ -13,17 +13,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
-import { ContributorType } from '../../schemas'
+import { Contributor } from '../../schemas'
 import { LeaveIcon } from '../../../icons/common'
-import {
-  removeContributor,
-  Form,
-  Fail,
-  FormType,
-} from '../../api/removeContributor'
+import { removeContributor, Form, Fail } from '../../api/removeContributor'
 
 interface ContributorStrapProps {
-  contributor: ContributorType
+  contributor: Contributor
   workspaceId: string
   isOwner?: boolean
 }
@@ -35,7 +30,7 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
   const errorBG = useColorModeValue('red.50', 'red.300')
   const [failMessage, setFailMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { handleSubmit } = useForm<FormType>({
+  const { handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       userId: contributor.id,

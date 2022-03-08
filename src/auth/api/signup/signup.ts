@@ -3,9 +3,9 @@ import { v4 } from 'uuid'
 
 import { setUsers, users } from '../../../fixtures'
 
-import { FormType, ResponseType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const signup = (form: FormType): Promise<ResponseType> => {
+export const signup = (form: Form): Promise<Response> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       setUsers(
@@ -25,7 +25,7 @@ export const signup = (form: FormType): Promise<ResponseType> => {
 
       reject({
         email: 'email is required',
-      })
+      } as Fail)
     }, 4000)
   })
 }

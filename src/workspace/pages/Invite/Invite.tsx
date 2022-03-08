@@ -22,13 +22,7 @@ import { produce } from 'immer'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Pagination } from '../../../common/components'
-import {
-  getUsers,
-  Form,
-  Fail,
-  FormType,
-  ResponseType,
-} from '../../api/getUsers'
+import { getUsers, Form, Fail, Response } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
 import { LoseConnection } from '../../../icons/common'
 import { StrapSkeleton, InviteStrap } from '../../components'
@@ -40,7 +34,7 @@ export function Invite(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true)
   const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
-  const [users, setUsers] = useState<ResponseType>({
+  const [users, setUsers] = useState<Response>({
     users: [],
     navigation: {
       first: 0,
@@ -52,7 +46,7 @@ export function Invite(): JSX.Element {
     count: 0,
   })
   const runToast = useToast()
-  const { control, handleSubmit, setValue, watch } = useForm<FormType>({
+  const { control, handleSubmit, setValue, watch } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       search: '',

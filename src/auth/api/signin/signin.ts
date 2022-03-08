@@ -1,8 +1,8 @@
 import { authUser } from '../../../fixtures'
 
-import { FormType, ResponseType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const signin = (data: FormType): Promise<ResponseType> => {
+export const signin = (data: Form): Promise<Response> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (
@@ -18,7 +18,7 @@ export const signin = (data: FormType): Promise<ResponseType> => {
       reject({
         email: 'email is required',
         password: 'password is too week',
-      })
+      } as Fail)
     }, 1000)
   })
 }

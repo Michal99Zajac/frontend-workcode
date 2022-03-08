@@ -1,9 +1,9 @@
 import { users } from '../../../fixtures'
 
-import { FormType, ResponseType } from './schema'
+import { Form, Response } from './schema'
 
-export const fetchUser = (form: FormType): Promise<ResponseType> => {
-  return new Promise<ResponseType>((resolve) => {
+export const fetchUser = (form: Form): Promise<Response> => {
+  return new Promise<Response>((resolve) => {
     setTimeout(() => {
       const user = users.find((user) => user.id === form.id)
       resolve({ user: user || null })

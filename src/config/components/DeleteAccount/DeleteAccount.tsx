@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { FormType, Form, Fail, deleteAccount } from '../../api/deleteAccount'
+import { Form, Fail, deleteAccount } from '../../api/deleteAccount'
 import { useToast } from '../../../common/hooks'
 import { useAuth } from '../../../common/store'
 
@@ -33,7 +33,7 @@ export function DeleteAccount(): JSX.Element {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const { control, handleSubmit, formState } = useForm<FormType>({
+  const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
   const runToast = useToast()

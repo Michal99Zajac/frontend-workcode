@@ -22,14 +22,14 @@ import {
   TableRecordSkeleton,
   WorkspaceFilters,
 } from '../../components'
-import { WorkspaceType } from '../../schemas'
+import { Workspace } from '../../schemas'
 import { useAuth } from '../../../common/store'
 import { Surface } from '../../../common/components'
 
 export function Menu(): JSX.Element {
   const userId = useAuth((state) => state.user?.id)
   const [isLoading, setIsLoading] = useState(true)
-  const [workspaces, setWorkspaces] = useState<WorkspaceType[]>([])
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([])
   const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
 

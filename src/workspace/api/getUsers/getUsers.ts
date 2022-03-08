@@ -1,8 +1,8 @@
 import { users, currentUser, workspaces } from '../../../fixtures'
 
-import { FormType, ResponseType, FailType } from './schema'
+import { Form, Response, Fail } from './schema'
 
-export const getUsers = (form: FormType): Promise<ResponseType> =>
+export const getUsers = (form: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     const workspace = workspaces.find(
       (workspace) => workspace.id === form.workspaceId
@@ -11,7 +11,7 @@ export const getUsers = (form: FormType): Promise<ResponseType> =>
     if (!workspace && form.workspaceId !== undefined) {
       reject({
         error: 'Workspace doesnt exist',
-      } as FailType)
+      } as Fail)
     }
 
     const fetchedUsers = users.filter(
@@ -47,7 +47,7 @@ export const getUsers = (form: FormType): Promise<ResponseType> =>
 
       reject({
         error: 'Something went wrong',
-      } as FailType)
+      } as Fail)
     }, 500)
   })
 

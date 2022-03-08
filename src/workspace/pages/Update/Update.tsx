@@ -22,12 +22,7 @@ import { FilterSelect } from '../../../common/components'
 import { CodeType } from '../../schemas'
 import { CodeTypeOption, codeTypeOptions } from '../../utils'
 import { useToast } from '../../../common/hooks'
-import {
-  updateWorkspace,
-  Form,
-  FormType,
-  Fail,
-} from '../../api/updateWorkspace'
+import { updateWorkspace, Form, Fail } from '../../api/updateWorkspace'
 import { getWorkspace } from '../../api'
 import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
@@ -38,16 +33,15 @@ export function Update(): JSX.Element {
   const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const runToast = useToast()
-  const { control, formState, handleSubmit, reset, setValue } =
-    useForm<FormType>({
-      resolver: zodResolver(Form),
-      defaultValues: {
-        id: '',
-        name: '',
-        description: '',
-        code: CodeType.enum.JAVASCRIPT,
-      },
-    })
+  const { control, formState, handleSubmit, reset, setValue } = useForm<Form>({
+    resolver: zodResolver(Form),
+    defaultValues: {
+      id: '',
+      name: '',
+      description: '',
+      code: CodeType.enum.JAVASCRIPT,
+    },
+  })
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)

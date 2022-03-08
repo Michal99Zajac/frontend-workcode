@@ -1,7 +1,7 @@
-import { CodeTypeType, CodeType } from '../../schemas'
+import { CodeType } from '../../schemas'
 
 export type CodeTypeOption = {
-  value: CodeTypeType
+  value: CodeType
   label: string
 }
 

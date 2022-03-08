@@ -1,8 +1,8 @@
 import { workspaces, users } from '../../../fixtures'
 
-import { ResponseType, FailType, FormType } from './schema'
+import { Response, Fail, Form } from './schema'
 
-export const inviteContributor = (data: FormType): Promise<ResponseType> =>
+export const inviteContributor = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     const user = users.find((user) => user.id === data.userId)
     const workspace = workspaces.find(
@@ -15,7 +15,7 @@ export const inviteContributor = (data: FormType): Promise<ResponseType> =>
           success: 'Invited',
         })
       } else {
-        reject({ error: 'Somethin went wrong' } as FailType)
+        reject({ error: 'Somethin went wrong' } as Fail)
       }
     }, 1500)
   })

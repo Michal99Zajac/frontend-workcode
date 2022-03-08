@@ -1,11 +1,11 @@
-import { CodeTypeType } from '../../schemas/CodeType'
+import { CodeType } from '../../schemas/CodeType'
 
 interface Color {
   bg: string
   color: string
 }
 
-type Colors = Record<CodeTypeType, Color>
+type Colors = Record<CodeType, Color>
 
 export const codeColors: Colors = {
   BASH: {
