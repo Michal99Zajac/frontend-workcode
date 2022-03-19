@@ -1,13 +1,13 @@
 import React from 'react'
-import { Flex, useColorModeValue, Spacer } from '@chakra-ui/react'
+import { Flex, Spacer } from '@chakra-ui/react'
 
-import CodeLabel from '../CodeLabel'
+import { CodeLabel } from '../CodeLabel'
+import { ActiveContributors } from '../ActiveContributors'
 
 export function EditorBar(): JSX.Element {
-  const barBG = useColorModeValue('gray.900', 'gray.900')
-
   return (
-    <Flex h="20px" minH="20px" bg={barBG}>
+    <Flex h="22px" minH="22px" alignItems="center" pl={1} bg="gray.900">
+      <ActiveContributors />
       <Spacer />
       <CodeLabel type="PYTHON" />
     </Flex>
