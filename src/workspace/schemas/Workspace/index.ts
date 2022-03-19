@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-import { User, CodeType } from '../../../common/schemas'
-import { Contributor } from '../Contributor'
+import { User, CodeType, Contributor } from '../../../common/schemas'
 
 export const Workspace = z.object({
   id: z.string().uuid(),
