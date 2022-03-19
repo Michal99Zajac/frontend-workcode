@@ -1,0 +1,1 @@
+export { getContributors } from './getContributors'
