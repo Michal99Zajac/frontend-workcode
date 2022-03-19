@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-import { Workspace, CodeType } from '../../schemas'
+import { CodeType } from '../../../common/schemas'
+import { Workspace } from '../../schemas'
 
 export const FormCode = z.enum([...CodeType.options, 'ALL'])
 

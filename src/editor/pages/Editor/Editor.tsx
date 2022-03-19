@@ -1,13 +1,16 @@
 import React from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
-import { CodeEditor } from '../../components'
+import { CodeEditor, EditorBar } from '../../components'
 
 export function Editor(): JSX.Element {
   return (
-    <Box overflow="auto" height="100%">
-      <CodeEditor />
-    </Box>
+    <Flex h="100vh" w="100%" maxH="100%" flexDirection="column">
+      <Box flexGrow={1} overflow="auto">
+        <CodeEditor />
+      </Box>
+      <EditorBar />
+    </Flex>
   )
 }
 

@@ -19,7 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { FilterSelect } from '../../../common/components'
-import { CodeType } from '../../schemas'
+import { CodeType } from '../../../common/schemas'
 import { CodeTypeOption, codeTypeOptions } from '../../utils'
 import { useToast } from '../../../common/hooks'
 import { updateWorkspace, Form, Fail } from '../../api/updateWorkspace'

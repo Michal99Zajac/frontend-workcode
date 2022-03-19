@@ -2,8 +2,8 @@ import { v4 } from 'uuid'
 import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 
-import { User, AuthUser } from './common/schemas'
-import { Workspace, CodeType, WorkspaceRole } from './workspace/schemas'
+import { User, AuthUser, CodeType } from './common/schemas'
+import { Workspace, WorkspaceRole } from './workspace/schemas'
 
 export let users: User[] = Array(100)
   .fill(null)

@@ -3,6 +3,8 @@ import { UnControlled as ControlEditor } from 'react-codemirror2'
 
 export const Editor = styled(ControlEditor)`
   height: 100%;
+  width: 100%;
+  overflow: auto;
 
   &:hover {
     cursor: text;

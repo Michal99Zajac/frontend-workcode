@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { AvatarTag } from '../AvatarTag'
 import { ContributorAvatars } from '../ContributorAvatars'
 import { Workspace } from '../../schemas'
-import { codeColors } from '../../utils'
+import { codeColors } from '../../../common/utils'
 import RecordMenu from '../RecordMenu'
 
 interface WorkspaceRecordProps {
