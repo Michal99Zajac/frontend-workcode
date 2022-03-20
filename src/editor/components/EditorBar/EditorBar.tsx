@@ -4,23 +4,19 @@ import { Flex, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { CodeLabel } from '../CodeLabel'
 import { ActiveContributors } from '../ActiveContributors'
 import { EdiorCompas } from '../EditorCompas'
-import { UUID } from '../../../common/schemas'
-import { useEditor } from '../../hooks'
+import { useEditor, useWorkspace } from '../../hooks'
 import Chat from '../Chat'
 
-interface EditorBarProps {
-  workspaceId: UUID
-}
-
-export function EditorBar(props: EditorBarProps): JSX.Element {
-  const { workspaceId } = props
+export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
+  const { isLoading, workspace } = useWorkspace()
   const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
     <Flex h="22px" minH="22px" alignItems="center" pl={1} bg={barBG}>
       <ActiveContributors
-        workspaceId={workspaceId}
+        isLoading={isLoading}
+        contributors={workspace?.contributors || []}
         activeContributorsIds={[]}
       />
       <Spacer />
