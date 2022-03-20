@@ -17,6 +17,7 @@ import { getContributors, Fail } from '../../api/getContributors'
 import { Contributor, UUID } from '../../../common/schemas'
 import { UserIcon } from '../../../icons/common'
 import { AvatarSkeleton, ErrorReload } from '../../../common/components'
+import useMode from '../../../common/hooks/useMode'
 
 interface ActiveContributorsProps {
   workspaceId: UUID
@@ -30,6 +31,7 @@ export function ActiveContributors(
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [contributos, setContributors] = useState<Contributor[]>([])
+  const mode = useMode()
 
   const fetchContributors = async () => {
     setIsLoading(true)
@@ -55,11 +57,11 @@ export function ActiveContributors(
       <PopoverTrigger>
         <Circle
           size="18px"
-          bg="gray.900"
+          bg={mode('gray.100', 'gray.900')}
           cursor="pointer"
-          _hover={{ bg: 'gray.700' }}
+          _hover={{ bg: mode('gray.200', 'gray.700') }}
         >
-          <UserIcon fill="white" />
+          <UserIcon fill={mode('black', 'white')} />
         </Circle>
       </PopoverTrigger>
       <PopoverContent>

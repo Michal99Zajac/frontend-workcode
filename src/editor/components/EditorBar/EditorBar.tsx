@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Spacer } from '@chakra-ui/react'
+import { Flex, Spacer, useColorModeValue } from '@chakra-ui/react'
 
 import { CodeLabel } from '../CodeLabel'
 import { ActiveContributors } from '../ActiveContributors'
@@ -11,15 +11,13 @@ interface EditorBarProps {
 
 export function EditorBar(props: EditorBarProps): JSX.Element {
   const { workspaceId } = props
+  const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
-    <Flex h="22px" minH="22px" alignItems="center" pl={1} bg="gray.900">
+    <Flex h="22px" minH="22px" alignItems="center" pl={1} bg={barBG}>
       <ActiveContributors
         workspaceId={workspaceId}
-        activeContributorsIds={[
-          'dc92e178-d4e1-423d-b47a-709a7a098931',
-          '146a8723-035a-4ae9-bf4e-b41d05cdff3b',
-        ]}
+        activeContributorsIds={[]}
       />
       <Spacer />
       <CodeLabel type="PYTHON" />
