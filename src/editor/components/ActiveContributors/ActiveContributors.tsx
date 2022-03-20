@@ -16,7 +16,7 @@ import {
 import { getContributors, Fail } from '../../api/getContributors'
 import { Contributor, UUID } from '../../../common/schemas'
 import { UserIcon } from '../../../icons/common'
-import { AvatarSkeleton } from '../../../common/components'
+import { AvatarSkeleton, ErrorReload } from '../../../common/components'
 
 interface ActiveContributorsProps {
   workspaceId: UUID
@@ -33,6 +33,8 @@ export function ActiveContributors(
 
   const fetchContributors = async () => {
     setIsLoading(true)
+    setError(null)
+
     try {
       const response = await getContributors({ workspaceId })
       setContributors(response.contributors)
@@ -64,27 +66,34 @@ export function ActiveContributors(
         <PopoverHeader>Contributors</PopoverHeader>
         <PopoverCloseButton />
         <PopoverBody>
-          <Wrap>
-            <AvatarSkeleton size="sm" amount={10} isLoaded={!isLoading}>
-              {contributos.map((contributor) => (
-                <Tooltip
-                  placement="top"
-                  key={contributor.id}
-                  label={`${contributor.firstname} ${contributor.lastname}`}
-                >
-                  <Avatar
-                    size="sm"
-                    name={`${contributor.firstname} ${contributor.lastname}`}
-                    src={contributor.src || undefined}
+          <ErrorReload
+            title="Connect Error"
+            message={error}
+            isError={!!error && !isLoading}
+            onReload={fetchContributors}
+          >
+            <Wrap>
+              <AvatarSkeleton size="2rem" amount={10} isLoaded={!isLoading}>
+                {contributos.map((contributor) => (
+                  <Tooltip
+                    placement="top"
+                    key={contributor.id}
+                    label={`${contributor.firstname} ${contributor.lastname}`}
                   >
-                    {activeContributorsIds.includes(contributor.id) && (
-                      <AvatarBadge boxSize="1em" bg="green.500" /> // FIXME: color of badage should depends on color of cursor
-                    )}
-                  </Avatar>
-                </Tooltip>
-              ))}
-            </AvatarSkeleton>
-          </Wrap>
+                    <Avatar
+                      size="sm"
+                      name={`${contributor.firstname} ${contributor.lastname}`}
+                      src={contributor.src || undefined}
+                    >
+                      {activeContributorsIds.includes(contributor.id) && (
+                        <AvatarBadge boxSize="1em" bg="green.500" /> // FIXME: color of badage should depends on color of cursor
+                      )}
+                    </Avatar>
+                  </Tooltip>
+                ))}
+              </AvatarSkeleton>
+            </Wrap>
+          </ErrorReload>
         </PopoverBody>
       </PopoverContent>
     </Popover>
