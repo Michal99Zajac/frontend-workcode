@@ -9,7 +9,8 @@ import {
   Stack,
 } from '@chakra-ui/react'
 
-import { ContributorStrap, StrapSkeleton } from '../../components'
+import { StrapSkeleton } from '../../../common/components'
+import { ContributorStrap } from '../../components'
 import { Workspace } from '../../schemas/Workspace'
 import { getWorkspace, Fail } from '../../api/getWorkspace'
 import { useNavigate, useParams } from 'react-router-dom'

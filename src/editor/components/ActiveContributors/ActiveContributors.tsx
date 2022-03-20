@@ -16,6 +16,7 @@ import {
 import { getContributors, Fail } from '../../api/getContributors'
 import { Contributor, UUID } from '../../../common/schemas'
 import { UserIcon } from '../../../icons/common'
+import { AvatarSkeleton } from '../../../common/components'
 
 interface ActiveContributorsProps {
   workspaceId: UUID
@@ -35,13 +36,12 @@ export function ActiveContributors(
     try {
       const response = await getContributors({ workspaceId })
       setContributors(response.contributors)
-      console.log(response.contributors)
     } catch (error) {
       const fail = Fail.parse(error)
       setError(fail.error)
     }
 
-    setIsLoading(true)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -65,23 +65,25 @@ export function ActiveContributors(
         <PopoverCloseButton />
         <PopoverBody>
           <Wrap>
-            {contributos.map((contributor) => (
-              <Tooltip
-                placement="top"
-                key={contributor.id}
-                label={`${contributor.firstname} ${contributor.lastname}`}
-              >
-                <Avatar
-                  size="sm"
-                  name={`${contributor.firstname} ${contributor.lastname}`}
-                  src={contributor.src || undefined}
+            <AvatarSkeleton size="sm" amount={10} isLoaded={!isLoading}>
+              {contributos.map((contributor) => (
+                <Tooltip
+                  placement="top"
+                  key={contributor.id}
+                  label={`${contributor.firstname} ${contributor.lastname}`}
                 >
-                  {activeContributorsIds.includes(contributor.id) && (
-                    <AvatarBadge boxSize="1em" bg="green.500" /> // color of badage should depends on color of cursor
-                  )}
-                </Avatar>
-              </Tooltip>
-            ))}
+                  <Avatar
+                    size="sm"
+                    name={`${contributor.firstname} ${contributor.lastname}`}
+                    src={contributor.src || undefined}
+                  >
+                    {activeContributorsIds.includes(contributor.id) && (
+                      <AvatarBadge boxSize="1em" bg="green.500" /> // FIXME: color of badage should depends on color of cursor
+                    )}
+                  </Avatar>
+                </Tooltip>
+              ))}
+            </AvatarSkeleton>
           </Wrap>
         </PopoverBody>
       </PopoverContent>

@@ -17,14 +17,10 @@ import {
 import { Link, Outlet } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
 
-import {
-  WorkspaceRecord,
-  TableRecordSkeleton,
-  WorkspaceFilters,
-} from '../../components'
+import { WorkspaceRecord, WorkspaceFilters } from '../../components'
 import { Workspace } from '../../schemas'
 import { useAuth } from '../../../common/store'
-import { Surface } from '../../../common/components'
+import { Surface, TableRecordSkeleton } from '../../../common/components'
 
 export function Menu(): JSX.Element {
   const userId = useAuth((state) => state.user?.id)
@@ -34,8 +30,6 @@ export function Menu(): JSX.Element {
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
 
   // TODO: add all area link click
-  // TODO: add delete option
-  // TODO: add leave option
 
   return (
     <Box h="100%" w="100%">
