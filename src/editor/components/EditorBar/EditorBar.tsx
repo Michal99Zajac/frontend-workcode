@@ -6,6 +6,7 @@ import { ActiveContributors } from '../ActiveContributors'
 import { EdiorCompas } from '../EditorCompas'
 import { UUID } from '../../../common/schemas'
 import { useEditor } from '../../hooks'
+import Chat from '../Chat'
 
 interface EditorBarProps {
   workspaceId: UUID
@@ -24,6 +25,7 @@ export function EditorBar(props: EditorBarProps): JSX.Element {
       />
       <Spacer />
       <EdiorCompas {...cursor} />
+      <Chat />
       <CodeLabel type="PYTHON" />
     </Flex>
   )
