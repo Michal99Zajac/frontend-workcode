@@ -14,9 +14,12 @@ export const EditorProvider = (props: EditorProviderProps) => {
   return (
     <EditorContext.Provider
       value={{
+        editor: state.editor,
         cursor: state.cursor,
         setCursor: (cursor) =>
           dispatch({ action: 'SET_CURSOR', cursor: cursor }),
+        setEditor: (editor) =>
+          dispatch({ action: 'SET_EDITOR', editor: editor }),
       }}
     >
       {children}

@@ -21,12 +21,12 @@ import 'codemirror/addon/edit/closebrackets'
 // get cursor coords and send to the other teammates
 export function CodeEditor() {
   const { colorMode } = useColorMode()
-  const { setCursor } = useEditor()
-  const [instance, setInstance] = useState<EditorType | null>(null)
+  const { setCursor, setEditor } = useEditor()
+
   return (
     <Editor
       theme={colorMode}
-      editorDidMount={(editor) => setInstance(editor)}
+      editorDidMount={(editor) => setEditor(editor)}
       options={{
         mode: {
           name: 'javascript',
@@ -46,9 +46,7 @@ export function CodeEditor() {
           line: data.line,
         })
       }}
-      onChange={(editor, data, value) => {
-        console.log(data)
-      }}
+      onChange={(editor, data, value) => {}}
     />
   )
 }
