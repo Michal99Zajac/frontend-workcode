@@ -15,6 +15,8 @@ import { ChatIcon } from '@chakra-ui/icons'
 import useMode from '../../../common/hooks/useMode'
 import { ChatStatus } from '../../schemas'
 
+import { ChatSend } from './ChatSend'
+
 export function Chat(): JSX.Element {
   const [status, setStatus] = useState<ChatStatus>('NEW')
   const mode = useMode()
@@ -43,7 +45,7 @@ export function Chat(): JSX.Element {
           </Flex>
         </PopoverBody>
         <PopoverFooter>
-          <div>sending</div>
+          <ChatSend />
         </PopoverFooter>
       </PopoverContent>
     </Popover>
