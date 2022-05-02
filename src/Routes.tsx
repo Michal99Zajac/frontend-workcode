@@ -18,6 +18,7 @@ import {
 import { UserConfigWithLayout } from './config'
 import Guardian from './Guardian'
 import { MainWithLayout, NotFoundWithLayout } from './other'
+import { EditorProvider, WorkspaceProvider } from './editor/context'
 
 export const routes: RouteObject[] = [
   {
@@ -78,7 +79,13 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: ':workspaceId',
-        element: <EditorWithLayout />,
+        element: (
+          <EditorProvider>
+            <WorkspaceProvider>
+              <EditorWithLayout />
+            </WorkspaceProvider>
+          </EditorProvider>
+        ),
       },
     ],
   },

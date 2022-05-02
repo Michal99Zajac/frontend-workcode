@@ -21,11 +21,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { produce } from 'immer'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Pagination } from '../../../common/components'
+import { Pagination, StrapSkeleton } from '../../../common/components'
 import { getUsers, Form, Fail, Response } from '../../api/getUsers'
 import { useToast } from '../../../common/hooks'
 import { LoseConnection } from '../../../icons/common'
-import { StrapSkeleton, InviteStrap } from '../../components'
+import { InviteStrap } from '../../components'
 import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 
 export function Invite(): JSX.Element {

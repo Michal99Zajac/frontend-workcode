@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
-import { Contributor } from '../../schemas'
+import { Contributor } from '../../../common/schemas'
 import { LeaveIcon } from '../../../icons/common'
 import { removeContributor, Form, Fail } from '../../api/removeContributor'
 

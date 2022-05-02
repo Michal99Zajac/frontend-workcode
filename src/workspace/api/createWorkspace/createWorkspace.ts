@@ -1,7 +1,8 @@
 import { v4 } from 'uuid'
 import dayjs from 'dayjs'
 
-import { CodeType, Workspace } from '../../schemas'
+import { CodeType } from '../../../common/schemas'
+import { Workspace } from '../../schemas'
 import { currentUser, workspaces } from '../../../fixtures'
 
 import { Form, Response, Fail } from './schema'

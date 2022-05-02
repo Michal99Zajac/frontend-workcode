@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { FilterSelect } from '../../../common/components'
 import { Form, Fail, createWorkspace } from '../../api/createWorkspace'
 import { useToast } from '../../../common/hooks'
-import { CodeType } from '../../schemas'
+import { CodeType } from '../../../common/schemas'
 import { codeTypeOptions, CodeTypeOption } from '../../utils'
 import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
 

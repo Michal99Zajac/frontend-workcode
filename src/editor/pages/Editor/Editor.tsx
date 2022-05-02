@@ -1,19 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Box, Flex } from '@chakra-ui/react'
 
-import { LocationState } from '../../../common/schemas'
+import { CodeEditor, EditorBar } from '../../components'
 
 export function Editor(): JSX.Element {
   return (
-    <div>
-      <Link
-        to="/workspace/73ac0aac-9d21-4163-9951-837627ebd461/wait"
-        state={{ isWorkspacePending: true } as LocationState}
-        replace
-      >
-        wait
-      </Link>
-    </div>
+    <Flex h="100vh" w="100%" maxH="100%" flexDirection="column">
+      <Box flexGrow={1} overflow="auto">
+        <CodeEditor />
+      </Box>
+      <EditorBar />
+    </Flex>
   )
 }
 

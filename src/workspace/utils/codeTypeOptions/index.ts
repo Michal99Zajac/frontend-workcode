@@ -1,4 +1,4 @@
-import { CodeType } from '../../schemas'
+import { CodeType } from '../../../common/schemas'
 
 export type CodeTypeOption = {
   value: CodeType
