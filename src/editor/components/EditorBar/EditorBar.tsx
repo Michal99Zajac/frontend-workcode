@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Spacer, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
 
 import { CodeLabel } from '../CodeLabel'
 import { ActiveContributors } from '../ActiveContributors'
@@ -22,7 +22,11 @@ export function EditorBar(): JSX.Element {
       <Spacer />
       <EdiorCompas {...cursor} />
       <Chat />
-      <CodeLabel type="PYTHON" />
+      {workspace?.code ? (
+        <CodeLabel type={workspace.code} />
+      ) : (
+        <Skeleton w="80px" h="100%" />
+      )}
     </Flex>
   )
 }
