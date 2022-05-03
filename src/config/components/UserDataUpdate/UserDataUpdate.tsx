@@ -21,7 +21,7 @@ import { useAuth } from '../../../common/store'
 
 export function UserDataUpdate(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
-  const userId = useAuth((state) => state.user?.id)
+  const userId = useAuth((state) => state.user?._id)
   const runToast = useToast()
   const [formCopy, setFormCopy] = useState<Form | null>(null)
   const { control, formState, handleSubmit, reset } = useForm<Form>({

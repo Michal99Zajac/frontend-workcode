@@ -15,7 +15,7 @@ type MessageForm = z.infer<typeof MessageForm>
 export function ChatSend(): JSX.Element {
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(false)
-  const userId = useAuth((store) => store.user?.id) ?? ''
+  const userId = useAuth((store) => store.user?._id) ?? ''
   const { register, handleSubmit, setValue } = useForm<MessageForm>({
     defaultValues: {
       message: '',

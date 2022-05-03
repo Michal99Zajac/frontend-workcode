@@ -136,7 +136,7 @@ export function Invite(): JSX.Element {
               <StrapSkeleton amount={10} isLoaded={!isLoading}>
                 {users.users.map((user) => (
                   <InviteStrap
-                    key={user.id}
+                    key={user._id}
                     user={user}
                     workspaceId={workspaceId}
                   />

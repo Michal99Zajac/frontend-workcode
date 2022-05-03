@@ -23,7 +23,7 @@ import { useAuth } from '../../../common/store'
 import { Surface, TableRecordSkeleton } from '../../../common/components'
 
 export function Menu(): JSX.Element {
-  const userId = useAuth((state) => state.user?.id)
+  const userId = useAuth((state) => state.user?._id)
   const [isLoading, setIsLoading] = useState(true)
   const [workspaces, setWorkspaces] = useState<Workspace[]>([])
   const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
@@ -84,7 +84,7 @@ export function Menu(): JSX.Element {
                 {workspaces.map((workspace) => (
                   <WorkspaceRecord
                     key={workspace.id}
-                    isOwner={workspace.admin.id === userId}
+                    isOwner={workspace.admin._id === userId}
                     workspace={workspace}
                   />
                 ))}

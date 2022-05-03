@@ -11,7 +11,7 @@ export let users: User[] = Array(100)
     email: faker.internet.email(),
     firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
-    id: v4(),
+    _id: v4(),
     src: faker.image.avatar(),
   }))
 
@@ -19,8 +19,11 @@ export let currentUser: User = users[50]
 
 export const authUser: AuthUser = {
   email: currentUser.email,
-  id: currentUser.id,
-  permissions: ['USER'],
+  _id: currentUser._id,
+  firstname: faker.name.firstName(),
+  lastname: faker.name.lastName(),
+  src: faker.image.avatar(),
+  role: ['USER'],
 }
 
 export let workspaces: Workspace[] = Array(100)

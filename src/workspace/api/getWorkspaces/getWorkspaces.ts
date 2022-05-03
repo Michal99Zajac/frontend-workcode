@@ -9,16 +9,16 @@ export const getWorkspaces = (form: Form): Promise<Response> =>
         workspaces: workspaces
           .filter(
             (workspace) =>
-              workspace.admin.id === currentUser.id ||
+              workspace.admin._id === currentUser._id ||
               workspace.contributors.find(
-                (contributor) => contributor.id === currentUser.id
+                (contributor) => contributor._id === currentUser._id
               )
           )
           .filter((workspace) =>
             workspace.name.toLowerCase().includes(form.workspace.toLowerCase())
           )
           .filter((workspace) =>
-            form.self ? workspace.admin.id === currentUser.id : true
+            form.self ? workspace.admin._id === currentUser._id : true
           )
           .filter((workspace) =>
             `${workspace.admin.firstname} ${workspace.admin.lastname}`

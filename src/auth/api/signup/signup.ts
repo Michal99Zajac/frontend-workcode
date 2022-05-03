@@ -11,7 +11,7 @@ export const signup = (form: Form): Promise<Response> => {
       setUsers(
         produce(users, (draft) => {
           draft.push({
-            id: v4(),
+            _id: v4(),
             email: form.email,
             lastname: form.lastname,
             firstname: form.firstname,

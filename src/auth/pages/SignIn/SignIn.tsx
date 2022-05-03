@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Input,
@@ -13,10 +13,11 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
-import { signin, Form, Fail } from '../../api/signin'
-import { Window } from '../../../common/components'
-import { useAuth } from '../../../common/store'
-import { useToast } from '../../../common/hooks'
+import { useSignIn, Form } from 'auth/api/useSignIn'
+import { Window } from 'common/components'
+import { useAuth } from 'common/store'
+import { useToast } from 'common/hooks'
+import { api } from 'api'
 
 export function SignIn(): JSX.Element {
   const login = useAuth((state) => state.login)
@@ -25,25 +26,27 @@ export function SignIn(): JSX.Element {
   const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
+  const signin = useSignIn()
   const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true)
     try {
-      const response = await signin(data)
-      login(
-        {
-          id: response.user.id,
-          email: response.user.email,
-          permissions: response.user.permissions,
-        },
-        response.token
-      )
+      const response = await signin.mutateAsync(data)
+      console.log(response)
+      // login(
+      //   {
+      //     id: response.user.id,
+      //     email: response.user.email,
+      //     permissions: response.user.permissions,
+      //   },
+      //   response.token
+      // )
       setIsLoading(false)
       navigation('/workspace')
     } catch (error) {
-      const signinError = Fail.parse(error)
-      runToast(signinError, 'Error', 'error')
+      // const signinError = Fail.parse(error)
+      // runToast(signinError, 'Error', 'error')
     }
     setIsLoading(false)
   })

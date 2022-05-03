@@ -33,7 +33,7 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
   const { handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      userId: contributor.id,
+      userId: contributor._id,
       workspaceId: workspaceId,
     },
   })

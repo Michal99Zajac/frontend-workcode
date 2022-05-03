@@ -33,7 +33,7 @@ export function UserBucket(): JSX.Element | null {
     setIsLoading(true)
     try {
       if (!user) throw new Error('User is not logged')
-      const response = await fetchUser({ id: user.id })
+      const response = await fetchUser({ id: user._id })
 
       setLoggedUser(response.user)
     } catch (error) {

@@ -3,11 +3,11 @@ import { useToast } from '@chakra-ui/react'
 import { Outlet, Navigate } from 'react-router-dom'
 
 import { useAuth } from './common/store'
-import { PermissionArrayType } from './permissions'
+import { RoleArrayType } from './role'
 
 interface GuardianProps {
   children?: JSX.Element
-  permissions?: PermissionArrayType // permission to page
+  permissions?: RoleArrayType // permission to page
   redirect?: string // where to redirect
   notLogged?: boolean // should logged user have access
   auth?: boolean // should user be logged
@@ -25,9 +25,7 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
         ? true
         : Boolean(
             user &&
-              permissions?.some((permission) =>
-                user?.permissions.includes(permission)
-              )
+              permissions?.some((permission) => user?.role.includes(permission))
           ),
     [user, permissions]
   )

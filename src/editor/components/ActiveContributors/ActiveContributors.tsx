@@ -51,7 +51,7 @@ export function ActiveContributors(
               {contributors.map((contributor) => (
                 <Tooltip
                   placement="top"
-                  key={contributor.id}
+                  key={contributor._id}
                   label={`${contributor.firstname} ${contributor.lastname}`}
                 >
                   <Avatar
@@ -59,7 +59,7 @@ export function ActiveContributors(
                     name={`${contributor.firstname} ${contributor.lastname}`}
                     src={contributor.src || undefined}
                   >
-                    {activeContributorsIds.includes(contributor.id) && (
+                    {activeContributorsIds.includes(contributor._id) && (
                       <AvatarBadge boxSize="1em" bg="green.500" /> // FIXME: color of badage should depends on color of cursor
                     )}
                   </Avatar>

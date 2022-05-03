@@ -14,7 +14,7 @@ export function ChatMessage(props: ChatMessageProps): JSX.Element {
   const { message } = props
   const mode = useMode()
   const currentUser = useAuth((store) => store.user)
-  const isMy = currentUser?.id === message.author.id
+  const isMy = currentUser?._id === message.author._id
 
   return (
     <Flex>

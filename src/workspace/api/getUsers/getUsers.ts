@@ -18,9 +18,9 @@ export const getUsers = (form: Form): Promise<Response> =>
       (user) =>
         (`${user.firstname} ${user.lastname}`.includes(form.search) ||
           user.email.includes(form.search)) &&
-        user.id !== currentUser.id &&
+        user._id !== currentUser._id &&
         !workspace?.contributors.find(
-          (contributor) => contributor.id === user.id
+          (contributor) => contributor._id === user._id
         )
     )
     const page = form.page || 0

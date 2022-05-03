@@ -4,7 +4,7 @@ import { Response, Fail, Form } from './schema'
 
 export const inviteContributor = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
-    const user = users.find((user) => user.id === data.userId)
+    const user = users.find((user) => user._id === data.userId)
     const workspace = workspaces.find(
       (workspace) => workspace.id === data.workspaceId
     )

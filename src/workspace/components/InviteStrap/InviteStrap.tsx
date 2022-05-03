@@ -31,7 +31,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
   const { handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      userId: user.id,
+      userId: user._id,
       workspaceId: workspaceId,
     },
   })
