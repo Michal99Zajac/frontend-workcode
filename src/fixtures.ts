@@ -23,7 +23,7 @@ export const authUser: AuthUser = {
   firstname: faker.name.firstName(),
   lastname: faker.name.lastName(),
   src: faker.image.avatar(),
-  role: ['USER'],
+  roles: ['USER'],
 }
 
 export let workspaces: Workspace[] = Array(100)

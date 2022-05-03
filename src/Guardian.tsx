@@ -25,7 +25,9 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
         ? true
         : Boolean(
             user &&
-              permissions?.some((permission) => user?.role.includes(permission))
+              permissions?.some((permission) =>
+                user?.roles.includes(permission)
+              )
           ),
     [user, permissions]
   )

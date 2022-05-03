@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { AuthUser, Token } from 'auth/schemas'
 
 export const Form = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.string({ required_error: 'email is required' }).email(),
+  password: z.string({ required_error: 'password is required' }),
 })
 
 export const Response = z.object({
