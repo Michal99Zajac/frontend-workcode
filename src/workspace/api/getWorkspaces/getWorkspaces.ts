@@ -21,7 +21,7 @@ export const getWorkspaces = (form: Form): Promise<Response> =>
             form.self ? workspace.admin._id === currentUser._id : true
           )
           .filter((workspace) =>
-            `${workspace.admin.firstname} ${workspace.admin.lastname}`
+            `${workspace.admin.name} ${workspace.admin.lastname}`
               .toLowerCase()
               .includes(form.owner.toLowerCase())
           )

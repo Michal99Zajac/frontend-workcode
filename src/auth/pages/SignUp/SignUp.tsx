@@ -73,7 +73,7 @@ export function SignUp(): JSX.Element {
             />
             <Controller
               control={control}
-              name="firstname"
+              name="name"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">* Firstname</Text>

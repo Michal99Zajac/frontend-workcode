@@ -12,7 +12,7 @@ export const updateUserData = (data: Form): Promise<Response> =>
       }
 
       currentUser.email = data.email
-      currentUser.firstname = data.firstname
+      currentUser.name = data.firstname
       currentUser.lastname = data.lastname
       resolve({
         success: 'User data has been updated',

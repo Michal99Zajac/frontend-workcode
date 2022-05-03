@@ -16,7 +16,7 @@ export const getUsers = (form: Form): Promise<Response> =>
 
     const fetchedUsers = users.filter(
       (user) =>
-        (`${user.firstname} ${user.lastname}`.includes(form.search) ||
+        (`${user.name} ${user.lastname}`.includes(form.search) ||
           user.email.includes(form.search)) &&
         user._id !== currentUser._id &&
         !workspace?.contributors.find(

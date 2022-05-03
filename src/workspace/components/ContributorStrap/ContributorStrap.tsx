@@ -60,13 +60,13 @@ export function ContributorStrap(props: ContributorStrapProps): JSX.Element {
       bg={failMessage ? errorBG : undefined}
     >
       <Avatar
-        name={`${contributor.firstname} ${contributor.lastname}`}
+        name={`${contributor.name} ${contributor.lastname}`}
         src={contributor.src || undefined}
         size="sm"
       />
       <Stack ml={2} spacing={0.5}>
         <Heading fontSize="sm" isTruncated mr={2}>
-          {contributor.firstname} {contributor.lastname}
+          {contributor.name} {contributor.lastname}
         </Heading>
         <Heading fontSize="xx-small" isTruncated>
           {contributor.email}

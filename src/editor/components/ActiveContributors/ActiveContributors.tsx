@@ -52,11 +52,11 @@ export function ActiveContributors(
                 <Tooltip
                   placement="top"
                   key={contributor._id}
-                  label={`${contributor.firstname} ${contributor.lastname}`}
+                  label={`${contributor.name} ${contributor.lastname}`}
                 >
                   <Avatar
                     size="sm"
-                    name={`${contributor.firstname} ${contributor.lastname}`}
+                    name={`${contributor.name} ${contributor.lastname}`}
                     src={contributor.src || undefined}
                   >
                     {activeContributorsIds.includes(contributor._id) && (

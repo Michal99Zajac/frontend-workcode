@@ -59,7 +59,7 @@ export function UserBucket(): JSX.Element | null {
         <Avatar
           {...AvatarButtonStyle}
           src={loggedUser?.src || undefined}
-          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+          name={`${loggedUser?.name} ${loggedUser?.lastname}`}
         />
       </MenuButton>
       <MenuList zIndex="modal">
@@ -67,11 +67,11 @@ export function UserBucket(): JSX.Element | null {
           <Avatar
             size="sm"
             src={loggedUser?.src || undefined}
-            name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+            name={`${loggedUser?.name} ${loggedUser?.lastname}`}
             mr={2}
           />
           <Stack spacing={0}>
-            <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
+            <Heading size="sm">{`${loggedUser?.name} ${loggedUser?.lastname}`}</Heading>
             <Text fontSize="xs">{loggedUser?.email}</Text>
           </Stack>
         </Flex>

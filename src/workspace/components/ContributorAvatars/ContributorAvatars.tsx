@@ -46,14 +46,14 @@ export function ContributorAvatars(
         <Tooltip
           placement="top"
           key={contributor._id}
-          label={`${contributor.firstname} ${contributor.lastname}`}
+          label={`${contributor.name} ${contributor.lastname}`}
         >
           <Avatar
             zIndex={index + 2}
             position="absolute"
             transition="all 0.6s"
             size="sm"
-            name={contributor.firstname}
+            name={contributor.name}
             src={contributor.src || undefined}
           />
         </Tooltip>

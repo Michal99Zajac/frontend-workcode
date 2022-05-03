@@ -30,7 +30,7 @@ export function ChatMessage(props: ChatMessageProps): JSX.Element {
         borderRadius="sm"
       >
         <Text fontSize="xs" mb={2} color={mode('gray.400', 'gray.700')}>
-          {message.author.firstname} {message.author.lastname}
+          {message.author.name} {message.author.lastname}
         </Text>
         <Text color={mode('white', 'black')} fontSize="xs">
           {message.message}

@@ -14,7 +14,7 @@ export const signup = (form: Form): Promise<Response> => {
             _id: v4(),
             email: form.email,
             lastname: form.lastname,
-            firstname: form.firstname,
+            name: form.name,
             src: null,
           })
         })

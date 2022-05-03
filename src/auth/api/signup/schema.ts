@@ -7,7 +7,7 @@ export const Form = z.object({
     })
     .email({ message: 'email shoud have email form' })
     .nonempty({ message: 'email is required' }),
-  firstname: z
+  name: z
     .string({
       required_error: 'firstname is required',
     })
@@ -35,7 +35,7 @@ export const Response = z.object({
 export const Fail = z
   .object({
     email: z.string(),
-    firstname: z.string(),
+    name: z.string(),
     lastname: z.string(),
     password: z.string(),
   })

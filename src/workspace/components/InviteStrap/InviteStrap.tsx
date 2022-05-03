@@ -63,11 +63,11 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
       <Avatar
         size="sm"
         src={user.src || undefined}
-        name={`${user.firstname} ${user.lastname}`}
+        name={`${user.name} ${user.lastname}`}
       />
       <Stack ml={2} spacing={0.5}>
         <Heading fontSize="sm" isTruncated>
-          {user.firstname} {user.lastname}
+          {user.name} {user.lastname}
         </Heading>
         <Heading fontSize="xx-small" isTruncated>
           {user.email}

@@ -17,7 +17,7 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
       <Avatar
         size="sm"
         src={user.src || undefined}
-        name={`${user.firstname} ${user.lastname}`}
+        name={`${user.name} ${user.lastname}`}
       />
       <Tag
         position="absolute"
@@ -29,7 +29,7 @@ export function AvatarTag(props: AvatarTagProps): JSX.Element {
         minW="0px"
         borderRadius="full"
       >
-        <TagLabel>{`${user.firstname} ${user.lastname}`}</TagLabel>
+        <TagLabel>{`${user.name} ${user.lastname}`}</TagLabel>
       </Tag>
     </HStack>
   )
