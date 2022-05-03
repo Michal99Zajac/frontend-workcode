@@ -1,6 +1,7 @@
 import { useMutation } from 'react-query'
 
-import { api, codec } from 'api'
+import { api } from 'api'
+import { codec } from 'codec'
 
 import { Form, Response } from './schema'
 
