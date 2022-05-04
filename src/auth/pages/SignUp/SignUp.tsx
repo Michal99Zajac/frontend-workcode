@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Input,
   InputGroup,
@@ -13,9 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { signup, Form, Fail } from '../../api/signup'
-import { useToast } from '../../../common/hooks'
-import { Window } from '../../../common/components'
+import { useSignUp, Form } from 'auth/api/useSignUp'
+import { useToast } from 'common/hooks'
+import { Window } from 'common/components'
 
 export function SignUp(): JSX.Element {
   const navigation = useNavigate()
@@ -23,31 +23,23 @@ export function SignUp(): JSX.Element {
   const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
-  const [isLoading, setIsLoading] = useState(false)
+  const { mutate, isLoading } = useSignUp()
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-
-    try {
-      if (data.password !== data.repeatedPassword) {
-        throw new Error('passwords are not the same')
-      }
-    } catch (error) {
-      const { message } = error as Error
-      runToast({ password: message }, 'Error', 'error')
-      setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    if (data.password !== data.repeatedPassword) {
+      runToast({ password: 'Passwords are not the same' }, 'Error', 'error')
       return
     }
 
-    try {
-      const response = await signup(data)
-      runToast(response, 'Success', 'success')
-      navigation('/auth/signin')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+    mutate(data, {
+      onSuccess: () => {
+        runToast({ message: 'User has been created' }, 'Sign Up', 'success')
+        navigation('/auth/signin')
+      },
+      onError: (error) => {
+        runToast(error.message, 'Sign Up', 'error')
+      },
+    })
   })
 
   return (
