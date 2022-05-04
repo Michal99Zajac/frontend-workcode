@@ -25,6 +25,7 @@ export function Api(props: Props): JSX.Element {
   const navigate = useNavigate()
   const runToast = useToast()
 
+  // if 401 then clear user and redirect
   useEffect(() => {
     api.interceptors.response.use(
       (response) => response,

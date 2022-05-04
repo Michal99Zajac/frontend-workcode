@@ -17,7 +17,7 @@ export const MainLayout =
 
     const userBucket = !user ? null : (
       <Box className={classes.bucket}>
-        <UserBucket />
+        <UserBucket user={user} />
       </Box>
     )
 

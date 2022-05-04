@@ -13,15 +13,18 @@ import {
   MenuDivider,
 } from '@chakra-ui/react'
 
+import { User } from 'common/schemas'
 import { useAuth } from 'common/store'
 
 import { AvatarButtonStyle } from './styles'
 
-export function UserBucket(): JSX.Element | null {
-  const { user, logout } = useAuth((state) => ({
-    user: state.user,
-    logout: state.logout,
-  }))
+interface UserBucketProps {
+  user: User
+}
+
+export function UserBucket(props: UserBucketProps): JSX.Element | null {
+  const { user } = props
+  const logout = useAuth((store) => store.logout)
   const navigate = useNavigate()
 
   const logoutUser = useCallback(async () => {
@@ -34,8 +37,8 @@ export function UserBucket(): JSX.Element | null {
       <MenuButton>
         <Avatar
           {...AvatarButtonStyle}
-          src={user?.src || undefined}
-          name={`${user?.name} ${user?.lastname}`}
+          src={user.src || undefined}
+          name={`${user.name} ${user.lastname}`}
         />
       </MenuButton>
       <MenuList zIndex="modal">
@@ -43,12 +46,12 @@ export function UserBucket(): JSX.Element | null {
           <Avatar
             size="sm"
             src={user?.src || undefined}
-            name={`${user?.name} ${user?.lastname}`}
+            name={`${user.name} ${user.lastname}`}
             mr={2}
           />
           <Stack spacing={0}>
-            <Heading size="sm">{`${user?.name} ${user?.lastname}`}</Heading>
-            <Text fontSize="xs">{user?.email}</Text>
+            <Heading size="sm">{`${user.name} ${user.lastname}`}</Heading>
+            <Text fontSize="xs">{user.email}</Text>
           </Stack>
         </Flex>
         <MenuDivider />
