@@ -10,13 +10,11 @@ export const codec = async <S, M>(mutation: Response<M>, parser: Parser<S>) => {
   try {
     data = await mutation
   } catch (error) {
-    const err = error as AxiosError<any, any>
-    throw err.response?.data
+    throw (error as AxiosError<any, any>).response?.data
   }
 
   try {
-    const parsed = parser.success(data.data)
-    return parsed
+    return parser.success(data.data)
   } catch (error) {
     console.error(error)
     throw new Error(error as any)
