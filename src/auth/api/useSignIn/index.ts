@@ -1,16 +1,15 @@
 import { useMutation } from 'react-query'
 
 import { api } from 'api'
-import { codec } from 'codec'
+import { createCodec } from 'codec'
 
-import { Form, Response } from './schema'
+import { Form, Response, ErrorResponse } from './schema'
 
 export const useSignIn = () => {
-  return useMutation(
-    (form: Form) =>
-      codec(api.post('/auth/signin', form), {
-        success: (data) => Response.parse(data),
-      }),
+  const code = createCodec(Response, ErrorResponse)
+
+  return useMutation<Response, ErrorResponse, Form>(
+    (form) => code(api.post('/auth/signin', form)),
     {
       mutationKey: 'signin',
     }

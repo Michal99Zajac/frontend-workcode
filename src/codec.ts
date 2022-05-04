@@ -1,24 +1,21 @@
-import { AxiosResponse, AxiosError } from 'axios'
+import { AxiosResponse } from 'axios'
+import { ZodType } from 'zod'
 
 export type Response<R = any> = Promise<AxiosResponse<R>>
-export type SuccessParser<S> = (data: any) => S
-export type Parser<S> = {
-  success: SuccessParser<S>
-}
-export const codec = async <S, M>(mutation: Response<M>, parser: Parser<S>) => {
-  let data: AxiosResponse<M> | null = null
-  try {
-    data = await mutation
-  } catch (error) {
-    throw (error as AxiosError<any, any>).response?.data
+
+export const createCodec =
+  <S extends ZodType<any, any, any>, F extends ZodType<any, any, any>, R>(
+    success: S,
+    error: F
+  ) =>
+  async (response: Response<R>) => {
+    try {
+      const res = await response
+      return success.parse(res.data)
+    } catch (err) {
+      console.error(err)
+      throw error.parse((err as any).response.data)
+    }
   }
 
-  try {
-    return parser.success(data.data)
-  } catch (error) {
-    console.error(error)
-    throw new Error(error as any)
-  }
-}
-
-export default codec
+export default createCodec

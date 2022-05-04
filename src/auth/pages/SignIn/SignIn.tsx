@@ -13,7 +13,7 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
-import { useSignIn, Form, ErrorResponse } from 'auth/api/useSignIn'
+import { useSignIn, Form } from 'auth/api/useSignIn'
 import { Window } from 'common/components'
 import { useAuth } from 'common/store'
 import { useToast } from 'common/hooks'
@@ -35,8 +35,7 @@ export function SignIn(): JSX.Element {
         navigation('/workspace')
       },
       onError: (error) => {
-        const err = ErrorResponse.parse(error)
-        runToast(err.message, 'Sign In!', 'error')
+        runToast(error.message, 'Sign In!', 'error')
       },
     })
   })
