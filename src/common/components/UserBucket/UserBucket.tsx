@@ -29,28 +29,26 @@ export function UserBucket(): JSX.Element | null {
     navigate('/')
   }, [user, logout])
 
-  if (!user) throw Error('User is not logged')
-
   return (
     <Menu placement="right-start">
       <MenuButton>
         <Avatar
           {...AvatarButtonStyle}
-          src={user.src || undefined}
-          name={`${user.name} ${user.lastname}`}
+          src={user?.src || undefined}
+          name={`${user?.name} ${user?.lastname}`}
         />
       </MenuButton>
       <MenuList zIndex="modal">
         <Flex py={2} px={3} alignItems="center">
           <Avatar
             size="sm"
-            src={user.src || undefined}
-            name={`${user.name} ${user.lastname}`}
+            src={user?.src || undefined}
+            name={`${user?.name} ${user?.lastname}`}
             mr={2}
           />
           <Stack spacing={0}>
-            <Heading size="sm">{`${user.name} ${user.lastname}`}</Heading>
-            <Text fontSize="xs">{user.email}</Text>
+            <Heading size="sm">{`${user?.name} ${user?.lastname}`}</Heading>
+            <Text fontSize="xs">{user?.email}</Text>
           </Stack>
         </Flex>
         <MenuDivider />

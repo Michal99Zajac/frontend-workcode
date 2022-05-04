@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Flex,
@@ -14,11 +14,11 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { changePassword, Form, Fail } from '../../../auth/api/changePassword'
+import { useUpdatePassword, Form } from 'config/api/useUpdatePassword'
 import { useToast } from '../../../common/hooks'
 
 export function PasswordUpdate(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
@@ -27,25 +27,23 @@ export function PasswordUpdate(): JSX.Element {
       repeatedPassword: '',
     },
   })
+  const { mutate, isLoading } = useUpdatePassword()
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-
+  const onSubmit = handleSubmit((data) => {
     if (data.password !== data.repeatedPassword) {
       runToast({ Password: 'Passwords are different' }, 'Error', 'error')
-      setIsLoading(false)
       return
     }
 
-    try {
-      const response = await changePassword(data)
-      runToast(response, 'Success', 'success')
-      reset()
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+    mutate(data, {
+      onSuccess: () => {
+        runToast({ message: 'Password has been changed' }, 'Success', 'success')
+        reset()
+      },
+      onError: (error) => {
+        runToast(error.message, 'Error', 'error')
+      },
+    })
   })
 
   return (
