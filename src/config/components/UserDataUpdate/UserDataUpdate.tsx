@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Flex,
@@ -15,35 +15,31 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useMe } from 'config/api/useMe'
-import { Form, updateUserData, Fail } from 'config/api/updateUserData'
+import { useUpdateMe, Form } from 'config/api/useUpdateMe'
 import { useToast } from 'common/hooks'
 
 export function UserDataUpdate(): JSX.Element {
   const { isFetching, data } = useMe()
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, mutate } = useUpdateMe()
   const runToast = useToast()
-  // const [formCopy, setFormCopy] = useState<Form | null>(null)
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       email: data?.email,
-      firstname: data?.lastname,
-      lastname: data?.name,
+      lastname: data?.lastname,
+      name: data?.name,
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await updateUserData(data)
-      // setFormCopy(data)
-      reset(data)
-      runToast(response, 'Success', 'success')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: () => {
+        runToast({ message: 'Data has been changed' }, 'Success', 'success')
+      },
+      onError: (error) => {
+        runToast(error.message, 'Error', 'error')
+      },
+    })
   })
 
   useEffect(() => {
@@ -51,7 +47,7 @@ export function UserDataUpdate(): JSX.Element {
       reset({
         email: data.email,
         lastname: data.lastname,
-        firstname: data.name,
+        name: data.name,
       })
     }
   }, [data])
@@ -73,13 +69,13 @@ export function UserDataUpdate(): JSX.Element {
       <Stack spacing={5}>
         <Controller
           control={control}
-          name="firstname"
+          name="name"
           render={({ field, fieldState }) => (
             <Box>
               <Text fontSize="sm">Firstname</Text>
               <Input
-                isDisabled={isFetching}
-                placeholder="firstname"
+                isDisabled={isFetching || isLoading}
+                placeholder="name"
                 onChange={field.onChange}
                 value={field.value}
                 isInvalid={fieldState.invalid}
@@ -94,7 +90,7 @@ export function UserDataUpdate(): JSX.Element {
             <Box>
               <Text fontSize="sm">Lastname</Text>
               <Input
-                isDisabled={isLoading}
+                isDisabled={isFetching || isLoading}
                 placeholder="lastname"
                 onChange={field.onChange}
                 value={field.value}
@@ -110,7 +106,7 @@ export function UserDataUpdate(): JSX.Element {
             <Box>
               <Text fontSize="sm">Email</Text>
               <Input
-                isDisabled={isLoading}
+                isDisabled={isFetching || isLoading}
                 placeholder="email@email.com"
                 onChange={field.onChange}
                 value={field.value}
