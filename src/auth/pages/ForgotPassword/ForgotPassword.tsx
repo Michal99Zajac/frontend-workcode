@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Button,
   Input,
@@ -16,32 +16,23 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 
-import { Window } from '../../../common/components'
-import { useToast } from '../../../common/hooks'
-import { sendForgottenEmail, Form, Fail } from '../../api/sendForgottenEmail'
+import { Window } from 'common/components'
+import { useToast } from 'common/hooks'
+import { useForgotPassword, Form } from 'auth/api/useForgotPassword'
 
 export function ForgotPassword(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const runToast = useToast()
   const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
+  const { mutate, isLoading } = useForgotPassword()
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      await sendForgottenEmail(data)
-      runToast(
-        { success: 'Email for password change has been sent' },
-        'Success',
-        'success'
-      )
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: (response) => runToast(response, 'Success', 'success'),
+      onError: (error) => runToast(error.message, 'Error', 'error'),
+    })
   })
 
   return (
