@@ -21,12 +21,25 @@ interface Props {
 
 export function Api(props: Props): JSX.Element {
   const { children, api } = props
-  const logout = useAuth((store) => store.logout)
+  const { logout, token } = useAuth((store) => ({
+    logout: store.logout,
+    token: store.token,
+  }))
   const navigate = useNavigate()
   const runToast = useToast()
 
   // if 401 then clear user and redirect
+  // if token then set up
   useEffect(() => {
+    api.interceptors.request.use(
+      (config) => {
+        if (config.headers && token)
+          config.headers['Authorization'] = `Bearer ${token}`
+        return config
+      },
+      (error) => Promise.reject(error)
+    )
+
     api.interceptors.response.use(
       (response) => response,
       (error) => {

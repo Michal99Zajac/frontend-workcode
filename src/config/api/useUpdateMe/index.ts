@@ -13,14 +13,7 @@ export const useUpdateMe = () => {
   const codec = createCodec(Response, ErrorResponse)
 
   return useMutation<Response, ErrorResponse, Form>(
-    (form) =>
-      codec(
-        api.patch('/users/me', form, {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        })
-      ),
+    (form) => codec(api.patch('/users/me', form)),
     {
       mutationKey: 'update-me',
       onSuccess: (data) => {
