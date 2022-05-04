@@ -1,4 +1,3 @@
-export * from '../../auth/schemas/AuthUser'
 export * from './LanguageEnum'
 export * from './User'
 export * from './ToastMessages'
