@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Flex,
@@ -14,22 +14,21 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Form, updateUserData, Fail } from '../../api/updateUserData'
-import { useToast } from '../../../common/hooks'
-import { fetchUser } from '../../../common/api'
-import { useAuth } from '../../../common/store'
+import { useMe } from 'config/api/useMe'
+import { Form, updateUserData, Fail } from 'config/api/updateUserData'
+import { useToast } from 'common/hooks'
 
 export function UserDataUpdate(): JSX.Element {
+  const { isFetching, data } = useMe()
   const [isLoading, setIsLoading] = useState(false)
-  const userId = useAuth((state) => state.user?._id)
   const runToast = useToast()
-  const [formCopy, setFormCopy] = useState<Form | null>(null)
+  // const [formCopy, setFormCopy] = useState<Form | null>(null)
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      email: '',
-      firstname: '',
-      lastname: '',
+      email: data?.email,
+      firstname: data?.lastname,
+      lastname: data?.name,
     },
   })
 
@@ -37,7 +36,7 @@ export function UserDataUpdate(): JSX.Element {
     setIsLoading(true)
     try {
       const response = await updateUserData(data)
-      setFormCopy(data)
+      // setFormCopy(data)
       reset(data)
       runToast(response, 'Success', 'success')
     } catch (error) {
@@ -47,19 +46,15 @@ export function UserDataUpdate(): JSX.Element {
     setIsLoading(false)
   })
 
-  const fetchInitialData = useCallback(async () => {
-    if (!userId) throw new Error('User is not authenticated')
-    setIsLoading(true)
-    const response = await fetchUser({ id: userId })
-    const initialForm = Form.parse(response)
-    setFormCopy(initialForm)
-    reset(initialForm)
-    setIsLoading(false)
-  }, [userId, reset])
-
   useEffect(() => {
-    fetchInitialData()
-  }, [])
+    if (data) {
+      reset({
+        email: data.email,
+        lastname: data.lastname,
+        firstname: data.name,
+      })
+    }
+  }, [data])
 
   return (
     <form onSubmit={onSubmit}>
@@ -71,7 +66,7 @@ export function UserDataUpdate(): JSX.Element {
             aria-label="close user data"
             size="md"
             icon={<CloseIcon />}
-            onClick={() => formCopy && reset(formCopy)}
+            onClick={() => data && reset()}
           />
         )}
       </Flex>
@@ -83,7 +78,7 @@ export function UserDataUpdate(): JSX.Element {
             <Box>
               <Text fontSize="sm">Firstname</Text>
               <Input
-                isDisabled={isLoading}
+                isDisabled={isFetching}
                 placeholder="firstname"
                 onChange={field.onChange}
                 value={field.value}
