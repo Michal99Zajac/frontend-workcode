@@ -15,7 +15,7 @@ export const createWorkspace = (data: Form): Promise<Response> =>
         author: currentUser,
         code: CodeType.parse(data.code),
         name: data.name,
-        createdAt: dayjs().toDate(),
+        createdAt: dayjs().toDate().toString(),
         contributors: [],
       }
       workspaces.push(workspace)

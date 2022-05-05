@@ -36,10 +36,9 @@ export let workspaces: Workspace[] = Array(100)
       ['BASH', 'JAVASCRIPT', 'PYTHON'][Math.floor(3 * Math.random())]
     ),
     name: faker.random.words(),
-    createdAt: faker.date.between(
-      dayjs().subtract(2, 'year').toString(),
-      dayjs().toString()
-    ),
+    createdAt: faker.date
+      .between(dayjs().subtract(2, 'year').toString(), dayjs().toString())
+      .toString(),
     contributors: users
       .slice(
         Math.floor(90 * Math.random()),

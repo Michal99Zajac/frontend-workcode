@@ -6,7 +6,7 @@ export const Workspace = z.object({
   _id: _ID,
   name: z.string(),
   code: CodeType,
-  createdAt: z.date(),
+  createdAt: z.string(),
   author: User,
   contributors: Contributor.array(),
 })
