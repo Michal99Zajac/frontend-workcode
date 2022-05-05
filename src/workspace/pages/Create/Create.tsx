@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Button,
   Input,
@@ -18,40 +18,41 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 
-import { FilterSelect } from '../../../common/components'
-import { Form, Fail, createWorkspace } from '../../api/createWorkspace'
-import { useToast } from '../../../common/hooks'
-import { CodeType } from '../../../common/schemas'
-import { codeTypeOptions, CodeTypeOption } from '../../utils'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
+import { FilterSelect } from 'common/components'
+import { useToast } from 'common/hooks'
+import { CodeType } from 'common/schemas'
+import { useWorkspaceCreate, Form } from 'workspace/api/useWorkspaceCreate'
+import { codeTypeOptions, CodeTypeOption } from 'workspace/utils'
+import { useWorkspaceQuery } from 'workspace/store'
 
 export function Create(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
-  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const navigate = useNavigate()
   const runToast = useToast()
+  const { mutate, isLoading } = useWorkspaceCreate()
   const { control, formState, handleSubmit, setValue } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
       name: '',
       description: '',
-      code: CodeType.enum.JAVASCRIPT,
+      code: 'JAVASCRIPT',
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await createWorkspace(data)
-      runToast({ success: response.success }, 'Success', 'success')
-      refetchWorkspaces && refetchWorkspaces()
-      navigate(`/workspace${lastQuery}`)
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: () => {
+        runToast(
+          { message: 'Workspace has been created' },
+          'Success',
+          'success'
+        )
+        navigate(`/workspace${lastQuery}`)
+      },
+      onError: (error) => {
+        runToast(error.message, 'Error', 'error')
+      },
+    })
   })
 
   return (
