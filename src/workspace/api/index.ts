@@ -10,3 +10,4 @@ export { deleteWorkspace } from './deleteWorkspace'
 export { leaveWorkspace } from './leaveWorkspace'
 
 export * as useWorkspaces from './useWorkspaces'
+export * as useWorkspaceCreate from './useWorkspaceCreate'
