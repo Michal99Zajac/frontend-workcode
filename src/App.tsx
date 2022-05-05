@@ -6,7 +6,7 @@ import { Error } from './other'
 import { ToastProvider } from './common/context'
 import { AppRoutes } from './Routes'
 import { workcodeTheme } from './theme'
-import { Api, api } from './api'
+import { Api } from './api'
 import './App.scss'
 
 export function App(): JSX.Element {
@@ -14,7 +14,7 @@ export function App(): JSX.Element {
     <ThemeProvider theme={workcodeTheme}>
       <ErrorBoundary FallbackComponent={Error}>
         <ToastProvider>
-          <Api api={api}>
+          <Api>
             <AppRoutes />
           </Api>
         </ToastProvider>

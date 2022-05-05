@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from 'common/store'
@@ -7,7 +7,7 @@ import { useToast } from 'common/hooks'
 
 import { env } from './env'
 
-export const api = axios.create({
+export let api = axios.create({
   baseURL: env.API_URL,
 })
 
@@ -16,11 +16,10 @@ export default api
 // ================= PROVIDER =================
 interface Props {
   children: React.ReactNode
-  api: AxiosInstance
 }
 
 export function Api(props: Props): JSX.Element {
-  const { children, api } = props
+  const { children } = props
   const { logout, token } = useAuth((store) => ({
     logout: store.logout,
     token: store.token,
@@ -28,10 +27,14 @@ export function Api(props: Props): JSX.Element {
   const navigate = useNavigate()
   const runToast = useToast()
 
-  // if 401 then clear user and redirect
-  // if token then set up
   useEffect(() => {
-    api.interceptors.request.use(
+    // create new instance of api
+    const newApi = axios.create({
+      baseURL: env.API_URL,
+    })
+
+    // if token then set up
+    newApi.interceptors.request.use(
       (config) => {
         if (config.headers && token)
           config.headers['Authorization'] = `Bearer ${token}`
@@ -40,7 +43,8 @@ export function Api(props: Props): JSX.Element {
       (error) => Promise.reject(error)
     )
 
-    api.interceptors.response.use(
+    // if 401 then clear user and redirect
+    newApi.interceptors.response.use(
       (response) => response,
       (error) => {
         if (
@@ -58,7 +62,9 @@ export function Api(props: Props): JSX.Element {
         return Promise.reject(error)
       }
     )
-  }, [])
+
+    api = newApi
+  }, [token])
 
   return <>{children}</>
 }
