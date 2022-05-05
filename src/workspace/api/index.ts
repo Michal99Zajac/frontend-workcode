@@ -11,3 +11,5 @@ export { leaveWorkspace } from './leaveWorkspace'
 
 export * as useWorkspaces from './useWorkspaces'
 export * as useWorkspaceCreate from './useWorkspaceCreate'
+export * as useWorkspaceUpdate from './useWorkspaceUpdate'
+export * as useWorkspace from './useWorkspace'

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   Button,
   Input,
@@ -18,73 +18,56 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { FilterSelect } from '../../../common/components'
-import { CodeType } from '../../../common/schemas'
-import { CodeTypeOption, codeTypeOptions } from '../../utils'
-import { useToast } from '../../../common/hooks'
-import { updateWorkspace, Form, Fail } from '../../api/updateWorkspace'
-import { getWorkspace } from '../../api'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
+import { FilterSelect } from 'common/components'
+import { CodeType } from 'common/schemas'
+import { CodeTypeOption, codeTypeOptions } from 'workspace/utils'
+import { useToast } from 'common/hooks'
+import { useWorkspace } from 'workspace/api/useWorkspace'
+import { useWorkspaceUpdate, Form } from 'workspace/api/useWorkspaceUpdate'
+import { useWorkspaceQuery } from 'workspace/store'
 
 export function Update(): JSX.Element {
   const { workspaceId } = useParams()
   const naviagate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
-  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const runToast = useToast()
+  const { data, isFetching } = useWorkspace({ _id: workspaceId ?? '' })
+  const { mutate, isLoading } = useWorkspaceUpdate({ _id: workspaceId ?? '' })
   const { control, formState, handleSubmit, reset, setValue } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      id: '',
       name: '',
       description: '',
-      code: CodeType.enum.JAVASCRIPT,
+      code: 'JAVASCRIPT',
     },
   })
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await updateWorkspace(data)
-      runToast({ success: response.success }, 'Success', 'success')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: () => {
+        runToast(
+          { message: 'Workspace has been updated' },
+          'Success',
+          'success'
+        )
+      },
+      onError: (error) => {
+        runToast(error.message, 'Error', 'error')
+      },
+    })
   })
 
-  const fetchWorkspace = useCallback(async () => {
-    setIsLoading(true)
-
-    if (!workspaceId) throw new Error('Workspace Id is not set')
-
-    try {
-      const response = await getWorkspace({ workspaceId: workspaceId })
-      reset({
-        id: response.workspace?._id,
-        name: response.workspace?.name,
-        code: response.workspace?.code,
-      })
-    } catch (error) {
-      const fail = Fail.parse(error)
-      console.error(fail)
-    }
-    setIsLoading(false)
-  }, [workspaceId])
-
-  const onClose = () => {
-    refetchWorkspaces && refetchWorkspaces()
-    naviagate(`/workspace${lastQuery}`)
-  }
-
   useEffect(() => {
-    fetchWorkspace()
-  }, [])
+    if (data)
+      reset({
+        name: data.name,
+        code: data.code,
+        description: '',
+      })
+  }, [data])
 
   return (
-    <Modal onClose={onClose} isOpen={true}>
+    <Modal onClose={() => naviagate(`/workspace${lastQuery}`)} isOpen={true}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
@@ -99,7 +82,7 @@ export function Update(): JSX.Element {
                   <InputGroup display="flex" flexDirection="column">
                     <Text fontSize="sm">* Name</Text>
                     <Input
-                      isDisabled={isLoading}
+                      isDisabled={isLoading || isFetching}
                       placeholder="my workspace name"
                       onChange={field.onChange}
                       value={field.value}
@@ -116,7 +99,7 @@ export function Update(): JSX.Element {
                   <InputGroup display="flex" flexDirection="column">
                     <Text fontSize="sm">* Description</Text>
                     <Textarea
-                      isDisabled={isLoading}
+                      isDisabled={isLoading || isFetching}
                       placeholder="my workspace description..."
                       onChange={field.onChange}
                       value={field.value}
@@ -134,7 +117,7 @@ export function Update(): JSX.Element {
                     <Text fontSize="sm">* Code</Text>
                     <FilterSelect
                       identifer="value"
-                      isDisabled={isLoading}
+                      isDisabled={isLoading || isFetching}
                       onChange={(value) => {
                         const codeTypeOption = value as CodeTypeOption
                         setValue('code', CodeType.parse(codeTypeOption.value))
@@ -151,7 +134,7 @@ export function Update(): JSX.Element {
           </ModalBody>
           <ModalFooter>
             <Button
-              isLoading={isLoading}
+              isLoading={isLoading || isFetching}
               width="100px"
               onClick={() => runToast(formState.errors, 'Error', 'error')}
               type="submit"
