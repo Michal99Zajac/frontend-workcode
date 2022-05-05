@@ -30,13 +30,12 @@ export const authUser: AuthUser = {
 export let workspaces: Workspace[] = Array(100)
   .fill(null)
   .map(() => ({
-    id: v4(),
-    admin: users[Math.floor(10 * Math.random()) + 45],
+    _id: v4(),
+    author: users[Math.floor(10 * Math.random()) + 45],
     code: CodeType.parse(
       ['BASH', 'JAVASCRIPT', 'PYTHON'][Math.floor(3 * Math.random())]
     ),
     name: faker.random.words(),
-    description: faker.lorem.text(200),
     createdAt: faker.date.between(
       dayjs().subtract(2, 'year').toString(),
       dayjs().toString()

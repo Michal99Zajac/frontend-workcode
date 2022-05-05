@@ -3,13 +3,14 @@ import { z } from 'zod'
 import { Workspace } from '../../schemas/Workspace'
 
 export const Form = z.object({
-  id: Workspace.shape.id,
+  id: Workspace.shape._id,
   name: Workspace.shape.name
     .min(1, {
       message: 'Name should be at least one characters',
     })
     .max(255, { message: 'Name cant be longer then 255 characters' }),
-  description: Workspace.shape.description
+  description: z
+    .string()
     .min(1, {
       message: 'Description should be at least one characters',
     })

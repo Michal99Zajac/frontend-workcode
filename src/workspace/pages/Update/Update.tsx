@@ -63,9 +63,8 @@ export function Update(): JSX.Element {
     try {
       const response = await getWorkspace({ workspaceId: workspaceId })
       reset({
-        id: response.workspace?.id,
+        id: response.workspace?._id,
         name: response.workspace?.name,
-        description: response.workspace?.description,
         code: response.workspace?.code,
       })
     } catch (error) {

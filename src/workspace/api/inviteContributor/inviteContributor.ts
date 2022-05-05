@@ -6,7 +6,7 @@ export const inviteContributor = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     const user = users.find((user) => user._id === data.userId)
     const workspace = workspaces.find(
-      (workspace) => workspace.id === data.workspaceId
+      (workspace) => workspace._id === data.workspaceId
     )
 
     setTimeout(() => {

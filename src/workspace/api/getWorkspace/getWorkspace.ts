@@ -6,14 +6,15 @@ export const getWorkspace = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       const workspace = workspaces.find(
-        (workspace) => workspace.id === data.workspaceId
+        (workspace) => workspace._id === data.workspaceId
       )
 
       if (workspace) {
         resolve({
           workspace:
-            workspaces.find((workspace) => workspace.id === data.workspaceId) ||
-            null,
+            workspaces.find(
+              (workspace) => workspace._id === data.workspaceId
+            ) || null,
         })
       } else {
         reject({

@@ -61,10 +61,10 @@ export function Contributors(): JSX.Element {
             <StrapSkeleton amount={10} isLoaded={!isLoading}>
               {workspace?.contributors.map((contributor) => (
                 <ContributorStrap
-                  isOwner={workspace.admin._id === user?._id}
+                  isOwner={workspace.author._id === user?._id}
                   key={contributor._id}
                   contributor={contributor}
-                  workspaceId={workspace.id}
+                  workspaceId={workspace._id}
                 />
               ))}
             </StrapSkeleton>

@@ -7,7 +7,7 @@ import { Form, Response, Fail } from './schema'
 export const updateWorkspace = (data: Form): Promise<Response> =>
   new Promise((resolve, reject) => {
     const workspaceIndex = workspaces.findIndex(
-      (workspace) => workspace.id === data.id
+      (workspace) => workspace._id === data.id
     )
     setTimeout(() => {
       if (workspaceIndex >= 0) {
@@ -17,7 +17,6 @@ export const updateWorkspace = (data: Form): Promise<Response> =>
               ...draft[workspaceIndex],
               code: data.code,
               name: data.name,
-              description: data.description,
             }
           })
         )

@@ -8,7 +8,8 @@ export const Form = z.object({
       message: 'Name should be at least one characters',
     })
     .max(255, { message: 'Name cant be longer then 255 characters' }),
-  description: Workspace.shape.description
+  description: z
+    .string()
     .min(1, {
       message: 'Description should be at least one characters',
     })

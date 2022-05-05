@@ -83,8 +83,8 @@ export function Menu(): JSX.Element {
               >
                 {workspaces.map((workspace) => (
                   <WorkspaceRecord
-                    key={workspace.id}
-                    isOwner={workspace.admin._id === userId}
+                    key={workspace._id}
+                    isOwner={workspace.author._id === userId}
                     workspace={workspace}
                   />
                 ))}
