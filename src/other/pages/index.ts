@@ -1,4 +1,5 @@
-import { MainLayout } from '../../common/layout'
+import { MainLayout } from 'common/layout'
+
 import { NotFound } from './404'
 import { Main } from './Main'
 

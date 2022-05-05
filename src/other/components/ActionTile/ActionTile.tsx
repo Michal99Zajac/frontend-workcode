@@ -7,7 +7,7 @@ import {
   IconProps,
 } from '@chakra-ui/react'
 
-import { Surface } from '../../../common/components'
+import { Surface } from 'common/components'
 
 type IconComponent = (props: IconProps) => JSX.Element
 
