@@ -1,5 +1,4 @@
-export { deleteAccount } from './deleteAccount'
-export { useMe } from './useMe'
-export { useUpdatePassword } from './useUpdatePassword'
+export * as useMe from './useMe'
+export * as useUpdatePassword from './useUpdatePassword'
 export * as useUpdateMe from './useUpdateMe'
 export * as useDeleteMe from './useDeleteMe'
