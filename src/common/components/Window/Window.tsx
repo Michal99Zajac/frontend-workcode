@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
-import { Surface } from '../Surface'
+import { Surface } from 'common/components'
 
 interface WindowProps {
   children: React.ReactNode
