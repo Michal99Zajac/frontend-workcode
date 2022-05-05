@@ -8,3 +8,5 @@ export { inviteContributor } from './inviteContributor'
 export { removeContributor } from './removeContributor'
 export { deleteWorkspace } from './deleteWorkspace'
 export { leaveWorkspace } from './leaveWorkspace'
+
+export * as useWorkspaces from './useWorkspaces'
