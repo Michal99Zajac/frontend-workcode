@@ -1,8 +1,12 @@
 import React from 'react'
 import { Box, Container, Heading, Stack } from '@chakra-ui/react'
 
-import { BasicSetting } from '../../../common/components'
-import { DeleteAccount, UserDataUpdate, PasswordUpdate } from '../../components'
+import { BasicSetting } from 'common/components'
+import {
+  DeleteAccount,
+  UserDataUpdate,
+  PasswordUpdate,
+} from 'config/components'
 
 import classes from './UserConfig.module.scss'
 
