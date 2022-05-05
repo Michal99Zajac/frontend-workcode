@@ -15,7 +15,7 @@ export const useUpdateMe = () => {
   return useMutation<Response, ErrorResponse, Form>(
     (form) => codec(api.patch('/users/me', form)),
     {
-      mutationKey: 'update-me',
+      mutationKey: 'patch__users_me',
       onSuccess: (data) => {
         if (auth.user && auth.token) {
           auth.login(
@@ -27,7 +27,7 @@ export const useUpdateMe = () => {
             auth.token
           )
         }
-        queryClient.invalidateQueries('me')
+        queryClient.invalidateQueries('get__users_me')
       },
     }
   )
