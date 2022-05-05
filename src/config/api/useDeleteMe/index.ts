@@ -13,7 +13,7 @@ export const useDeleteMe = () => {
   return useMutation<Response, ErrorResponse, Form>(
     (form) => codec(api.delete('/users/me', { data: form })),
     {
-      mutationKey: 'delete__users_me',
+      mutationKey: 'config_useDeleteMe__delete__',
       onSuccess: () => {
         logout()
       },

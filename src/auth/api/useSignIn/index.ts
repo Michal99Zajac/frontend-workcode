@@ -11,7 +11,7 @@ export const useSignIn = () => {
   return useMutation<Response, ErrorResponse, Form>(
     (form) => codec(api.post('/auth/signin', form)),
     {
-      mutationKey: 'signin',
+      mutationKey: 'auth_useSignIn__post__',
     }
   )
 }

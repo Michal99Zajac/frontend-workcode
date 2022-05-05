@@ -11,7 +11,7 @@ export const useForgotPassword = () => {
   return useMutation<Response, ErrorResponse, Form>(
     (form: Form) => codec(api.post('/auth/forgot-password', form)),
     {
-      mutationKey: 'forgot-password',
+      mutationKey: 'auth_useForgotPassword__post__',
     }
   )
 }

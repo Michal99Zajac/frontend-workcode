@@ -8,7 +8,7 @@ import { Response, ErrorResponse } from './schema'
 export const useMe = () => {
   const codec = createCodec(Response, ErrorResponse)
 
-  return useQuery<Response, ErrorResponse>('get__users_me', {
+  return useQuery<Response, ErrorResponse>('config_useMe__get__', {
     queryFn: () => codec(api.get('users/me')),
   })
 }

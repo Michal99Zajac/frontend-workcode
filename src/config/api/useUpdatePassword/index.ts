@@ -11,7 +11,7 @@ export const useUpdatePassword = () => {
   return useMutation<Response, ErrorResponse, Form>(
     (form) => codec(api.patch('/users/me', form)),
     {
-      mutationKey: 'update-password',
+      mutationKey: 'config_useUpdatePassword__patch__',
     }
   )
 }

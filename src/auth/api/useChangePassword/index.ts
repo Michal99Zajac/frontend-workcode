@@ -20,7 +20,7 @@ export const useChangePassword = (token?: string) => {
         })
       ),
     {
-      mutationKey: 'change-forgotten-password',
+      mutationKey: 'auth_useChangePassword__patch__',
     }
   )
 }
