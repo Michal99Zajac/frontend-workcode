@@ -16,12 +16,9 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
-import {
-  useWorkspaceCopy,
-  useDeleteWorkspace,
-  useLeaveWorkspace,
-} from '../../hooks'
-import { LeaveIcon } from '../../../icons/common'
+import { useWorkspaceCopy, useLeaveWorkspace } from 'workspace/hooks'
+import { useWorkspaceDelete as useDelete } from 'workspace/api'
+import { LeaveIcon } from 'icons/common'
 
 interface RecordMenuProps {
   workspaceId: string
@@ -31,13 +28,13 @@ interface RecordMenuProps {
 export function RecordMenu(props: RecordMenuProps): JSX.Element {
   const { workspaceId, isOwner } = props
   const [copy, hasCopied] = useWorkspaceCopy(workspaceId)
-  const [deleteWorkspace, isDeleted] = useDeleteWorkspace(workspaceId)
+  const deletion = useDelete.useWorkspaceDelete({ workspaceId })
   const [leaveWorkspace, isLeft] = useLeaveWorkspace(workspaceId)
 
   return (
     <Menu>
       <MenuButton
-        isLoading={isDeleted || isLeft}
+        isLoading={deletion.isLoading || isLeft}
         as={IconButton}
         variant="ghost"
         colorScheme="gray"
@@ -66,7 +63,7 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
             _hover={{
               bg: 'red.500',
             }}
-            onClick={deleteWorkspace}
+            onClick={() => deletion.mutate()}
           >
             <DeleteIcon mr={4} /> Delete
           </MenuItem>
