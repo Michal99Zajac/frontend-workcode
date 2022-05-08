@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
-import { User, Navigation, Pagination } from '../../../common/schemas'
+import { User, Navigation } from '../../../common/schemas'
 
 export const Form = z.object({
   search: z.string(),
   page: z.number().optional(),
-  pagination: Pagination.optional(),
+  pagination: z.string().optional(),
   workspaceId: z.string().optional(),
 })
 
