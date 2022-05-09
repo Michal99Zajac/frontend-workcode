@@ -14,7 +14,7 @@ export const Response = z.object({
 })
 
 export const ErrorResponse = z.object({
-  message: z.string(),
+  message: z.record(z.string()),
 })
 
 export type Form = z.infer<typeof Form>
