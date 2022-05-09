@@ -35,7 +35,7 @@ export function Invite(): JSX.Element {
     page: 0,
     limit: 5,
   })
-  const { isLoading, data, refetch } = useUsersToInvite(
+  const { isLoading, data, refetch, isFetched } = useUsersToInvite(
     workspaceId ?? '',
     query,
     true
@@ -68,7 +68,7 @@ export function Invite(): JSX.Element {
         <ModalCloseButton />
         <ModalBody>
           <Box mb={5}>
-            <form>
+            <form onSubmit={(_e) => _e.preventDefault()}>
               <InputGroup size="md">
                 <InputLeftElement pointerEvents="none">
                   <SearchIcon />
@@ -89,7 +89,7 @@ export function Invite(): JSX.Element {
             </form>
           </Box>
           <Stack>
-            <StrapSkeleton amount={10} isLoaded={!isLoading}>
+            <StrapSkeleton amount={5} isLoaded={!isLoading && isFetched}>
               {data?.pagination.count ? (
                 data?.users.map((user) => (
                   <InviteStrap
