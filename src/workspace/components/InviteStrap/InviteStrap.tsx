@@ -13,6 +13,7 @@ import { AddIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { errorConnect } from 'common/utils'
 import { User } from 'common/schemas'
 import { Form, useInvite } from 'workspace/api/useInvite'
 
@@ -69,7 +70,13 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
       </Stack>
       <Spacer />
       {error && (
-        <Tooltip label={error.error.key}>
+        <Tooltip
+          label={
+            error.error.key
+              ? 'Invitation already has been sent'
+              : errorConnect(error.error)
+          }
+        >
           <QuestionOutlineIcon alignSelf="center" m={2} />
         </Tooltip>
       )}
