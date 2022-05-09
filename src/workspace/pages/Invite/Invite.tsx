@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   Box,
   Center,
@@ -16,9 +16,9 @@ import {
   ModalFooter,
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate, useParams } from 'react-router-dom'
+import { produce } from 'immer'
+import _ from 'lodash'
 
 import { Pagination, StrapSkeleton } from 'common/components'
 import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
@@ -30,17 +30,33 @@ export function Invite(): JSX.Element {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
   const lastQuery = useWorkspaceQuery((store) => store.q)
-  const { control, handleSubmit, setValue, getValues } = useForm<Query>({
-    resolver: zodResolver(Query),
-    defaultValues: {
-      query: '',
-      page: 0,
-      limit: 2,
-    },
+  const [query, setQuery] = useState<Query>({
+    query: '',
+    page: 0,
+    limit: 5,
   })
-  const { isLoading, data } = useUsersToInvite(workspaceId ?? '', getValues())
+  const { isLoading, data, refetch } = useUsersToInvite(
+    workspaceId ?? '',
+    query,
+    true
+  )
 
-  const onSubmit = handleSubmit(() => {})
+  const fetch = useCallback(
+    _.debounce(async () => {
+      await refetch()
+    }, 500),
+    []
+  )
+
+  // wait 500ms after next api call
+  useEffect(() => {
+    fetch()
+  }, [query.query])
+
+  // refetch after every page change
+  useEffect(() => {
+    refetch()
+  }, [query.page])
 
   if (!workspaceId) throw new Error('Workspace ID is not provided')
 
@@ -52,27 +68,24 @@ export function Invite(): JSX.Element {
         <ModalCloseButton />
         <ModalBody>
           <Box mb={5}>
-            <form onSubmit={onSubmit}>
-              <Controller
-                name="query"
-                control={control}
-                render={({ field }) => (
-                  <InputGroup size="md">
-                    <InputLeftElement pointerEvents="none">
-                      <SearchIcon />
-                    </InputLeftElement>
-                    <Input
-                      placeholder="Search..."
-                      ref={field.ref}
-                      onChange={(event) => {
-                        field.onChange(event)
-                        setValue('page', 0)
-                        onSubmit()
-                      }}
-                    />
-                  </InputGroup>
-                )}
-              />
+            <form>
+              <InputGroup size="md">
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search..."
+                  value={query.query}
+                  onChange={(event) => {
+                    setQuery(
+                      produce((draft) => {
+                        draft.query = event.target.value
+                        draft.page = 0
+                      })
+                    )
+                  }}
+                />
+              </InputGroup>
             </form>
           </Box>
           <Stack>
@@ -98,10 +111,13 @@ export function Invite(): JSX.Element {
           {data?.pagination && (
             <Pagination
               onChange={(page) => {
-                setValue('page', page)
-                onSubmit()
+                setQuery(
+                  produce((draft) => {
+                    draft.page = page
+                  })
+                )
               }}
-              current={getValues('page')}
+              current={query.page}
               next={data.pagination.next}
               previous={data.pagination.previous}
               last={data.pagination.last}
