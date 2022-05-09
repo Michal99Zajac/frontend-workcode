@@ -35,7 +35,7 @@ export function SignIn(): JSX.Element {
         navigation('/workspace')
       },
       onError: (error) => {
-        runToast(error.message, 'Sign In!', 'error')
+        runToast(error.error, 'Sign In!', 'error')
       },
     })
   })

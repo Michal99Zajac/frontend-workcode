@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { CodeType } from 'common/schemas'
+import { CodeType, ApiError } from 'common/schemas'
 import { Workspace } from 'workspace/schemas'
 
 export const Form = z.object({
@@ -21,9 +21,7 @@ export const Form = z.object({
 
 export const Response = Workspace
 
-export const ErrorResponse = z.object({
-  message: z.record(z.string()),
-})
+export const ErrorResponse = ApiError
 
 export type Form = z.infer<typeof Form>
 

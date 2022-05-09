@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { ApiError } from 'common/schemas'
 import { AuthUser, Token } from 'auth/schemas'
 
 export const Form = z.object({
@@ -13,9 +14,7 @@ export const Response = z.object({
   message: z.string(),
 })
 
-export const ErrorResponse = z.object({
-  message: z.record(z.string()),
-})
+export const ErrorResponse = ApiError
 
 export type Form = z.infer<typeof Form>
 

@@ -50,7 +50,7 @@ export function Create(): JSX.Element {
         navigate(`/workspace${lastQuery}`)
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(error.error, 'Error', 'error')
       },
     })
   })

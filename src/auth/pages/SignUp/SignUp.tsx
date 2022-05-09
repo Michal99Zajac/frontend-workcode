@@ -37,7 +37,7 @@ export function SignUp(): JSX.Element {
         navigation('/auth/signin')
       },
       onError: (error) => {
-        runToast(error.message, 'Sign Up', 'error')
+        runToast(error.error, 'Sign Up', 'error')
       },
     })
   })

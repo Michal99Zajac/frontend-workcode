@@ -69,7 +69,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
       </Stack>
       <Spacer />
       {error && (
-        <Tooltip label={error.message}>
+        <Tooltip label={error.error.key}>
           <QuestionOutlineIcon alignSelf="center" m={2} />
         </Tooltip>
       )}

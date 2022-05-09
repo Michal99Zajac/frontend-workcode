@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { User } from 'common/schemas'
+import { User, ApiError } from 'common/schemas'
 
 export const Form = z.object({
   password: z.string({ required_error: 'password is required' }),
@@ -11,9 +11,7 @@ export const Form = z.object({
 
 export const Response = User
 
-export const ErrorResponse = z.object({
-  message: z.record(z.string()),
-})
+export const ErrorResponse = ApiError
 
 export type Form = z.infer<typeof Form>
 

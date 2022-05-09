@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { CodeType } from 'common/schemas'
+import { CodeType, ApiError } from 'common/schemas'
 import { Workspace } from 'workspace/schemas'
 
 export const Code = z.enum([...CodeType.options, 'ALL'])
@@ -14,9 +14,7 @@ export const Form = z.object({
 
 export const Response = Workspace.array()
 
-export const ErrorResponse = z.object({
-  message: z.record(z.string()),
-})
+export const ErrorResponse = ApiError
 
 export type Code = z.infer<typeof Code>
 

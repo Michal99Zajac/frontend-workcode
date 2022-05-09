@@ -52,7 +52,7 @@ export function Update(): JSX.Element {
         )
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(error.error, 'Error', 'error')
       },
     })
   })

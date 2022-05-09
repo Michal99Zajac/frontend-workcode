@@ -36,7 +36,7 @@ export function ChangePassword(): JSX.Element {
         navigate('/auth/signin')
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(error.error, 'Error', 'error')
       },
     })
   })

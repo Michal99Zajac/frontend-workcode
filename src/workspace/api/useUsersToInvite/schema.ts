@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { User, Pagination } from 'common/schemas'
+import { User, Pagination, ApiError } from 'common/schemas'
 
 export const Query = z.object({
   limit: z.number(),
@@ -13,9 +13,7 @@ export const Response = z.object({
   pagination: Pagination,
 })
 
-export const ErrorResponse = z.object({
-  message: z.string(),
-})
+export const ErrorResponse = ApiError
 
 export type Query = z.infer<typeof Query>
 

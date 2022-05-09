@@ -31,7 +31,7 @@ export function ForgotPassword(): JSX.Element {
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: (response) => runToast(response, 'Success', 'success'),
-      onError: (error) => runToast(error.message, 'Error', 'error'),
+      onError: (error) => runToast(error.error, 'Error', 'error'),
     })
   })
 
