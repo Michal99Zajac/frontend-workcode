@@ -13,11 +13,15 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
-import { useWorkspaceCopy, useLeaveWorkspace } from 'workspace/hooks'
-import { useWorkspaceDelete as useDelete } from 'workspace/api'
+import { useWorkspaceCopy } from 'workspace/hooks'
+import {
+  useWorkspaceDelete as useDelete,
+  useWorkspaceLeave as leaving,
+} from 'workspace/api'
 import { LeaveIcon } from 'icons/common'
 
 interface RecordMenuProps {
@@ -27,14 +31,15 @@ interface RecordMenuProps {
 
 export function RecordMenu(props: RecordMenuProps): JSX.Element {
   const { workspaceId, isOwner } = props
+  const fill = useColorModeValue('black', 'white')
   const [copy, hasCopied] = useWorkspaceCopy(workspaceId)
   const deletion = useDelete.useWorkspaceDelete({ workspaceId })
-  const [leaveWorkspace, isLeft] = useLeaveWorkspace(workspaceId)
+  const leave = leaving.useWorkspaceLeave({ workspaceId })
 
   return (
     <Menu>
       <MenuButton
-        isLoading={deletion.isLoading || isLeft}
+        isLoading={deletion.isLoading || leave.isLoading}
         as={IconButton}
         variant="ghost"
         colorScheme="gray"
@@ -72,9 +77,9 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
             _hover={{
               bg: 'red.500',
             }}
-            onClick={leaveWorkspace}
+            onClick={() => leave.mutate()}
           >
-            <LeaveIcon mr={4} /> Leave
+            <LeaveIcon fill={fill} mr={4} /> Leave
           </MenuItem>
         )}
       </MenuList>
