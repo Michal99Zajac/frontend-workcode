@@ -13,12 +13,10 @@ export const useWorkspace = (props: Props) => {
   const { _id } = props
   const codec = createCodec(Response, ErrorResponse)
 
-  return useQuery<Response, ErrorResponse>(
-    ['workspace_useWorkspace__get__', _id],
-    {
-      queryFn: () => codec(api.get(`workspaces/${_id}`)),
-    }
-  )
+  return useQuery<Response, ErrorResponse>({
+    queryKey: 'workspace_useWorkspace__get__',
+    queryFn: () => codec(api.get(`workspaces/${_id}`)),
+  })
 }
 
 export * from './schema'
