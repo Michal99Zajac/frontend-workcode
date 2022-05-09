@@ -11,7 +11,7 @@ export const useUsersToInvite = (workspaceId: string, rawQuery: Query) => {
   const query = makeQuery(rawQuery)
 
   return useQuery<Response, ErrorResponse>({
-    queryKey: ['workspace_useUsersToInvite__get__', rawQuery],
+    queryKey: ['workspace_useUsersToInvite__get__', query],
     queryFn: () => codec(api.get(`/workspaces/${workspaceId}/invite${query}`)),
   })
 }

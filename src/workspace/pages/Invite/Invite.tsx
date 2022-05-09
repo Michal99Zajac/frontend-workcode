@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   Box,
   Center,
@@ -16,95 +16,36 @@ import {
   ModalFooter,
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
-import { useForm, Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { produce } from 'immer'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Pagination, StrapSkeleton } from '../../../common/components'
-import { getUsers, Form, Fail, Response } from '../../api/getUsers'
-import { useToast } from '../../../common/hooks'
-import { LoseConnection } from '../../../icons/common'
-import { InviteStrap } from '../../components'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
+import { Pagination, StrapSkeleton } from 'common/components'
+import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
+import { LoseConnection } from 'icons/common'
+import { InviteStrap } from 'workspace/components'
+import { useWorkspaceQuery } from 'workspace/store'
 
 export function Invite(): JSX.Element {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
-  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
-  const [users, setUsers] = useState<Response>({
-    users: [],
-    navigation: {
-      first: 0,
-      last: 0,
-      current: 0,
-      next: null,
-      previous: null,
-    },
-    count: 0,
-  })
-  const runToast = useToast()
-  const { control, handleSubmit, setValue, watch } = useForm<Form>({
-    resolver: zodResolver(Form),
+  const { control, handleSubmit, setValue, getValues } = useForm<Query>({
+    resolver: zodResolver(Query),
     defaultValues: {
-      search: '',
+      query: '',
       page: 0,
-      pagination: '10',
-      workspaceId: workspaceId,
+      limit: 2,
     },
   })
-  const search = watch('search', '')
+  const { isLoading, data } = useUsersToInvite(workspaceId ?? '', getValues())
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await getUsers(data)
-      setUsers(
-        produce((draft) => {
-          draft.users = response.users
-          draft.navigation = response.navigation
-          draft.count = response.count
-        })
-      )
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
-  })
-
-  const onSearch = (
-    _event: React.ChangeEvent<HTMLInputElement>,
-    onChange: (..._event: any[]) => void
-  ) => {
-    setValue('page', 0)
-    onChange(_event)
-  }
-
-  const onPageChange = (page: number) => {
-    setValue('page', page)
-    onSubmit()
-  }
-
-  const onClose = () => {
-    refetchWorkspaces && refetchWorkspaces()
-    navigate(`/workspace${lastQuery}`)
-  }
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      onSubmit()
-    }, 500)
-
-    return () => clearTimeout(timeout)
-  }, [search])
+  const onSubmit = handleSubmit(() => {})
 
   if (!workspaceId) throw new Error('Workspace ID is not provided')
 
   return (
-    <Modal isOpen={true} onClose={onClose}>
+    <Modal isOpen={true} onClose={() => navigate(`/workspace${lastQuery}`)}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Invite</ModalHeader>
@@ -113,7 +54,7 @@ export function Invite(): JSX.Element {
           <Box mb={5}>
             <form onSubmit={onSubmit}>
               <Controller
-                name="search"
+                name="query"
                 control={control}
                 render={({ field }) => (
                   <InputGroup size="md">
@@ -123,35 +64,50 @@ export function Invite(): JSX.Element {
                     <Input
                       placeholder="Search..."
                       ref={field.ref}
-                      value={field.value}
-                      onChange={(event) => onSearch(event, field.onChange)}
+                      onChange={(event) => {
+                        field.onChange(event)
+                        setValue('page', 0)
+                        onSubmit()
+                      }}
                     />
                   </InputGroup>
                 )}
               />
             </form>
           </Box>
-          {users.users.length > 0 ? (
-            <Stack>
-              <StrapSkeleton amount={10} isLoaded={!isLoading}>
-                {users.users.map((user) => (
+          <Stack>
+            <StrapSkeleton amount={10} isLoaded={!isLoading}>
+              {data?.pagination.count ? (
+                data?.users.map((user) => (
                   <InviteStrap
                     key={user._id}
                     user={user}
                     workspaceId={workspaceId}
                   />
-                ))}
-              </StrapSkeleton>
-            </Stack>
-          ) : (
-            <Center flexDirection="column" height="270px">
-              <LoseConnection width={100} height={100} />
-              <Heading mt={5}>No Results</Heading>
-            </Center>
-          )}
+                ))
+              ) : (
+                <Center flexDirection="column" height="270px">
+                  <LoseConnection width={100} height={100} />
+                  <Heading mt={5}>No Results</Heading>
+                </Center>
+              )}
+            </StrapSkeleton>
+          </Stack>
         </ModalBody>
         <ModalFooter>
-          <Pagination onChange={onPageChange} {...users.navigation} />
+          {data?.pagination && (
+            <Pagination
+              onChange={(page) => {
+                setValue('page', page)
+                onSubmit()
+              }}
+              current={getValues('page')}
+              next={data.pagination.next}
+              previous={data.pagination.previous}
+              last={data.pagination.last}
+              first={data.pagination.first}
+            />
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

@@ -9,7 +9,7 @@ export const Query = z.object({
 })
 
 export const Response = z.object({
-  users: User,
+  users: User.array(),
   pagination: Pagination,
 })
 
