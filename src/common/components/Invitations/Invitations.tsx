@@ -12,14 +12,18 @@ import {
   Flex,
   Spacer,
   Stack,
+  Center,
 } from '@chakra-ui/react'
-import { BellIcon, RepeatIcon } from '@chakra-ui/icons'
+import { EmailIcon, RepeatIcon } from '@chakra-ui/icons'
 
+import { NothingIcon } from 'icons/common'
 import { InvitationSkeleton } from 'common/components/Skeletons'
 import { Invitation } from 'common/components'
 import { useInvitations } from 'common/api/useInvitations'
+import { useMode } from 'common/hooks'
 
 export function Invitations() {
+  const mode = useMode()
   const [isOpen, setIsOpen] = useState(false)
   const { data, refetch, isFetched } = useInvitations()
 
@@ -37,7 +41,7 @@ export function Invitations() {
             size="xs"
             variant="ghost"
             aria-label="invitations-button"
-            icon={<BellIcon fontSize="lg" />}
+            icon={<EmailIcon fontSize="lg" />}
           />
         </PopoverTrigger>
         <PopoverContent>
@@ -51,6 +55,11 @@ export function Invitations() {
                 ))}
               </InvitationSkeleton>
             </Stack>
+            {data && !data.length && (
+              <Center>
+                <NothingIcon fill={mode('black', 'white')} fontSize="6em" />
+              </Center>
+            )}
           </PopoverBody>
           <PopoverFooter>
             <Flex>
