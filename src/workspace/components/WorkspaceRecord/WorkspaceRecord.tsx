@@ -23,7 +23,9 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
     <Tr _hover={{ bg: hoverRecord }}>
       <Td borderColor={borderColor}>
         <Link as={RouterLink} to={`/editor/${workspace._id}`}>
-          <Text isTruncated>{workspace.name}</Text>
+          <Text isTruncated maxW="300px">
+            {workspace.name}
+          </Text>
         </Link>
       </Td>
       <Td borderColor={borderColor}>

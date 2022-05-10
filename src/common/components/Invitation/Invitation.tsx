@@ -32,7 +32,7 @@ export function Invitation(props: Props) {
   return (
     <Flex w="100%" p={1} borderRadius={4} align="center">
       <Box>
-        <Heading size="xs" isTruncated mb={1}>
+        <Heading size="xs" isTruncated maxW="200px" mb={1}>
           {workspace.name}
         </Heading>
         <Flex align="center" w="max-content">
