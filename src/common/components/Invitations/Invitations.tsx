@@ -8,21 +8,19 @@ import {
   IconButton,
   PopoverHeader,
   PopoverBody,
+  PopoverFooter,
   Flex,
-  Heading,
-  Tag,
-  Avatar,
-  TagLabel,
-  Text,
   Spacer,
-  HStack,
+  Stack,
 } from '@chakra-ui/react'
-import { BellIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
+import { BellIcon, RepeatIcon } from '@chakra-ui/icons'
 
 import { Invitation } from 'common/components'
+import { useInvitations } from 'common/api/useInvitations'
 
 export function Invitations() {
   const [isOpen, setIsOpen] = useState(false)
+  const { data, refetch } = useInvitations()
 
   return (
     <Box zIndex="popover">
@@ -45,8 +43,24 @@ export function Invitations() {
           <PopoverHeader>Invitations</PopoverHeader>
           <PopoverCloseButton />
           <PopoverBody maxH="400px" overflow="scroll">
-            <Invitation />
+            <Stack>
+              {data?.map((invitation) => (
+                <Invitation key={invitation._id} invitation={invitation} />
+              ))}
+            </Stack>
           </PopoverBody>
+          <PopoverFooter>
+            <Flex>
+              <Spacer />
+              <IconButton
+                size="sm"
+                variant="outline"
+                aria-label="refetch"
+                onClick={() => refetch()}
+                icon={<RepeatIcon />}
+              />
+            </Flex>
+          </PopoverFooter>
         </PopoverContent>
       </Popover>
     </Box>

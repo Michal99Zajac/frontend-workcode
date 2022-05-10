@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 
 import './index.scss'
 import App from './App'
+import 'date'
 
 export const queryClient = new QueryClient()
 
