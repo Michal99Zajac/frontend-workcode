@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { EmailIcon, RepeatIcon } from '@chakra-ui/icons'
 
-import { NothingIcon } from 'icons/common'
+import { NoMailIcon } from 'icons/common'
 import { InvitationSkeleton } from 'common/components/Skeletons'
 import { Invitation } from 'common/components'
 import { useInvitations } from 'common/api/useInvitations'
@@ -57,7 +57,7 @@ export function Invitations() {
             </Stack>
             {data && !data.length && (
               <Center>
-                <NothingIcon fill={mode('black', 'white')} fontSize="6em" />
+                <NoMailIcon fill={mode('black', 'white')} fontSize="6em" />
               </Center>
             )}
           </PopoverBody>
