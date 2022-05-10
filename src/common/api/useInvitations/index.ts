@@ -11,7 +11,6 @@ export const useInvitations = () => {
   return useQuery<Response, ErrorResponse>({
     queryKey: 'common_useInvitations__get__',
     queryFn: () => codec(api.get('/users/me/invitations')),
-    staleTime: 1000 * 60 * 5,
   })
 }
 

@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
+import { useInviteAccept } from 'common/api/useInviteAccept'
 
 import { Invitation as InvitationType } from 'common/schemas'
 
@@ -22,8 +23,9 @@ interface Props {
 
 export function Invitation(props: Props) {
   const {
-    invitation: { workspace, createdAt },
+    invitation: { workspace, createdAt, _id },
   } = props
+  const accept = useInviteAccept({ invitationId: _id })
 
   return (
     <Flex w="100%" p={1} borderRadius={4} align="center">
@@ -53,6 +55,8 @@ export function Invitation(props: Props) {
           size="xs"
           aria-label="accept"
           icon={<CheckIcon />}
+          isLoading={accept.isLoading}
+          onClick={() => accept.mutate()}
         />
         <IconButton
           colorScheme="red"
@@ -60,6 +64,7 @@ export function Invitation(props: Props) {
           size="xs"
           aria-label="decline"
           icon={<CloseIcon />}
+          disabled={accept.isLoading}
         />
       </HStack>
     </Flex>
