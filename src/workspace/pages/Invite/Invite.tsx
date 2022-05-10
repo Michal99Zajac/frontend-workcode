@@ -22,11 +22,13 @@ import _ from 'lodash'
 
 import { Pagination, StrapSkeleton } from 'common/components'
 import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
-import { LoseConnection } from 'icons/common'
+import { NothingIcon } from 'icons/common'
 import { InviteStrap } from 'workspace/components'
 import { useWorkspaceQuery } from 'workspace/store'
+import { useMode } from 'common/hooks'
 
 export function Invite(): JSX.Element {
+  const mode = useMode()
   const { workspaceId } = useParams()
   const navigate = useNavigate()
   const lastQuery = useWorkspaceQuery((store) => store.q)
@@ -100,7 +102,7 @@ export function Invite(): JSX.Element {
                 ))
               ) : (
                 <Center flexDirection="column" height="270px">
-                  <LoseConnection width={100} height={100} />
+                  <NothingIcon fill={mode('black', 'white')} fontSize="150px" />
                   <Heading mt={5}>No Results</Heading>
                 </Center>
               )}
