@@ -15,12 +15,13 @@ import {
 } from '@chakra-ui/react'
 import { BellIcon, RepeatIcon } from '@chakra-ui/icons'
 
+import { InvitationSkeleton } from 'common/components/Skeletons'
 import { Invitation } from 'common/components'
 import { useInvitations } from 'common/api/useInvitations'
 
 export function Invitations() {
   const [isOpen, setIsOpen] = useState(false)
-  const { data, refetch } = useInvitations()
+  const { data, refetch, isFetched } = useInvitations()
 
   return (
     <Box zIndex="popover">
@@ -44,9 +45,11 @@ export function Invitations() {
           <PopoverCloseButton />
           <PopoverBody maxH="400px" overflow="scroll">
             <Stack>
-              {data?.map((invitation) => (
-                <Invitation key={invitation._id} invitation={invitation} />
-              ))}
+              <InvitationSkeleton amount={3} isLoaded={isFetched}>
+                {data?.map((invitation) => (
+                  <Invitation key={invitation._id} invitation={invitation} />
+                ))}
+              </InvitationSkeleton>
             </Stack>
           </PopoverBody>
           <PopoverFooter>
