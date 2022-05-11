@@ -13,20 +13,25 @@ import {
   useColorModeValue,
   IconButton,
   Tooltip,
+  Center,
 } from '@chakra-ui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useWorkspaces, Form } from 'workspace/api/useWorkspaces'
-import { WorkspaceRecord, WorkspaceFilters } from 'workspace/components'
+import {
+  WorkspaceRecord,
+  WorkspaceFilters,
+  NoWorkspaces,
+} from 'workspace/components'
 import { useAuth } from 'common/store'
 import { Surface, TableRecordSkeleton } from 'common/components'
 import { useQueryForm } from 'common/hooks'
 import { useWorkspaceQuery } from 'workspace/store'
 
 export function Menu(): JSX.Element {
-  const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
+  const tableHeaderBG = useColorModeValue('blue.500', 'blue.200')
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
 
   const updateQuery = useWorkspaceQuery((store) => store.update)
@@ -97,7 +102,7 @@ export function Menu(): JSX.Element {
                 </Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody position="relative">
               <TableRecordSkeleton
                 isLoaded={!isFetching}
                 amount={16}
@@ -111,6 +116,18 @@ export function Menu(): JSX.Element {
                   />
                 ))}
               </TableRecordSkeleton>
+              {!isFetching && !workspaces?.length && (
+                <Center
+                  height="400px"
+                  position="absolute"
+                  left="0"
+                  right="0"
+                  marginLeft="auto"
+                  marginRight="auto"
+                >
+                  <NoWorkspaces />
+                </Center>
+              )}
             </Tbody>
           </Table>
         </Surface>
