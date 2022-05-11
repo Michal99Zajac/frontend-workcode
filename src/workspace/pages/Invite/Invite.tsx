@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import {
   Box,
-  Center,
   Input,
   InputGroup,
   InputLeftElement,
@@ -22,7 +21,7 @@ import _ from 'lodash'
 
 import { Pagination, StrapSkeleton } from 'common/components'
 import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
-import { NothingIcon } from 'icons/common'
+import { NotFoundIcon } from 'icons/common'
 import { InviteStrap } from 'workspace/components'
 import { useWorkspaceQuery } from 'workspace/store'
 import { useMode } from 'common/hooks'
@@ -68,7 +67,7 @@ export function Invite(): JSX.Element {
       <ModalContent>
         <ModalHeader>Invite</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody minH="360px">
           <Box mb={5}>
             <form onSubmit={(_e) => _e.preventDefault()}>
               <InputGroup size="md">
@@ -101,10 +100,13 @@ export function Invite(): JSX.Element {
                   />
                 ))
               ) : (
-                <Center flexDirection="column" height="270px">
-                  <NothingIcon fill={mode('black', 'white')} fontSize="150px" />
-                  <Heading mt={5}>No Results</Heading>
-                </Center>
+                <Stack align="center">
+                  <NotFoundIcon
+                    fill={mode('black', 'white')}
+                    fontSize="150px"
+                  />
+                  <Heading size="lg">No Results</Heading>
+                </Stack>
               )}
             </StrapSkeleton>
           </Stack>
