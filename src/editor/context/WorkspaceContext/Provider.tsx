@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 
 import { Workspace } from '../../../workspace/schemas'
 import { getWorkspace, Fail } from '../../../workspace/api/getWorkspace'
@@ -14,7 +14,6 @@ interface WorkspaceProviderProps {
 export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
   const { children } = props
   const { workspaceId } = useParams()
-  const navigate = useNavigate()
   const toast = useToast()
 
   if (!workspaceId) return <Navigate to="/workspace" />
@@ -31,7 +30,6 @@ export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
     } catch (error) {
       const fail = Fail.parse(error)
       toast(fail, 'Workspace', 'error')
-      navigate('/workspace')
     }
 
     setIsLoading(false)
