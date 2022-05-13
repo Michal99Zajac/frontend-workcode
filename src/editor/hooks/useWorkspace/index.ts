@@ -7,7 +7,7 @@ export const useWorkspace = () => {
 
   if (!workspace) throw new Error('Workspace context is not provided')
 
-  return workspace
+  return { ...workspace.editorWorkspace }
 }
 
 export default useWorkspace

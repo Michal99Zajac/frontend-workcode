@@ -9,8 +9,7 @@ import Chat from '../Chat'
 
 export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
-  const { editorWorkspace } = useWorkspace()
-  const workspace = editorWorkspace?.workspace
+  const { workspace } = useWorkspace()
   const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
