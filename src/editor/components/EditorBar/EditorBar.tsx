@@ -7,19 +7,22 @@ import {
   EditorCompas,
   Chat,
 } from 'editor/components'
-import { useEditor, useWorkspace } from 'editor/hooks'
+import { useEditor, useEditorSocket, useWorkspace } from 'editor/hooks'
 
 export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
   const { workspace } = useWorkspace()
+  const { active } = useEditorSocket()
   const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
     <Flex h="22px" minH="22px" alignItems="center" pl={1} bg={barBG}>
       <ActiveContributors
         isLoading={!workspace}
-        contributors={workspace?.contributors || []}
-        activeContributorsIds={[]}
+        contributors={
+          workspace ? [...workspace.contributors, workspace.author] : []
+        }
+        activeContributorsIds={active}
       />
       <Spacer />
       <EditorCompas {...cursor} />

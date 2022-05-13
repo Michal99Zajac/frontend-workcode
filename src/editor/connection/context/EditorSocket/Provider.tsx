@@ -16,6 +16,7 @@ export const EditorSockProvider = (props: Props) => {
   const token = useAuth((store) => store.token)
   const { children, workspaceId } = props
   const [socket, setSocket] = useState<Socket | null>(null)
+  const [active, setActive] = useState<_ID[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -28,13 +29,9 @@ export const EditorSockProvider = (props: Props) => {
       },
     })
 
-    // socket.on('join', (message) => {
-    //   console.log(message)
-    // })
+    socket.on('join', (users) => setActive(users))
 
-    // socket.on('leave', (message) => {
-    //   console.log(message)
-    // })
+    socket.on('leave', (users) => setActive(users))
 
     socket.on('connect_error', (err) => {
       console.error(err instanceof Error)
@@ -53,6 +50,7 @@ export const EditorSockProvider = (props: Props) => {
     <EditorSockContext.Provider
       value={{
         socket,
+        active,
       }}
     >
       {children}
