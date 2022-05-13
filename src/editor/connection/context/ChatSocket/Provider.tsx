@@ -41,6 +41,8 @@ export const ChatProvider = (props: Props) => {
     }
   }, [])
 
+  if (!socket) return <div>Loading...</div>
+
   return (
     <ChatContext.Provider
       value={{

@@ -1,57 +1,42 @@
-import React, { useState } from 'react'
-import { z } from 'zod'
+import React from 'react'
 import { Flex, IconButton, Input } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 
-import { Form, Fail, sendMessage } from 'editor/api/sendMessage'
 import { SendIcon } from 'icons/common'
-import { useAuth } from 'common/store'
-import { useToast } from 'common/hooks'
+import { useChatSocket } from 'editor/hooks'
+import { CHAT_OPERATION } from 'editor/connection'
 
-const MessageForm = Form.pick({ message: true })
-type MessageForm = z.infer<typeof MessageForm>
+import { Form } from './schema'
+
 export function ChatSend(): JSX.Element {
-  const toast = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const userId = useAuth((store) => store.user?._id) ?? ''
-  const { register, handleSubmit, setValue } = useForm<MessageForm>({
+  const { register, handleSubmit, setValue } = useForm<Form>({
     defaultValues: {
       message: '',
     },
-    resolver: zodResolver(MessageForm),
+    resolver: zodResolver(Form),
   })
+  const { socket: chat } = useChatSocket()
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      await sendMessage({
-        message: data.message,
-        author: userId,
-        timestamp: dayjs().toDate(),
-      })
-      setValue('message', '')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      toast(fail, 'Chat', 'error')
-    }
-    setIsLoading(false)
+    chat?.emit(CHAT_OPERATION.SEND, {
+      message: data.message,
+      createdAt: dayjs().toString(),
+    })
+    setValue('message', '')
   })
 
   return (
     <Flex position="relative" as="form" onSubmit={onSubmit} gap={2}>
       <Input
         autoComplete="off"
-        isDisabled={isLoading}
         {...register('message')}
         placeholder="message"
         size="sm"
       />
       <IconButton
         type="submit"
-        isDisabled={isLoading}
-        isLoading={isLoading}
         fill="current"
         aria-label="send icon"
         size="sm"

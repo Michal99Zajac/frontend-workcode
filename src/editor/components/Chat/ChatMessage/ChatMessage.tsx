@@ -2,26 +2,33 @@ import React from 'react'
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 
-import { Message } from 'editor/schemas'
-import { useAuth } from 'common/store'
 import { useMode } from 'common/hooks'
+import { ChatMessage as TChatMessage } from 'editor/components/Chat/types'
 
-interface ChatMessageProps {
-  message: Message
+interface Props {
+  message: TChatMessage
+  isMe: boolean
 }
 
-export function ChatMessage(props: ChatMessageProps): JSX.Element {
-  const { message } = props
+export function ChatMessage(props: Props): JSX.Element {
+  const {
+    message: { message, user },
+    isMe,
+  } = props
   const mode = useMode()
-  const currentUser = useAuth((store) => store.user)
-  const isMy = currentUser?._id === message.author._id
 
   return (
     <Flex>
-      {!isMy && <Avatar src="" size="xs" />}
+      {!isMe && (
+        <Avatar
+          src={user.src ?? undefined}
+          name={`${user.name} ${user.lastname}`}
+          size="xs"
+        />
+      )}
       <Box
         bg={
-          isMy
+          isMe
             ? mode('blackAlpha.700', 'whiteAlpha.700')
             : mode('blue.600', 'blue.200')
         }
@@ -30,7 +37,7 @@ export function ChatMessage(props: ChatMessageProps): JSX.Element {
         borderRadius="sm"
       >
         <Text fontSize="xs" mb={2} color={mode('gray.400', 'gray.700')}>
-          {message.author.name} {message.author.lastname}
+          {user.name} {user.lastname}
         </Text>
         <Text color={mode('white', 'black')} fontSize="xs">
           {message.message}
@@ -41,7 +48,7 @@ export function ChatMessage(props: ChatMessageProps): JSX.Element {
           mt={2}
           color={mode('gray.400', 'gray.700')}
         >
-          {dayjs(message.date).format('HH:mm D MMM YYYY')}
+          {dayjs(message.createdAt).format('HH:mm D MMM YYYY')}
         </Text>
       </Box>
     </Flex>

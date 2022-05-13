@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Circle,
   Popover,
@@ -10,19 +10,37 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
-import dayjs from 'dayjs'
 
-import { currentUser, users } from '../../../fixtures' // TODO: remove after development
 import useMode from 'common/hooks/useMode'
-import { ChatStatus } from 'editor/schemas'
+import { ChatStatus, Message } from 'editor/schemas'
+import { useChatSocket, useWorkspace } from 'editor/hooks'
+import { CHAT_OPERATION } from 'editor/connection'
+import { useAuth } from 'common/store'
 
 import { ChatMessage } from './ChatMessage'
 import { ChatSend } from './ChatSend'
 import { Styled } from './styled'
+import { ChatMessage as TChatMessage } from './types'
 
 export function Chat(): JSX.Element {
   const [status, setStatus] = useState<ChatStatus>('NEW')
+  const [messages, setMessages] = useState<TChatMessage[]>([])
+  const userId = useAuth((store) => store.user?._id)
+  const { socket: chat } = useChatSocket()
+  const { workspace } = useWorkspace()
   const mode = useMode()
+
+  useEffect(() => {
+    if (!workspace) return
+
+    chat.on(CHAT_OPERATION.RECIVE, (message: Message) => {
+      const user = [...workspace.contributors, workspace.author].find(
+        (user) => user._id === message.userId
+      )
+
+      if (user) setMessages((old) => [...old, { message: message, user: user }])
+    })
+  }, [])
 
   return (
     <Popover placement="top-end" onOpen={() => setStatus('READED')}>
@@ -44,33 +62,13 @@ export function Chat(): JSX.Element {
         <PopoverCloseButton />
         <Styled.PopoverBody>
           <Stack>
-            <ChatMessage
-              message={{
-                id: '',
-                author: currentUser,
-                date: dayjs().toDate(),
-                message:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin neque quam, posuere id tincidunt eu, suscipit vel ipsum. Mauris at condimentum turpis, eu blandit urna. Pellentesque imperdiet consequat sapien, non fringilla ipsum dictum a. Quisque at euismod diam. Donec tellus lacus, faucibus eget dignissim quis, feugiat vitae tellus. Duis condimentum ullamcorper placerat. Pellentesque vulputate quam eget tristique egestas. Aenean id tempus eros.',
-              }}
-            />
-            <ChatMessage
-              message={{
-                id: '',
-                author: users[1],
-                date: dayjs().toDate(),
-                message:
-                  'faucibus eget dignissim quis, feugiat vitae tellus. Duis condimentum ullamcorper placerat. Pellentesque vulputate quam eget tristique egestas. Aenean id tempus eros.',
-              }}
-            />
-            <ChatMessage
-              message={{
-                id: '',
-                author: users[1],
-                date: dayjs().toDate(),
-                message:
-                  'faucibus eget dignissim quis, feugiat vitae tellus. Duis condimentum ullamcorper placerat. Pellentesque vulputate quam eget tristique egestas. Aenean id tempus eros.',
-              }}
-            />
+            {messages.map((message) => (
+              <ChatMessage
+                key={message.message.createdAt}
+                message={message}
+                isMe={message.message.userId === userId}
+              />
+            ))}
           </Stack>
         </Styled.PopoverBody>
         <PopoverFooter>
