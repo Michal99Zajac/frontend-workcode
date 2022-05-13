@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 
 import { WorkspaceProvider, EditorProvider } from 'editor/context'
 import { CodeEditor, EditorBar } from 'editor/components'
-import { EditorSockProvider } from 'editor/connection'
+import { EditorSockProvider, ChatProvider } from 'editor/connection'
 import { useParams } from 'react-router-dom'
 
 export function Editor(): JSX.Element {
@@ -15,14 +15,16 @@ export function Editor(): JSX.Element {
   return (
     <WorkspaceProvider workspaceId={workspaceId}>
       <EditorSockProvider workspaceId={workspaceId}>
-        <EditorProvider>
-          <Flex h="100vh" w="100%" maxH="100%" flexDirection="column">
-            <Box flexGrow={1} overflow="auto">
-              <CodeEditor />
-            </Box>
-            <EditorBar />
-          </Flex>
-        </EditorProvider>
+        <ChatProvider workspaceId={workspaceId}>
+          <EditorProvider>
+            <Flex h="100vh" w="100%" maxH="100%" flexDirection="column">
+              <Box flexGrow={1} overflow="auto">
+                <CodeEditor />
+              </Box>
+              <EditorBar />
+            </Flex>
+          </EditorProvider>
+        </ChatProvider>
       </EditorSockProvider>
     </WorkspaceProvider>
   )
