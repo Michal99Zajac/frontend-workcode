@@ -28,13 +28,13 @@ export const EditorSockProvider = (props: Props) => {
       },
     })
 
-    socket.on('join', (message) => {
-      console.log(message)
-    })
+    // socket.on('join', (message) => {
+    //   console.log(message)
+    // })
 
-    socket.on('leave', (message) => {
-      console.log(message)
-    })
+    // socket.on('leave', (message) => {
+    //   console.log(message)
+    // })
 
     socket.on('connect_error', (err) => {
       console.error(err instanceof Error)
