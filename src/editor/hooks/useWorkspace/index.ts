@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { WorkspaceContext } from '../../context/WorkspaceContext'
+import { WorkspaceContext } from 'editor/context'
 
 export const useWorkspace = () => {
   const workspace = useContext(WorkspaceContext)

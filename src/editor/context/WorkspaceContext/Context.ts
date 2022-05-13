@@ -1,19 +1,13 @@
 import React from 'react'
 
-import { Workspace } from '../../../workspace/schemas'
+import { Editor } from 'editor/schemas'
 
-type SetWorkspace = (workspace: Workspace) => void
 interface WorkspaceContext {
-  isLoading: boolean
-  workspace: Workspace | null
-  setWorkspace: SetWorkspace
+  editorWorkspace: Editor | undefined
 }
 
-const noop = () => {}
 export const WorkspaceContext = React.createContext<WorkspaceContext>({
-  isLoading: true,
-  workspace: null,
-  setWorkspace: noop,
+  editorWorkspace: undefined,
 })
 
 export default WorkspaceContext

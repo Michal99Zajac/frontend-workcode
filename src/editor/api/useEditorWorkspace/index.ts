@@ -10,15 +10,15 @@ interface Params {
   workspaceId: _ID
 }
 
-export const useEditor = (params: Params) => {
+export const useEditorWorkspace = (params: Params) => {
   const { workspaceId } = params
   const codec = createCodec(Response, ErrorResponse)
 
   return useQuery<Response, ErrorResponse>({
-    queryKey: 'editor_useEditor__get__',
+    queryKey: 'editor_useEditorWorkspace__get__',
     queryFn: () => codec(api.get(`editors/${workspaceId}`)),
   })
 }
 
 export * from './schema'
-export default useEditor
+export default useEditorWorkspace

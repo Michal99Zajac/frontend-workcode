@@ -9,13 +9,14 @@ import Chat from '../Chat'
 
 export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
-  const { isLoading, workspace } = useWorkspace()
+  const { editorWorkspace } = useWorkspace()
+  const workspace = editorWorkspace?.workspace
   const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
     <Flex h="22px" minH="22px" alignItems="center" pl={1} bg={barBG}>
       <ActiveContributors
-        isLoading={isLoading}
+        isLoading={!!workspace}
         contributors={workspace?.contributors || []}
         activeContributorsIds={[]}
       />
