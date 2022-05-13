@@ -1,11 +1,13 @@
 import React from 'react'
 import { Flex, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
 
-import { CodeLabel } from '../CodeLabel'
-import { ActiveContributors } from '../ActiveContributors'
-import { EdiorCompas } from '../EditorCompas'
-import { useEditor, useWorkspace } from '../../hooks'
-import Chat from '../Chat'
+import {
+  CodeLabel,
+  ActiveContributors,
+  EditorCompas,
+  Chat,
+} from 'editor/components'
+import { useEditor, useWorkspace } from 'editor/hooks'
 
 export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
@@ -15,12 +17,12 @@ export function EditorBar(): JSX.Element {
   return (
     <Flex h="22px" minH="22px" alignItems="center" pl={1} bg={barBG}>
       <ActiveContributors
-        isLoading={!!workspace}
+        isLoading={!workspace}
         contributors={workspace?.contributors || []}
         activeContributorsIds={[]}
       />
       <Spacer />
-      <EdiorCompas {...cursor} />
+      <EditorCompas {...cursor} />
       <Chat />
       {workspace?.code ? (
         <CodeLabel type={workspace.code} />

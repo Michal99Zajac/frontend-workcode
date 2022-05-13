@@ -1,8 +1,8 @@
 import React from 'react'
 import { Tag } from '@chakra-ui/react'
 
-import { CodeType } from '../../../common/schemas'
-import { codeColors } from '../../../common/utils'
+import { CodeType } from 'common/schemas'
+import { codeColors } from 'common/utils'
 
 interface CodeLabelProps {
   type: CodeType

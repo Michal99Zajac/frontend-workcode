@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { User, UUID } from '../../../common/schemas'
+import { User, UUID } from 'common/schemas'
 
 export const Message = z.object({
   id: UUID,

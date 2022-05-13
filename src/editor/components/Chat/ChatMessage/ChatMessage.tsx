@@ -2,9 +2,9 @@ import React from 'react'
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 
-import { Message } from '../../../schemas'
-import { useAuth } from '../../../../common/store'
-import { useMode } from '../../../../common/hooks'
+import { Message } from 'editor/schemas'
+import { useAuth } from 'common/store'
+import { useMode } from 'common/hooks'
 
 interface ChatMessageProps {
   message: Message

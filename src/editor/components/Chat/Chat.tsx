@@ -13,8 +13,8 @@ import { ChatIcon } from '@chakra-ui/icons'
 import dayjs from 'dayjs'
 
 import { currentUser, users } from '../../../fixtures' // TODO: remove after development
-import useMode from '../../../common/hooks/useMode'
-import { ChatStatus } from '../../schemas'
+import useMode from 'common/hooks/useMode'
+import { ChatStatus } from 'editor/schemas'
 
 import { ChatMessage } from './ChatMessage'
 import { ChatSend } from './ChatSend'

@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 
-import { Form, Fail, sendMessage } from '../../../api/sendMessage'
-import { SendIcon } from '../../../../icons/common'
-import { useAuth } from '../../../../common/store'
-import { useToast } from '../../../../common/hooks'
+import { Form, Fail, sendMessage } from 'editor/api/sendMessage'
+import { SendIcon } from 'icons/common'
+import { useAuth } from 'common/store'
+import { useToast } from 'common/hooks'
 
 const MessageForm = Form.pick({ message: true })
 type MessageForm = z.infer<typeof MessageForm>

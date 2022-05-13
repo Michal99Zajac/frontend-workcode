@@ -13,10 +13,10 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 
-import { Contributor, UUID } from '../../../common/schemas'
-import { UserIcon } from '../../../icons/common'
-import { AvatarSkeleton } from '../../../common/components'
-import useMode from '../../../common/hooks/useMode'
+import { Contributor, UUID } from 'common/schemas'
+import { UserIcon } from 'icons/common'
+import { AvatarSkeleton } from 'common/components'
+import useMode from 'common/hooks/useMode'
 
 interface ActiveContributorsProps {
   isLoading: boolean

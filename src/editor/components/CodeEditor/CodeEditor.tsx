@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import { Editor as EditorType } from 'codemirror'
 
-import { useEditor } from '../../hooks'
+import { useEditor } from 'editor/hooks'
 
 import { Editor } from './styled'
 
