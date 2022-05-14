@@ -5,8 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 
 import { SendIcon } from 'icons/common'
-import { useChatSocket } from 'editor/hooks'
-import { CHAT_OPERATION } from 'editor/connection'
+import { useSend } from 'editor/connection'
 
 import { Form } from './schema'
 
@@ -17,10 +16,10 @@ export function ChatSend(): JSX.Element {
     },
     resolver: zodResolver(Form),
   })
-  const { socket: chat } = useChatSocket()
+  const send = useSend()
 
   const onSubmit = handleSubmit(async (data) => {
-    chat?.emit(CHAT_OPERATION.SEND, {
+    send({
       message: data.message,
       createdAt: dayjs().toString(),
     })
