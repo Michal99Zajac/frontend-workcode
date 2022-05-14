@@ -13,32 +13,33 @@ import { ChatIcon } from '@chakra-ui/icons'
 
 import useMode from 'common/hooks/useMode'
 import { ChatStatus } from 'editor/schemas'
-import { useWorkspace } from 'editor/hooks'
 import { useRecive } from 'editor/connection'
-import { useAuth } from 'common/store'
 
 import { ChatMessage } from './ChatMessage'
 import { ChatSend } from './ChatSend'
 import { Styled } from './styled'
-import { ChatMessage as TChatMessage } from './types'
 
 export function Chat(): JSX.Element {
-  const [status, setStatus] = useState<ChatStatus>('NEW')
-  const [messages, setMessages] = useState<TChatMessage[]>([])
-  const userId = useAuth((store) => store.user?._id)
-  const { workspace } = useWorkspace()
+  const [status, setStatus] = useState<ChatStatus>('READED')
+  const [isOpen, setIsOpen] = useState(false)
   const mode = useMode()
 
-  useRecive((message) => {
-    const user = [...workspace.contributors, workspace.author].find(
-      (user) => user._id === message.userId
-    )
-
-    if (user) setMessages((old) => [...old, { message: message, user: user }])
-  }, [])
+  const messages = useRecive((messages) => {
+    if (messages.length !== 0 && !isOpen) {
+      setStatus('NEW')
+    }
+  })
 
   return (
-    <Popover placement="top-end" onOpen={() => setStatus('READED')}>
+    <Popover
+      placement="top-end"
+      isOpen={isOpen}
+      onOpen={() => {
+        setIsOpen(true)
+        setStatus('READED')
+      }}
+      onClose={() => setIsOpen(false)}
+    >
       <PopoverTrigger>
         <Circle
           mx={1}
@@ -58,11 +59,7 @@ export function Chat(): JSX.Element {
         <Styled.PopoverBody>
           <Stack>
             {messages.map((message) => (
-              <ChatMessage
-                key={message.message.createdAt}
-                message={message}
-                isMe={message.message.userId === userId}
-              />
+              <ChatMessage key={message.createdAt} message={message} />
             ))}
           </Stack>
         </Styled.PopoverBody>

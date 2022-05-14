@@ -1,21 +1,29 @@
 import React from 'react'
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import dayjs from 'dayjs'
+import { Navigate } from 'react-router-dom'
 
 import { useMode } from 'common/hooks'
-import { ChatMessage as TChatMessage } from 'editor/components/Chat/types'
+import { Message } from 'editor/schemas'
+import { useWorkspace } from 'editor/hooks'
+import { useAuth } from 'common/store'
 
 interface Props {
-  message: TChatMessage
-  isMe: boolean
+  message: Message
 }
 
 export function ChatMessage(props: Props): JSX.Element {
-  const {
-    message: { message, user },
-    isMe,
-  } = props
+  const { message } = props
   const mode = useMode()
+  const userId = useAuth((store) => (store.user ? store.user._id : ''))
+  const { workspace } = useWorkspace()
+
+  const user = [...workspace.contributors, workspace.author].find(
+    (user) => user._id === message.userId
+  )
+  const isMe = user?._id === userId
+
+  if (!user) return <Navigate to="/workspace" />
 
   return (
     <Flex alignSelf={isMe ? 'flex-end' : undefined}>
