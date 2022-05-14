@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Circle,
   Popover,
@@ -12,9 +12,9 @@ import {
 import { ChatIcon } from '@chakra-ui/icons'
 
 import useMode from 'common/hooks/useMode'
-import { ChatStatus, Message } from 'editor/schemas'
-import { useChatSocket, useWorkspace } from 'editor/hooks'
-import { CHAT_OPERATION } from 'editor/connection'
+import { ChatStatus } from 'editor/schemas'
+import { useWorkspace } from 'editor/hooks'
+import { useRecive } from 'editor/connection'
 import { useAuth } from 'common/store'
 
 import { ChatMessage } from './ChatMessage'
@@ -26,20 +26,15 @@ export function Chat(): JSX.Element {
   const [status, setStatus] = useState<ChatStatus>('NEW')
   const [messages, setMessages] = useState<TChatMessage[]>([])
   const userId = useAuth((store) => store.user?._id)
-  const { socket: chat } = useChatSocket()
   const { workspace } = useWorkspace()
   const mode = useMode()
 
-  useEffect(() => {
-    if (!workspace) return
+  useRecive((message) => {
+    const user = [...workspace.contributors, workspace.author].find(
+      (user) => user._id === message.userId
+    )
 
-    chat.on(CHAT_OPERATION.RECIVE, (message: Message) => {
-      const user = [...workspace.contributors, workspace.author].find(
-        (user) => user._id === message.userId
-      )
-
-      if (user) setMessages((old) => [...old, { message: message, user: user }])
-    })
+    if (user) setMessages((old) => [...old, { message: message, user: user }])
   }, [])
 
   return (

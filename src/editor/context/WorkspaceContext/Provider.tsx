@@ -27,6 +27,8 @@ export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
 
   if (isError) return <Navigate to="/workspace" />
 
+  if (!data) return <div>Loading...</div>
+
   if (isLoading) return <div>Loading...</div>
 
   return (
