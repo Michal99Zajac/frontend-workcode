@@ -4,12 +4,12 @@ import { Socket } from 'socket.io-client'
 import { _ID } from 'common/schemas'
 
 export interface EditorSockContext {
-  socket: Socket | null
+  socket: Socket
   active: _ID[]
 }
 
 export const EditorSockContext = React.createContext<EditorSockContext>({
-  socket: null,
+  socket: {} as any,
   active: [],
 })
 

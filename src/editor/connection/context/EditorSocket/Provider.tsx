@@ -46,6 +46,8 @@ export const EditorSockProvider = (props: Props) => {
     }
   }, [])
 
+  if (!socket) return <div>...Loading</div>
+
   return (
     <EditorSockContext.Provider
       value={{

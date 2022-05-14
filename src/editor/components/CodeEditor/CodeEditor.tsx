@@ -4,6 +4,7 @@ import { useColorMode } from '@chakra-ui/react'
 import { Editor as EditorType } from 'codemirror'
 
 import { useEditor } from 'editor/hooks'
+import { useType, useUpdate } from 'editor/connection'
 
 import { Editor } from './styled'
 
@@ -21,7 +22,16 @@ import 'codemirror/addon/edit/closebrackets'
 // get cursor coords and send to the other teammates
 export function CodeEditor() {
   const { colorMode } = useColorMode()
-  const { setCursor, setEditor } = useEditor()
+  const [content, setContent] = useState('')
+  const { setCursor, setEditor, editor } = useEditor()
+  const type = useType()
+  useUpdate((message) => {
+    if (message) {
+      const { change, user } = message
+      console.log({ change, user })
+      editor?.replaceRange(change.text, change.from, change.to, 'update')
+    }
+  })
 
   return (
     <Editor
@@ -40,13 +50,19 @@ export function CodeEditor() {
         autocorrect: true,
         tabSize: 2,
       }}
+      value={content}
       onCursor={(editor, data) => {
         setCursor({
           ch: data.ch,
           line: data.line,
         })
       }}
-      onChange={(editor, data, value) => {}}
+      onChange={(editor, data, value) => {
+        if (data.origin !== 'update') {
+          setContent(value)
+          type(data)
+        }
+      }}
     />
   )
 }
