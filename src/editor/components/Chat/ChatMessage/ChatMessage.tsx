@@ -18,7 +18,7 @@ export function ChatMessage(props: Props): JSX.Element {
   const mode = useMode()
 
   return (
-    <Flex>
+    <Flex alignSelf={isMe ? 'flex-end' : undefined}>
       {!isMe && (
         <Avatar
           src={user.src ?? undefined}
