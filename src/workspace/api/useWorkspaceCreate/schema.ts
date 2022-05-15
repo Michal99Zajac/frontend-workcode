@@ -10,12 +10,6 @@ export const Form = z.object({
       message: 'Name should be at least one characters',
     })
     .max(255, { message: 'Name cant be longer then 255 characters' }),
-  description: z
-    .string()
-    .min(1, {
-      message: 'Description should be at least one characters',
-    })
-    .max(1000, { message: 'Description cant be longer then 1000 characters' }),
   code: CodeType,
 })
 

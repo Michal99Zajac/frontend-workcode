@@ -4,7 +4,6 @@ import {
   Input,
   InputGroup,
   Stack,
-  Textarea,
   Text,
   Modal,
   ModalOverlay,
@@ -37,7 +36,6 @@ export function Update(): JSX.Element {
     resolver: zodResolver(Form),
     defaultValues: {
       name: '',
-      description: '',
       code: 'JAVASCRIPT',
     },
   })
@@ -62,7 +60,6 @@ export function Update(): JSX.Element {
       reset({
         name: data.name,
         code: data.code,
-        description: '',
       })
   }, [data])
 
@@ -84,23 +81,6 @@ export function Update(): JSX.Element {
                     <Input
                       isDisabled={isLoading || isFetching}
                       placeholder="my workspace name"
-                      onChange={field.onChange}
-                      value={field.value}
-                      isInvalid={fieldState.invalid}
-                      ref={field.ref}
-                    />
-                  </InputGroup>
-                )}
-              />
-              <Controller
-                control={control}
-                name="description"
-                render={({ field, fieldState }) => (
-                  <InputGroup display="flex" flexDirection="column">
-                    <Text fontSize="sm">* Description</Text>
-                    <Textarea
-                      isDisabled={isLoading || isFetching}
-                      placeholder="my workspace description..."
                       onChange={field.onChange}
                       value={field.value}
                       isInvalid={fieldState.invalid}
