@@ -2,9 +2,16 @@
 import React, { useEffect, useState } from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import { Editor as EditorType } from 'codemirror'
+import _ from 'lodash'
 
 import { useEditor, useWorkspace } from 'editor/hooks'
-import { useType, useUpdate, useContentUpdate } from 'editor/connection'
+import {
+  useType,
+  useUpdate,
+  useContentUpdate,
+  useCursor,
+  useCursorUpdate,
+} from 'editor/connection'
 
 import { Editor } from './styled'
 
@@ -23,12 +30,17 @@ import 'codemirror/addon/edit/closebrackets'
 export function CodeEditor() {
   const { content: initContent } = useWorkspace()
   const { colorMode } = useColorMode()
-  const [content, setContent] = useState(initContent)
-  const { setCursor, setEditor, editor } = useEditor()
+  const { setEditor, editor } = useEditor()
   const type = useType()
+  const cursor = _.debounce(useCursor(), 100)
   const updateContent = useContentUpdate()
+
   useUpdate((change) => {
     editor?.replaceRange(change.text, change.from, change.to, 'update')
+  })
+
+  useCursorUpdate(({ userId, cursor }) => {
+    console.log(editor?.cursorCoords(cursor))
   })
 
   return (
@@ -48,17 +60,12 @@ export function CodeEditor() {
         autocorrect: true,
         tabSize: 2,
       }}
-      value={content}
+      value={initContent}
       onCursor={(editor, data) => {
-        console.log(data)
-        setCursor({
-          ch: data.ch,
-          line: data.line,
-        })
+        cursor(data)
       }}
       onChange={(editor, data, value) => {
         if (data.origin && data.origin !== 'update') {
-          setContent(value)
           updateContent(value)
           type(data)
         }
