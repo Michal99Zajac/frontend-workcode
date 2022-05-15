@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Message } from 'editor/schemas'
 import { useChatSocket } from 'editor/hooks'
-import { CHAT_OPERATION } from 'editor/connection'
+import { CHAT_COMMAND } from 'editor/connection'
 
 type Handler = (messages: Message[]) => void
 
@@ -11,7 +11,7 @@ export const useRecive = (handler: Handler) => {
   const [messages, setMessages] = useState<Message[]>([])
 
   useEffect(() => {
-    socket.on(CHAT_OPERATION.RECIVE, (message: Message) => {
+    socket.on(CHAT_COMMAND.RECIVE, (message: Message) => {
       setMessages((old) => [...old, message])
     })
   }, [])

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { _ID } from 'common/schemas'
 import { useAuth } from 'common/store'
+import { COMMON_COMMAND } from 'editor/connection'
 
 import { ChatContext } from './Context'
 
@@ -28,7 +29,7 @@ export const ChatProvider = (props: Props) => {
       },
     })
 
-    socket.on('connect_error', (err) => {
+    socket.on(COMMON_COMMAND.CONNECT_ERR, (err) => {
       console.error(err instanceof Error)
       navigate('/workspace')
     })

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import { Editor as EditorType } from 'codemirror'
 
-import { useEditor } from 'editor/hooks'
+import { useEditor, useWorkspace } from 'editor/hooks'
 import { useType, useUpdate } from 'editor/connection'
 
 import { Editor } from './styled'
@@ -21,14 +21,15 @@ import 'codemirror/addon/edit/closebrackets'
 // use replace for updating and deleting content
 // get cursor coords and send to the other teammates
 export function CodeEditor() {
+  const { content: initContent } = useWorkspace()
   const { colorMode } = useColorMode()
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState(initContent)
   const { setCursor, setEditor, editor } = useEditor()
   const type = useType()
   useUpdate((message) => {
     if (message) {
       const { change, user } = message
-      console.log({ change, user })
+      console.log(change)
       editor?.replaceRange(change.text, change.from, change.to, 'update')
     }
   })

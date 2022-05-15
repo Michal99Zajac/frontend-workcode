@@ -3,7 +3,7 @@ import { EditorChange } from 'codemirror'
 
 import { _ID } from 'common/schemas'
 import { useEditorSocket } from 'editor/hooks'
-import { EDITOR_OPERATION } from 'editor/connection'
+import { EDITOR_COMMAND } from 'editor/connection'
 
 interface Message {
   user: _ID
@@ -16,7 +16,7 @@ export const useUpdate = (handler?: Handler) => {
   const [message, setMessage] = useState<Message | null>(null)
 
   useEffect(() => {
-    socket.on(EDITOR_OPERATION.UPDATE, (message: Message) => {
+    socket.on(EDITOR_COMMAND.UPDATE, (message: Message) => {
       setMessage(message)
     })
   }, [])

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { _ID } from 'common/schemas'
 import { useAuth } from 'common/store'
+import { COMMON_COMMAND, EDITOR_COMMAND } from 'editor/connection'
 
 import { EditorSockContext } from './context'
 
@@ -29,11 +30,11 @@ export const EditorSockProvider = (props: Props) => {
       },
     })
 
-    socket.on('join', (users) => setActive(users))
+    socket.on(EDITOR_COMMAND.JOIN, (users) => setActive(users))
 
-    socket.on('leave', (users) => setActive(users))
+    socket.on(EDITOR_COMMAND.LEAVE, (users) => setActive(users))
 
-    socket.on('connect_error', (err) => {
+    socket.on(COMMON_COMMAND.CONNECT_ERR, (err) => {
       console.error(err instanceof Error)
       navigate('/workspace')
     })

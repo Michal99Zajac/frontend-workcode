@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { useChatSocket } from 'editor/hooks'
-import { CHAT_OPERATION } from 'editor/connection/operations'
+import { CHAT_COMMAND } from 'editor/connection/commands'
 
 export interface SendMessage {
   createdAt: string
@@ -12,7 +12,7 @@ export const useSend = () => {
   const { socket } = useChatSocket()
 
   return useCallback((message: SendMessage) => {
-    socket.emit(CHAT_OPERATION.SEND, message)
+    socket.emit(CHAT_COMMAND.SEND, message)
   }, [])
 }
 
