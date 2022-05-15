@@ -6,6 +6,7 @@ import {
   PopoverCloseButton,
   Box,
   IconButton,
+  Button,
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
@@ -14,7 +15,7 @@ import {
   Stack,
   Center,
 } from '@chakra-ui/react'
-import { EmailIcon, RepeatIcon } from '@chakra-ui/icons'
+import { EmailIcon } from '@chakra-ui/icons'
 
 import { NoMailIcon } from 'icons/common'
 import { InvitationSkeleton } from 'common/components/Skeletons'
@@ -64,13 +65,14 @@ export function Invitations() {
           <PopoverFooter>
             <Flex>
               <Spacer />
-              <IconButton
-                size="sm"
+              <Button
+                size="xs"
                 variant="outline"
                 aria-label="refetch"
                 onClick={() => refetch()}
-                icon={<RepeatIcon />}
-              />
+              >
+                refresh
+              </Button>
             </Flex>
           </PopoverFooter>
         </PopoverContent>
