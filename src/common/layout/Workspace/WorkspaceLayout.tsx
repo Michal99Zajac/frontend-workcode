@@ -13,7 +13,7 @@ export const WorkspaceLayout =
     (
       <Flex className={classes.layout}>
         <MenuBar />
-        <Box flex="1">
+        <Box flex="1" overflow="auto">
           <Page />
         </Box>
       </Flex>
