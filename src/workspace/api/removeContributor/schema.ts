@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
-import { UUID } from '../../../common/schemas'
+import { _ID } from 'common/schemas'
 
 export const Form = z.object({
-  workspaceId: UUID,
-  userId: UUID,
+  workspaceId: _ID,
+  userId: _ID,
 })
 
 export const Response = z.object({
