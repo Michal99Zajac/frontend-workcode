@@ -4,7 +4,7 @@ import { useColorMode } from '@chakra-ui/react'
 import { Editor as EditorType } from 'codemirror'
 
 import { useEditor, useWorkspace } from 'editor/hooks'
-import { useType, useUpdate } from 'editor/connection'
+import { useType, useUpdate, useContentUpdate } from 'editor/connection'
 
 import { Editor } from './styled'
 
@@ -26,12 +26,9 @@ export function CodeEditor() {
   const [content, setContent] = useState(initContent)
   const { setCursor, setEditor, editor } = useEditor()
   const type = useType()
-  useUpdate((message) => {
-    if (message) {
-      const { change, user } = message
-      console.log(change)
-      editor?.replaceRange(change.text, change.from, change.to, 'update')
-    }
+  const updateContent = useContentUpdate()
+  useUpdate((change) => {
+    editor?.replaceRange(change.text, change.from, change.to, 'update')
   })
 
   return (
@@ -53,14 +50,16 @@ export function CodeEditor() {
       }}
       value={content}
       onCursor={(editor, data) => {
+        console.log(data)
         setCursor({
           ch: data.ch,
           line: data.line,
         })
       }}
       onChange={(editor, data, value) => {
-        if (data.origin !== 'update') {
+        if (data.origin && data.origin !== 'update') {
           setContent(value)
+          updateContent(value)
           type(data)
         }
       }}

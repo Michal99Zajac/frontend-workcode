@@ -1,31 +1,26 @@
 import { useEffect, useState } from 'react'
 import { EditorChange } from 'codemirror'
 
-import { _ID } from 'common/schemas'
 import { useEditorSocket } from 'editor/hooks'
 import { EDITOR_COMMAND } from 'editor/connection'
 
-interface Message {
-  user: _ID
-  change: EditorChange
-}
-type Handler = (message: Message | null) => void
+type Handler = (message: EditorChange) => void
 
 export const useUpdate = (handler?: Handler) => {
   const { socket } = useEditorSocket()
-  const [message, setMessage] = useState<Message | null>(null)
+  const [change, setChange] = useState<EditorChange | null>(null)
 
   useEffect(() => {
-    socket.on(EDITOR_COMMAND.UPDATE, (message: Message) => {
-      setMessage(message)
+    socket.on(EDITOR_COMMAND.UPDATE, (message: EditorChange) => {
+      setChange(message)
     })
   }, [])
 
   useEffect(() => {
-    handler && handler(message)
-  }, [message])
+    handler && change && handler(change)
+  }, [change])
 
-  return message
+  return change
 }
 
 export default useUpdate

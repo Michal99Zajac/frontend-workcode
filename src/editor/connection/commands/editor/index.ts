@@ -3,4 +3,5 @@ export enum EDITOR_COMMAND {
   UPDATE = 'UPDATE',
   JOIN = 'JOIN',
   LEAVE = 'LEAVE',
+  CONTENT_UPDATE = 'CONTENT_UPDATE',
 }

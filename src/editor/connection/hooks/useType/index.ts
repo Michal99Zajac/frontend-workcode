@@ -7,8 +7,8 @@ import { EDITOR_COMMAND } from 'editor/connection'
 export const useType = () => {
   const { socket } = useEditorSocket()
 
-  return useCallback((action: EditorChange) => {
-    socket.emit(EDITOR_COMMAND.TYPE, action)
+  return useCallback((change: EditorChange) => {
+    socket.emit(EDITOR_COMMAND.TYPE, change)
   }, [])
 }
 
