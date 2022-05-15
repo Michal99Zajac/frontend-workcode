@@ -1,16 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useColorMode } from '@chakra-ui/react'
-import { Editor as EditorType } from 'codemirror'
 import _ from 'lodash'
 
-import { useEditor, useWorkspace } from 'editor/hooks'
+import { Cursor } from 'editor/components'
+import { useEditor, useWorkspace, useUsersCursors } from 'editor/hooks'
 import {
   useType,
   useUpdate,
   useContentUpdate,
   useCursor,
-  useCursorUpdate,
 } from 'editor/connection'
 
 import { Editor } from './styled'
@@ -32,45 +30,62 @@ export function CodeEditor() {
   const { colorMode } = useColorMode()
   const { setEditor, editor } = useEditor()
   const type = useType()
-  const cursor = _.debounce(useCursor(), 100)
+  const cursorRefresh = _.debounce(useCursor(), 50)
   const updateContent = useContentUpdate()
+  const cursors = useUsersCursors()
 
   useUpdate((change) => {
     editor?.replaceRange(change.text, change.from, change.to, 'update')
   })
 
-  useCursorUpdate(({ userId, cursor }) => {
-    console.log(editor?.cursorCoords(cursor))
-  })
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!editor) return
+
+      cursorRefresh(editor.getCursor())
+    }, 200)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <Editor
-      theme={colorMode}
-      editorDidMount={(editor) => setEditor(editor)}
-      options={{
-        mode: {
-          name: 'javascript',
-        },
-        theme: 'material',
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        smartIndent: true,
-        indentWithTabs: true,
-        indentUnit: 2,
-        autocorrect: true,
-        tabSize: 2,
-      }}
-      value={initContent}
-      onCursor={(editor, data) => {
-        cursor(data)
-      }}
-      onChange={(editor, data, value) => {
-        if (data.origin && data.origin !== 'update') {
-          updateContent(value)
-          type(data)
-        }
-      }}
-    />
+    <>
+      {cursors.map((cursor) => (
+        <Cursor
+          key={cursor.user._id}
+          color={cursor.color}
+          cord={cursor.cord}
+          user={cursor.user}
+        />
+      ))}
+      <Editor
+        theme={colorMode}
+        editorDidMount={(editor) => setEditor(editor)}
+        options={{
+          mode: {
+            name: 'javascript',
+          },
+          theme: 'material',
+          lineNumbers: true,
+          autoCloseBrackets: true,
+          smartIndent: true,
+          indentWithTabs: true,
+          indentUnit: 2,
+          autocorrect: true,
+          tabSize: 2,
+        }}
+        value={initContent}
+        onCursor={(editor, data) => {
+          cursorRefresh(data)
+        }}
+        onChange={(editor, data, value) => {
+          if (data.origin && data.origin !== 'update') {
+            updateContent(value)
+            type(data)
+          }
+        }}
+      />
+    </>
   )
 }
 
