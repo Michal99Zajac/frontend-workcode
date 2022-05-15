@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   AvatarBadge,
   Circle,
@@ -13,7 +13,8 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 
-import { Contributor, UUID } from 'common/schemas'
+import { ActiveUser } from 'editor/schemas'
+import { Contributor, _ID } from 'common/schemas'
 import { UserIcon } from 'icons/common'
 import { AvatarSkeleton } from 'common/components'
 import useMode from 'common/hooks/useMode'
@@ -21,14 +22,25 @@ import useMode from 'common/hooks/useMode'
 interface ActiveContributorsProps {
   isLoading: boolean
   contributors: Contributor[]
-  activeContributorsIds: UUID[]
+  activeUsers: ActiveUser[]
 }
 
 export function ActiveContributors(
   props: ActiveContributorsProps
 ): JSX.Element {
-  const { contributors, activeContributorsIds, isLoading } = props
+  const { contributors, activeUsers, isLoading } = props
   const mode = useMode()
+
+  const activeBadge = useCallback(
+    (id: _ID) => {
+      const user = activeUsers.find((activeUser) => activeUser._id === id)
+
+      if (!user) return null
+
+      return <AvatarBadge boxSize="1em" bg={user.color} />
+    },
+    [activeUsers]
+  )
 
   return (
     <Popover placement="top-end">
@@ -59,9 +71,7 @@ export function ActiveContributors(
                     name={`${contributor.name} ${contributor.lastname}`}
                     src={contributor.src || undefined}
                   >
-                    {activeContributorsIds.includes(contributor._id) && (
-                      <AvatarBadge boxSize="1em" bg="green.500" /> // FIXME: color of badage should depends on color of cursor
-                    )}
+                    {activeBadge(contributor._id)}
                   </Avatar>
                 </Tooltip>
               ))}

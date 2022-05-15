@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
 
 import { _ID } from 'common/schemas'
+import { ActiveUser } from 'editor/schemas'
 import { useAuth } from 'common/store'
 import { COMMON_COMMAND, EDITOR_COMMAND } from 'editor/connection'
 
@@ -17,7 +18,7 @@ export const EditorSockProvider = (props: Props) => {
   const token = useAuth((store) => store.token)
   const { children, workspaceId } = props
   const [socket, setSocket] = useState<Socket | null>(null)
-  const [active, setActive] = useState<_ID[]>([])
+  const [actives, setActives] = useState<ActiveUser[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -30,9 +31,9 @@ export const EditorSockProvider = (props: Props) => {
       },
     })
 
-    socket.on(EDITOR_COMMAND.JOIN, (users) => setActive(users))
+    socket.on(EDITOR_COMMAND.JOIN, (users) => setActives(users))
 
-    socket.on(EDITOR_COMMAND.LEAVE, (users) => setActive(users))
+    socket.on(EDITOR_COMMAND.LEAVE, (users) => setActives(users))
 
     socket.on(COMMON_COMMAND.CONNECT_ERR, (err) => {
       console.error(err instanceof Error)
@@ -53,7 +54,7 @@ export const EditorSockProvider = (props: Props) => {
     <EditorSockContext.Provider
       value={{
         socket,
-        active,
+        actives,
       }}
     >
       {children}

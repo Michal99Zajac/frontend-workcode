@@ -1,16 +1,16 @@
 import React from 'react'
 import { Socket } from 'socket.io-client'
 
-import { _ID } from 'common/schemas'
+import { ActiveUser } from 'editor/schemas'
 
 export interface EditorSockContext {
   socket: Socket
-  active: _ID[]
+  actives: ActiveUser[]
 }
 
 export const EditorSockContext = React.createContext<EditorSockContext>({
   socket: {} as any,
-  active: [],
+  actives: [],
 })
 
 export default EditorSockContext

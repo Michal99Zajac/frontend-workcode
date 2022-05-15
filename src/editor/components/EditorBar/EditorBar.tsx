@@ -12,7 +12,7 @@ import { useEditor, useEditorSocket, useWorkspace } from 'editor/hooks'
 export function EditorBar(): JSX.Element {
   const { cursor } = useEditor()
   const { workspace } = useWorkspace()
-  const { active } = useEditorSocket()
+  const { actives } = useEditorSocket()
   const barBG = useColorModeValue('gray.100', 'gray.900')
 
   return (
@@ -22,7 +22,7 @@ export function EditorBar(): JSX.Element {
         contributors={
           workspace ? [...workspace.contributors, workspace.author] : []
         }
-        activeContributorsIds={active}
+        activeUsers={actives}
       />
       <Spacer />
       <EditorCompas {...cursor} />
