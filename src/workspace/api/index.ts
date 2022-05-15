@@ -1,5 +1,3 @@
-export { removeContributor } from './removeContributor'
-
 export * as useWorkspaces from './useWorkspaces'
 export * as useWorkspaceCreate from './useWorkspaceCreate'
 export * as useWorkspaceUpdate from './useWorkspaceUpdate'
