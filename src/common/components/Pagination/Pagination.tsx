@@ -19,8 +19,8 @@ interface PaginationProps {
   current: number
   last: number
   first: number
-  next: number | null
-  previous: number | null
+  next: number
+  previous: number
 }
 
 export function Pagination(props: PaginationProps): JSX.Element {
@@ -47,16 +47,16 @@ export function Pagination(props: PaginationProps): JSX.Element {
           size="sm"
           aria-label="previous"
           icon={<MinusIcon />}
-          disabled={previous === null}
+          disabled={current === first}
           onClick={() => onChange(previous || first)}
         />
         <IconButton
           variant="ghost"
           size="sm"
-          aria-label="first"
+          aria-label="next"
           icon={<AddIcon />}
           onClick={() => onChange(next || last)}
-          disabled={next === null}
+          disabled={current === last}
         />
         <IconButton
           variant="ghost"

@@ -1,4 +1,4 @@
-import { CodeType } from '../../schemas/CodeType'
+import { CodeType } from 'common/schemas'
 
 interface Color {
   bg: string

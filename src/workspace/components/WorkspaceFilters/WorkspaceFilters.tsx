@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller } from 'react-hook-form'
+import React from 'react'
+// import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, UseFormReturn } from 'react-hook-form'
 import {
   Button,
   Checkbox,
@@ -14,63 +14,24 @@ import {
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-import { useQueryForm, useToast } from '../../../common/hooks'
-import { getWorkspaces, Fail, Form, FormCode } from '../../api/getWorkspaces'
-import { Workspace } from '../../schemas'
-import { FilterSelect } from '../../../common/components'
-import { FolderIcon, UserIcon } from '../../../icons/common'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
-
-type SetWorkspaces = (workspaces: Workspace[]) => void
-type SetIsLoading = (isLoading: boolean) => void
+import { Form, Code } from 'workspace/api/useWorkspaces'
+import { FilterSelect } from 'common/components'
+import { FolderIcon, UserIcon } from 'icons/common'
 
 interface WorkspaceFiltersProps {
-  setIsLoading: SetIsLoading
-  setWorkspaces: SetWorkspaces
+  form: UseFormReturn<Form>
+  onSubmit: (data: Form) => void
 }
 
 export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
-  const { setWorkspaces, setIsLoading } = props
   const iconFill = useColorModeValue('black', 'white')
   const hoverBG = useColorModeValue('gray.50', 'gray.700')
-  const setRefetch = useWorkspaceFetch((state) => state.setRefetch)
-  const runToast = useToast()
-  const lastQuery = useWorkspaceQuery()
-  const { handleSubmit, control, setValue, reset, getValues } =
-    useQueryForm<Form>({
-      resolver: zodResolver(Form),
-      schema: Form,
-      defaultValues: {
-        self: false,
-        workspace: '',
-        owner: '',
-        code: FormCode.enum.ALL,
-      },
-    })
 
-  const fetchWorkspaces = async (data: Form) => {
-    setIsLoading(true)
-
-    try {
-      const response = await getWorkspaces(Form.parse(data))
-      setWorkspaces(response.workspaces)
-      lastQuery.update(data)
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    const data = getValues()
-    fetchWorkspaces(data)
-    setRefetch(() => fetchWorkspaces(data))
-  }, [])
+  const { form, onSubmit } = props
+  const { control, reset, setValue, handleSubmit } = form
 
   return (
-    <form onSubmit={handleSubmit((data) => fetchWorkspaces(Form.parse(data)))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <HStack>
         <Tooltip label="Clear Filter" placement="top">
           <IconButton
@@ -86,7 +47,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
         </Tooltip>
         <Button type="submit">search</Button>
         <Controller
-          name="workspace"
+          name="name"
           control={control}
           render={({ field }) => (
             <InputGroup w="min-content">
@@ -118,16 +79,12 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
                 placeholder="Owner"
                 transition="all 0.3s"
                 identifer="value"
-                options={FormCode.options.map((option) => ({
+                options={Code.options.map((option) => ({
                   value: option,
                 }))}
-                onChange={(option) =>
-                  setValue('code', option.value as FormCode)
-                }
+                onChange={(option) => setValue('code', option.value as Code)}
                 value={{
-                  value: FormCode.options.find(
-                    (option) => field.value === option
-                  ),
+                  value: Code.options.find((option) => field.value === option),
                 }}
                 w="260px"
               />

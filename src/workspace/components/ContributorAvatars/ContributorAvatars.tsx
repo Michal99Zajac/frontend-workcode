@@ -45,15 +45,15 @@ export function ContributorAvatars(
       {contributors.slice(0, 3).map((contributor, index) => (
         <Tooltip
           placement="top"
-          key={contributor.id}
-          label={`${contributor.firstname} ${contributor.lastname}`}
+          key={contributor._id}
+          label={`${contributor.name} ${contributor.lastname}`}
         >
           <Avatar
             zIndex={index + 2}
             position="absolute"
             transition="all 0.6s"
             size="sm"
-            name={contributor.firstname}
+            name={contributor.name}
             src={contributor.src || undefined}
           />
         </Tooltip>

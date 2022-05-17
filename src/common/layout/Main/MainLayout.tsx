@@ -1,9 +1,8 @@
 import React from 'react'
 import { Box, Heading, Center, useMediaQuery } from '@chakra-ui/react'
 
-import { useAuth } from '../../store'
-import BasicSetting from '../../components/BasicSetting'
-import UserBucket from '../../components/UserBucket'
+import { useAuth } from 'common/store'
+import { BasicSetting, UserBucket } from 'common/components'
 
 import classes from './MainLayout.module.scss'
 
@@ -17,7 +16,7 @@ export const MainLayout =
 
     const userBucket = !user ? null : (
       <Box className={classes.bucket}>
-        <UserBucket />
+        <UserBucket user={user} />
       </Box>
     )
 

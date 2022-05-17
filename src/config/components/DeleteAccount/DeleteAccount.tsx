@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Alert,
   AlertDescription,
@@ -24,32 +24,32 @@ import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Form, Fail, deleteAccount } from '../../api/deleteAccount'
-import { useToast } from '../../../common/hooks'
-import { useAuth } from '../../../common/store'
+import { Form, useDeleteMe } from 'config/api/useDeleteMe'
+import { useToast } from 'common/hooks'
 
 export function DeleteAccount(): JSX.Element {
-  const logout = useAuth((state) => state.logout)
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, mutate } = useDeleteMe()
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const { control, handleSubmit, formState } = useForm<Form>({
+  const { control, handleSubmit, formState, reset } = useForm<Form>({
     resolver: zodResolver(Form),
+    defaultValues: {
+      password: '',
+    },
   })
   const runToast = useToast()
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await deleteAccount(data)
-      runToast(response, 'Success', 'success')
-      logout()
-      navigate('/')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: (response) => {
+        runToast(response, 'Success', 'success')
+        navigate('/')
+      },
+      onError: (error) => {
+        runToast(error.message, 'Error', 'error')
+        reset()
+      },
+    })
   })
 
   return (

@@ -32,6 +32,4 @@ export const workcodeTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: 'blue' })
 )
 
-console.log(workcodeTheme)
-
 export default workcodeTheme

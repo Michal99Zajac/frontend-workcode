@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react'
 import { useToast, Box, Text } from '@chakra-ui/react'
 
+import { ToastMessages } from 'common/schemas'
+
 import { ToastContext, RunToastType } from './Context'
-import { ToastMessages } from '../../schemas/ToastMessages'
 
 interface ToastProviderProps {
   children: React.ReactNode

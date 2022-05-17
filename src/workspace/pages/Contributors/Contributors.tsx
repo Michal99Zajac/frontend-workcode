@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Modal,
   ModalBody,
@@ -7,68 +8,50 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  Heading,
 } from '@chakra-ui/react'
 
-import { StrapSkeleton } from '../../../common/components'
-import { ContributorStrap } from '../../components'
-import { Workspace } from '../../schemas/Workspace'
-import { getWorkspace, Fail } from '../../api/getWorkspace'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAuth } from '../../../common/store'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
+import { StrapSkeleton } from 'common/components'
+import { ContributorStrap } from 'workspace/components'
+import { useWorkspace } from 'workspace/api/useWorkspace'
+import { useAuth } from 'common/store'
+import { useWorkspaceQuery } from 'workspace/store'
+import { NotFoundIcon } from 'icons/common'
+import { useMode } from 'common/hooks'
 
 export function Contributors(): JSX.Element {
   const navigate = useNavigate()
   const { workspaceId } = useParams()
+  const mode = useMode()
   const user = useAuth((state) => state.user)
-  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
-  const [isLoading, setIsLoading] = useState(true)
-  const [workspace, setWorkspace] = useState<Workspace | null>()
-
-  const fetchWorkspace = useCallback(async () => {
-    setIsLoading(true)
-
-    if (!workspaceId) throw new Error('Workspace Id is not set')
-
-    try {
-      const response = await getWorkspace({ workspaceId: workspaceId })
-      setWorkspace(response.workspace)
-    } catch (error) {
-      const fail = Fail.parse(error)
-      console.error(fail)
-    }
-    setIsLoading(false)
-  }, [workspaceId])
-
-  const onClose = () => {
-    refetchWorkspaces && refetchWorkspaces()
-    navigate(`/workspace${lastQuery}`)
-  }
-
-  useEffect(() => {
-    fetchWorkspace()
-  }, [])
+  const { data, isFetched } = useWorkspace({ _id: workspaceId ?? '' })
 
   return (
-    <Modal isOpen={true} onClose={onClose}>
+    <Modal isOpen={true} onClose={() => navigate(`/workspace${lastQuery}`)}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Contributors</ModalHeader>
         <ModalCloseButton />
-        <ModalBody mb={4}>
+        <ModalBody minH="360px" maxH="360px" overflow="auto">
           <Stack>
-            <StrapSkeleton amount={10} isLoaded={!isLoading}>
-              {workspace?.contributors.map((contributor) => (
+            <StrapSkeleton amount={10} isLoaded={isFetched}>
+              {data?.contributors.map((contributor) => (
                 <ContributorStrap
-                  isOwner={workspace.admin.id === user?.id}
-                  key={contributor.id}
+                  isOwner={data.author._id === user?._id}
+                  key={contributor._id}
                   contributor={contributor}
-                  workspaceId={workspace.id}
+                  workspaceId={data._id}
                 />
               ))}
             </StrapSkeleton>
           </Stack>
+          {isFetched && !data?.contributors.length && (
+            <Stack align="center">
+              <NotFoundIcon fill={mode('black', 'white')} fontSize="150px" />
+              <Heading size="lg">No contributors</Heading>
+            </Stack>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

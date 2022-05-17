@@ -1,7 +1,7 @@
 import React from 'react'
 import { FieldErrors } from 'react-hook-form'
 
-import { ToastMessages } from '../../schemas/ToastMessages'
+import { ToastMessages } from 'common/schemas'
 
 export type ToastType = 'warning' | 'success' | 'info' | 'error'
 

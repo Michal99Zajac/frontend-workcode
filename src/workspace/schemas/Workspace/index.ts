@@ -1,14 +1,13 @@
 import { z } from 'zod'
 
-import { User, CodeType, Contributor } from '../../../common/schemas'
+import { User, CodeType, Contributor, _ID } from 'common/schemas'
 
 export const Workspace = z.object({
-  id: z.string().uuid(),
-  admin: User,
+  _id: _ID,
   name: z.string(),
-  description: z.string(),
   code: CodeType,
-  createdAt: z.date(),
+  createdAt: z.string(),
+  author: User,
   contributors: Contributor.array(),
 })
 

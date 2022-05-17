@@ -6,7 +6,7 @@ interface EdiorCompasProps {
   line: number
 }
 
-export function EdiorCompas(props: EdiorCompasProps): JSX.Element {
+export function EditorCompas(props: EdiorCompasProps): JSX.Element {
   const { ch, line } = props
 
   return (
@@ -16,4 +16,4 @@ export function EdiorCompas(props: EdiorCompasProps): JSX.Element {
   )
 }
 
-export default EdiorCompas
+export default EditorCompas

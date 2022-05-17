@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   Box,
-  Center,
   Input,
   InputGroup,
   InputLeftElement,
@@ -16,142 +15,119 @@ import {
   ModalFooter,
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { produce } from 'immer'
 import { useNavigate, useParams } from 'react-router-dom'
+import { produce } from 'immer'
+import _ from 'lodash'
 
-import { Pagination, StrapSkeleton } from '../../../common/components'
-import { getUsers, Form, Fail, Response } from '../../api/getUsers'
-import { useToast } from '../../../common/hooks'
-import { LoseConnection } from '../../../icons/common'
-import { InviteStrap } from '../../components'
-import { useWorkspaceFetch, useWorkspaceQuery } from '../../store'
+import { Pagination, StrapSkeleton } from 'common/components'
+import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
+import { NotFoundIcon } from 'icons/common'
+import { InviteStrap } from 'workspace/components'
+import { useWorkspaceQuery } from 'workspace/store'
+import { useMode } from 'common/hooks'
 
 export function Invite(): JSX.Element {
+  const mode = useMode()
   const { workspaceId } = useParams()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
-  const refetchWorkspaces = useWorkspaceFetch((store) => store.refetch)
   const lastQuery = useWorkspaceQuery((store) => store.q)
-  const [users, setUsers] = useState<Response>({
-    users: [],
-    navigation: {
-      first: 0,
-      last: 0,
-      current: 0,
-      next: null,
-      previous: null,
-    },
-    count: 0,
+  const [query, setQuery] = useState<Query>({
+    query: '',
+    page: 0,
+    limit: 5,
   })
-  const runToast = useToast()
-  const { control, handleSubmit, setValue, watch } = useForm<Form>({
-    resolver: zodResolver(Form),
-    defaultValues: {
-      search: '',
-      page: 0,
-      pagination: '10',
-      workspaceId: workspaceId,
-    },
-  })
-  const search = watch('search', '')
+  const { isLoading, data, refetch, isFetched } = useUsersToInvite(
+    workspaceId ?? '',
+    query,
+    true
+  )
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await getUsers(data)
-      setUsers(
-        produce((draft) => {
-          draft.users = response.users
-          draft.navigation = response.navigation
-          draft.count = response.count
-        })
-      )
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
-  })
+  const fetch = useCallback(
+    _.debounce(async () => {
+      await refetch()
+    }, 500),
+    []
+  )
 
-  const onSearch = (
-    _event: React.ChangeEvent<HTMLInputElement>,
-    onChange: (..._event: any[]) => void
-  ) => {
-    setValue('page', 0)
-    onChange(_event)
-  }
-
-  const onPageChange = (page: number) => {
-    setValue('page', page)
-    onSubmit()
-  }
-
-  const onClose = () => {
-    refetchWorkspaces && refetchWorkspaces()
-    navigate(`/workspace${lastQuery}`)
-  }
-
+  // wait 500ms after next api call
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      onSubmit()
-    }, 500)
+    fetch()
+  }, [query.query])
 
-    return () => clearTimeout(timeout)
-  }, [search])
+  // refetch after every page change
+  useEffect(() => {
+    refetch()
+  }, [query.page])
 
   if (!workspaceId) throw new Error('Workspace ID is not provided')
 
   return (
-    <Modal isOpen={true} onClose={onClose}>
+    <Modal isOpen={true} onClose={() => navigate(`/workspace${lastQuery}`)}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Invite</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody minH="360px">
           <Box mb={5}>
-            <form onSubmit={onSubmit}>
-              <Controller
-                name="search"
-                control={control}
-                render={({ field }) => (
-                  <InputGroup size="md">
-                    <InputLeftElement pointerEvents="none">
-                      <SearchIcon />
-                    </InputLeftElement>
-                    <Input
-                      placeholder="Search..."
-                      ref={field.ref}
-                      value={field.value}
-                      onChange={(event) => onSearch(event, field.onChange)}
-                    />
-                  </InputGroup>
-                )}
-              />
+            <form onSubmit={(_e) => _e.preventDefault()}>
+              <InputGroup size="md">
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search..."
+                  value={query.query}
+                  onChange={(event) => {
+                    setQuery(
+                      produce((draft) => {
+                        draft.query = event.target.value
+                        draft.page = 0
+                      })
+                    )
+                  }}
+                />
+              </InputGroup>
             </form>
           </Box>
-          {users.users.length > 0 ? (
-            <Stack>
-              <StrapSkeleton amount={10} isLoaded={!isLoading}>
-                {users.users.map((user) => (
+          <Stack>
+            <StrapSkeleton amount={5} isLoaded={!isLoading && isFetched}>
+              {data?.pagination.count ? (
+                data?.users.map((user) => (
                   <InviteStrap
-                    key={user.id}
+                    key={user._id}
                     user={user}
                     workspaceId={workspaceId}
                   />
-                ))}
-              </StrapSkeleton>
-            </Stack>
-          ) : (
-            <Center flexDirection="column" height="270px">
-              <LoseConnection width={100} height={100} />
-              <Heading mt={5}>No Results</Heading>
-            </Center>
-          )}
+                ))
+              ) : (
+                <Stack align="center">
+                  <NotFoundIcon
+                    fill={mode('black', 'white')}
+                    fontSize="150px"
+                  />
+                  <Heading size="lg">No Results</Heading>
+                </Stack>
+              )}
+            </StrapSkeleton>
+          </Stack>
         </ModalBody>
         <ModalFooter>
-          <Pagination onChange={onPageChange} {...users.navigation} />
+          {data?.pagination && (
+            <Pagination
+              onChange={(page) => {
+                setQuery(
+                  produce((draft) => {
+                    draft.page = page
+                  })
+                )
+              }}
+              current={query.page}
+              next={data.pagination.next}
+              previous={data.pagination.previous}
+              last={data.pagination.last}
+              first={data.pagination.first}
+            />
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

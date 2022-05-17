@@ -22,19 +22,21 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
   return (
     <Tr _hover={{ bg: hoverRecord }}>
       <Td borderColor={borderColor}>
-        <Link as={RouterLink} to={`/editor/${workspace.id}`}>
-          <Text isTruncated>{workspace.name}</Text>
+        <Link as={RouterLink} to={`/editor/${workspace._id}`}>
+          <Text isTruncated maxW="300px">
+            {workspace.name}
+          </Text>
         </Link>
       </Td>
       <Td borderColor={borderColor}>
         <Badge {...codeColors[workspace.code]}>{workspace.code}</Badge>
       </Td>
       <Td borderColor={borderColor}>
-        <AvatarTag user={workspace.admin} />
+        <AvatarTag user={workspace.author} />
       </Td>
       <Td borderColor={borderColor}>
         <ContributorAvatars
-          workspaceId={workspace.id}
+          workspaceId={workspace._id}
           contributors={workspace.contributors}
           isOwner={isOwner}
         />
@@ -43,7 +45,7 @@ export function WorkspaceRecord(props: WorkspaceRecordProps): JSX.Element {
         <Text>{dayjs(workspace.createdAt).format('D/MM/YYYY')}</Text>
       </Td>
       <Td isNumeric borderColor={borderColor}>
-        <RecordMenu workspaceId={workspace.id} isOwner={isOwner} />
+        <RecordMenu workspaceId={workspace._id} isOwner={isOwner} />
       </Td>
     </Tr>
   )

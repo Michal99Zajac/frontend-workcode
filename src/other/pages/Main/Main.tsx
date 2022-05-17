@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Center, Stack } from '@chakra-ui/react'
 
-import { useAuth } from '../../../common/store'
-import { SignupIcon, LockIcon, FolderIcon } from '../../../icons/common'
-import { ActionTile } from '../../components'
+import { useAuth } from 'common/store'
+import { SignupIcon, LockIcon, FolderIcon } from 'icons/common'
+import { ActionTile } from 'other/components'
 
 export function Main(): JSX.Element {
   const user = useAuth((state) => state.user)

@@ -1,2 +1,2 @@
-export {} from './ActionTile'
+export { default } from './ActionTile'
 export * from './ActionTile'

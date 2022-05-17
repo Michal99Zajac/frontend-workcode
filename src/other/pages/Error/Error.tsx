@@ -22,9 +22,9 @@ import {
   AlertIcon,
 } from '@chakra-ui/react'
 import { FallbackProps } from 'react-error-boundary'
-
-import { Surface } from '../../../common/components'
 import { RepeatIcon } from '@chakra-ui/icons'
+
+import { Surface } from 'common/components'
 
 export function Error(props: FallbackProps): JSX.Element {
   const { error, resetErrorBoundary } = props

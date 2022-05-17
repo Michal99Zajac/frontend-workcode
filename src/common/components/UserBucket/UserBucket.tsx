@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -11,68 +11,47 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  SkeletonCircle,
 } from '@chakra-ui/react'
 
-import { useAuth } from '../../store'
-import { fetchUser } from '../../api'
-import { User } from '../../schemas/User'
+import { User } from 'common/schemas'
+import { useAuth } from 'common/store'
 
 import { AvatarButtonStyle } from './styles'
 
-export function UserBucket(): JSX.Element | null {
-  const { user, logout } = useAuth((state) => ({
-    user: state.user,
-    logout: state.logout,
-  }))
+interface UserBucketProps {
+  user: User
+}
+
+export function UserBucket(props: UserBucketProps): JSX.Element | null {
+  const { user } = props
+  const logout = useAuth((store) => store.logout)
   const navigate = useNavigate()
-  const [loggedUser, setLoggedUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  const fetchCurrentUser = useCallback(async () => {
-    setIsLoading(true)
-    try {
-      if (!user) throw new Error('User is not logged')
-      const response = await fetchUser({ id: user.id })
-
-      setLoggedUser(response.user)
-    } catch (error) {
-      console.error(error)
-    }
-    setIsLoading(false)
-  }, [user])
 
   const logoutUser = useCallback(async () => {
     logout()
     navigate('/')
   }, [user, logout])
 
-  useEffect(() => {
-    fetchCurrentUser()
-  }, [])
-
-  if (isLoading) return <SkeletonCircle />
-
   return (
     <Menu placement="right-start">
       <MenuButton>
         <Avatar
           {...AvatarButtonStyle}
-          src={loggedUser?.src || undefined}
-          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+          src={user.src || undefined}
+          name={`${user.name} ${user.lastname}`}
         />
       </MenuButton>
       <MenuList zIndex="modal">
         <Flex py={2} px={3} alignItems="center">
           <Avatar
             size="sm"
-            src={loggedUser?.src || undefined}
-            name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
+            src={user?.src || undefined}
+            name={`${user.name} ${user.lastname}`}
             mr={2}
           />
           <Stack spacing={0}>
-            <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
-            <Text fontSize="xs">{loggedUser?.email}</Text>
+            <Heading size="sm">{`${user.name} ${user.lastname}`}</Heading>
+            <Text fontSize="xs">{user.email}</Text>
           </Stack>
         </Flex>
         <MenuDivider />

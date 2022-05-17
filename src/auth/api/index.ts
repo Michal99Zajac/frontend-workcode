@@ -1,4 +1,4 @@
-export { signin } from './signin'
-export { signup } from './signup'
-export { sendForgottenEmail } from './sendForgottenEmail'
-export { changePassword } from './changePassword'
+export { useSignIn } from './useSignIn'
+export { useSignUp } from './useSignUp'
+export { useForgotPassword } from './useForgotPassword'
+export { useChangePassword } from './useChangePassword'

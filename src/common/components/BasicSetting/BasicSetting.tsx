@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Switch, useColorMode } from '@chakra-ui/react'
 
-import { LanguageMenu } from '../LanguageMenu'
+import { LanguageMenu } from 'common/components'
 
 export function BasicSetting(): JSX.Element {
   const { toggleColorMode } = useColorMode()

@@ -1,12 +1,11 @@
 import { z } from 'zod'
 
-import { User, UUID } from '../../../common/schemas'
+import { _ID } from 'common/schemas'
 
 export const Message = z.object({
-  id: UUID,
-  author: User,
-  date: z.date(),
+  userId: _ID,
   message: z.string(),
+  createdAt: z.string(),
 })
 
 export type Message = z.infer<typeof Message>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 
-import { MenuBar } from '../../components'
+import { MenuBar } from 'common/components'
 
 import classes from './WorkspaceLayout.module.scss'
 
@@ -13,7 +13,7 @@ export const WorkspaceLayout =
     (
       <Flex className={classes.layout}>
         <MenuBar />
-        <Box flex="1">
+        <Box flex="1" overflow="auto">
           <Page />
         </Box>
       </Flex>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   Stack,
   Flex,
@@ -13,21 +13,51 @@ import {
   useColorModeValue,
   IconButton,
   Tooltip,
+  Center,
 } from '@chakra-ui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { WorkspaceRecord, WorkspaceFilters } from '../../components'
-import { Workspace } from '../../schemas'
-import { useAuth } from '../../../common/store'
-import { Surface, TableRecordSkeleton } from '../../../common/components'
+import { useWorkspaces, Form } from 'workspace/api/useWorkspaces'
+import {
+  WorkspaceRecord,
+  WorkspaceFilters,
+  NoWorkspaces,
+} from 'workspace/components'
+import { useAuth } from 'common/store'
+import { Surface, TableRecordSkeleton } from 'common/components'
+import { useQueryForm } from 'common/hooks'
+import { useWorkspaceQuery } from 'workspace/store'
 
 export function Menu(): JSX.Element {
-  const userId = useAuth((state) => state.user?.id)
-  const [isLoading, setIsLoading] = useState(true)
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([])
-  const tableHeaderBG = useColorModeValue('blue.700', 'blue.200')
+  const tableHeaderBG = useColorModeValue('blue.500', 'blue.200')
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
+
+  const updateQuery = useWorkspaceQuery((store) => store.update)
+  const userId = useAuth((state) => state.user?._id)
+  const filters = useQueryForm<Form>({
+    resolver: zodResolver(Form),
+    schema: Form,
+    defaultValues: {
+      self: false,
+      name: '',
+      owner: '',
+      code: 'ALL',
+    },
+  })
+  const { data, isFetching, refetch } = useWorkspaces(filters.getValues())
+  const workspaces = data
+
+  const onSubmit = (data: Form) => {
+    updateQuery(data)
+    refetch()
+  }
+
+  // update query on the start of app
+  useEffect(() => {
+    updateQuery(filters.getValues())
+  }, [])
 
   // TODO: add all area link click
 
@@ -36,10 +66,7 @@ export function Menu(): JSX.Element {
       <Stack p={5} spacing={5} h="100%">
         <Heading fontSize="8xl">Workspaces</Heading>
         <Flex align="center">
-          <WorkspaceFilters
-            setIsLoading={setIsLoading}
-            setWorkspaces={setWorkspaces}
-          />
+          <WorkspaceFilters form={filters} onSubmit={onSubmit} />
           <Spacer />
           <Tooltip label="Add Workspace" placement="top">
             <IconButton
@@ -75,20 +102,32 @@ export function Menu(): JSX.Element {
                 </Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody position="relative">
               <TableRecordSkeleton
-                isLoaded={!isLoading}
+                isLoaded={!isFetching}
                 amount={16}
                 columns={6}
               >
-                {workspaces.map((workspace) => (
+                {workspaces?.map((workspace) => (
                   <WorkspaceRecord
-                    key={workspace.id}
-                    isOwner={workspace.admin.id === userId}
+                    key={workspace._id}
+                    isOwner={workspace.author._id === userId}
                     workspace={workspace}
                   />
                 ))}
               </TableRecordSkeleton>
+              {!isFetching && !workspaces?.length && (
+                <Center
+                  height="400px"
+                  position="absolute"
+                  left="0"
+                  right="0"
+                  marginLeft="auto"
+                  marginRight="auto"
+                >
+                  <NoWorkspaces />
+                </Center>
+              )}
             </Tbody>
           </Table>
         </Surface>

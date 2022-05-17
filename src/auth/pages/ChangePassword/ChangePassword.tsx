@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Button,
   Center,
@@ -8,40 +8,37 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Window } from '../../../common/components'
-import { useToast } from '../../../common/hooks'
-import { changePassword, Fail, Form } from '../../api/changePassword'
+import { Window } from 'common/components'
+import { useToast } from 'common/hooks'
+import { useChangePassword, Form } from 'auth/api/useChangePassword'
 
 export function ChangePassword(): JSX.Element {
   const runToast = useToast()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  const { token } = useParams()
   const { control, formState, handleSubmit } = useForm<Form>({
     resolver: zodResolver(Form),
   })
+  const { mutate, isLoading } = useChangePassword(token)
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-
+  const onSubmit = handleSubmit((data) => {
     if (data.password !== data.repeatedPassword) {
       runToast({ Password: 'Passwords are different' }, 'Error', 'error')
-      setIsLoading(false)
       return
     }
 
-    try {
-      const response = await changePassword(data)
-      runToast(response, 'Success', 'success')
-      navigate('/auth/signin')
-    } catch (error) {
-      const changePasswordError = Fail.parse(error)
-      runToast(changePasswordError, 'Error', 'error')
-    }
-
-    setIsLoading(false)
+    mutate(data, {
+      onSuccess: () => {
+        runToast({ message: 'Password has been changed' }, 'Success', 'success')
+        navigate('/auth/signin')
+      },
+      onError: (error) => {
+        runToast(error.error, 'Error', 'error')
+      },
+    })
   })
 
   return (

@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { Form } from '../../api/getWorkspaces'
+import { Form } from 'workspace/api/useWorkspaces'
 
 type UpdateQuery = (query: Form) => void
 interface WorkspaceQueryStore {
@@ -14,7 +14,7 @@ export const useWorkspaceQuery = create<WorkspaceQueryStore>(
   devtools(
     (set) => ({
       query: {
-        workspace: '',
+        name: '',
         owner: '',
         self: false,
         code: 'ALL',

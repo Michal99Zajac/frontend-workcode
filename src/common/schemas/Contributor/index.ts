@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { User } from '../../../common/schemas'
+import { User } from 'common/schemas'
 
 export const Contributor = User
 

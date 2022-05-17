@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { AuthUser } from '../../schemas/AuthUser'
+import { AuthUser } from 'auth/schemas/AuthUser'
 
 export interface AuthStore {
   user: AuthUser | null
