@@ -25,9 +25,9 @@ export function UserDataUpdate(): JSX.Element {
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      email: data?.email,
-      lastname: data?.lastname,
-      name: data?.name,
+      email: data ? data.email : '',
+      lastname: data ? data.lastname : '',
+      name: data ? data.name : '',
     },
   })
 

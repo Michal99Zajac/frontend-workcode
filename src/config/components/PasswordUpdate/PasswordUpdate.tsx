@@ -18,7 +18,6 @@ import { useUpdatePassword, Form } from 'config/api/useUpdatePassword'
 import { useToast } from 'common/hooks'
 
 export function PasswordUpdate(): JSX.Element {
-  // const [isLoading, setIsLoading] = useState(false)
   const runToast = useToast()
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
@@ -73,7 +72,6 @@ export function PasswordUpdate(): JSX.Element {
                 placeholder="Av+>mMUpw$aGQ"
                 onChange={field.onChange}
                 isInvalid={fieldState.invalid}
-                value={field.value}
                 ref={field.ref}
               />
             </Box>
@@ -91,7 +89,6 @@ export function PasswordUpdate(): JSX.Element {
                 placeholder="Av+>mMUpw$aGQ"
                 onChange={field.onChange}
                 isInvalid={fieldState.invalid}
-                value={field.value}
                 ref={field.ref}
               />
             </Box>
