@@ -28,7 +28,7 @@ import 'codemirror/addon/edit/closebrackets'
 export function CodeEditor() {
   const { content: initContent } = useWorkspace()
   const { colorMode } = useColorMode()
-  const { setEditor, editor } = useEditor()
+  const { setEditor, editor, setCursor } = useEditor()
   const type = useType()
   const cursorRefresh = _.debounce(useCursor(), 50)
   const updateContent = useContentUpdate()
@@ -77,6 +77,7 @@ export function CodeEditor() {
         value={initContent}
         onCursor={(editor, data) => {
           cursorRefresh(data)
+          setCursor(data)
         }}
         onChange={(editor, data, value) => {
           if (data.origin && data.origin !== 'update') {
