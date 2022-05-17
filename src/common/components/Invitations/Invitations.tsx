@@ -48,7 +48,7 @@ export function Invitations() {
         <PopoverContent>
           <PopoverHeader>Invitations</PopoverHeader>
           <PopoverCloseButton />
-          <PopoverBody maxH="400px" overflow="scroll">
+          <PopoverBody maxH="400px" overflow="auto">
             <Stack>
               <InvitationSkeleton amount={3} isLoaded={isFetched}>
                 {data?.map((invitation) => (
