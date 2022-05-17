@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from 'react-query'
 
 import { _ID } from 'common/schemas'
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 
 import { Response, ErrorResponse } from './schema'
 
 export const useContributorRemove = (workspaceId: _ID, userId: _ID) => {
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
   const queryClient = useQueryClient()
 

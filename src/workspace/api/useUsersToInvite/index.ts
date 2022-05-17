@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 import { makeQuery } from 'workspace/utils'
 
@@ -11,6 +11,7 @@ export const useUsersToInvite = (
   rawQuery: Query,
   holded = false
 ) => {
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
   const query = makeQuery(rawQuery)
 

@@ -1,12 +1,13 @@
 import { useQuery } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 import { makeQuery } from 'workspace/utils'
 
 import { Response, ErrorResponse, Form } from './schema'
 
 export const useWorkspaces = (form: Form) => {
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
   const query = makeQuery(form)
 

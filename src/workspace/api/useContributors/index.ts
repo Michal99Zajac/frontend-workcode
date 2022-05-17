@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 
 import { Response, ErrorResponse } from './schema'
 
 export const useContributors = (workspaceId: string) => {
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
 
   return useQuery<Response, ErrorResponse>({

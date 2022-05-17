@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 
 import { Form, Response, ErrorResponse } from './schema'
 
 export const useWorkspaceCreate = () => {
+  const api = useApi()
   const queryClient = useQueryClient()
   const codec = createCodec(Response, ErrorResponse)
 

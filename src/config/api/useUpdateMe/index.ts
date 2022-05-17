@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { produce } from 'immer'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 import { useAuth } from 'common/store'
 
 import { Form, Response, ErrorResponse } from './schema'
 
 export const useUpdateMe = () => {
+  const api = useApi()
   const auth = useAuth((store) => store)
   const queryClient = useQueryClient()
   const codec = createCodec(Response, ErrorResponse)

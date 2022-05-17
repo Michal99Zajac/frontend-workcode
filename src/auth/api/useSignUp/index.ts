@@ -1,11 +1,12 @@
 import { useMutation } from 'react-query'
 
 import { createCodec } from 'codec'
-import { api } from 'api'
+import { useApi } from 'api'
 
 import { Form, Response, ErrorResponse } from './schema'
 
 export const useSignUp = () => {
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
 
   return useMutation<Response, ErrorResponse, Form>(

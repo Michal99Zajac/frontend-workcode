@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 import { _ID } from 'common/schemas'
 
@@ -12,6 +12,7 @@ interface Params {
 
 export const useEditorWorkspace = (params: Params) => {
   const { workspaceId } = params
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
 
   return useQuery<Response, ErrorResponse>({

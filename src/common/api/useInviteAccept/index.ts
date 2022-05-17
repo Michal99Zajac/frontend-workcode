@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 
 import { Response, ErrorResponse } from './schema'
@@ -11,6 +11,7 @@ interface Params {
 
 export const useInviteAccept = (params: Params) => {
   const { invitationId } = params
+  const api = useApi()
   const codec = createCodec(Response, ErrorResponse)
   const queryClient = useQueryClient()
 

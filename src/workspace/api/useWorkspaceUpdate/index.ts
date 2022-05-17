@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 
 import { Form, Response, ErrorResponse } from './schema'
@@ -11,6 +11,7 @@ interface Props {
 
 export const useWorkspaceUpdate = (props: Props) => {
   const { _id } = props
+  const api = useApi()
   const queryClient = useQueryClient()
   const codec = createCodec(Response, ErrorResponse)
 

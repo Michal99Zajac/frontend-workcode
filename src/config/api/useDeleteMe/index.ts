@@ -1,12 +1,13 @@
 import { useMutation } from 'react-query'
 
-import { api } from 'api'
+import { useApi } from 'api'
 import { createCodec } from 'codec'
 import { useAuth } from 'common/store'
 
 import { Form, Response, ErrorResponse } from './schema'
 
 export const useDeleteMe = () => {
+  const api = useApi()
   const logout = useAuth((store) => store.logout)
   const codec = createCodec(Response, ErrorResponse)
 
