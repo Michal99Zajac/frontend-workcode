@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { _ID } from 'common/schemas'
 import { ActiveUser } from 'editor/schemas'
 import { useAuth } from 'common/store'
+import { FullLoading } from 'common/components'
 import { COMMON_COMMAND, EDITOR_COMMAND } from 'editor/connection'
 
 import { EditorSockContext } from './context'
@@ -48,7 +49,7 @@ export const EditorSockProvider = (props: Props) => {
     }
   }, [])
 
-  if (!socket) return <div>...Loading</div>
+  if (!socket) return <FullLoading />
 
   return (
     <EditorSockContext.Provider

@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { _ID } from 'common/schemas'
 import { useEditorWorkspace } from 'editor/api/useEditorWorkspace'
 import { useToast } from 'common/hooks'
+import { FullLoading } from 'common/components'
 
 import { WorkspaceContext } from './Context'
 
@@ -27,9 +28,9 @@ export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
 
   if (isError) return <Navigate to="/workspace" />
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <FullLoading />
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <FullLoading />
 
   return (
     <WorkspaceContext.Provider
