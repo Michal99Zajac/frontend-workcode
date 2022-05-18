@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { _ID } from 'common/schemas'
 import { useAuth } from 'common/store'
 import { COMMON_COMMAND } from 'editor/connection'
+import { FullLoading } from 'common/components'
 
 import { ChatContext } from './Context'
 
@@ -42,7 +43,7 @@ export const ChatProvider = (props: Props) => {
     }
   }, [])
 
-  if (!socket) return <div>Loading...</div>
+  if (!socket) return <FullLoading />
 
   return (
     <ChatContext.Provider

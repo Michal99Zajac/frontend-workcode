@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from 'common/store'
 import { useToast } from 'common/hooks'
+import { FullLoading } from 'common/components'
 
 import { env } from './env'
 
@@ -58,7 +59,7 @@ export function Api(props: Props): JSX.Element {
     })
   }, [token])
 
-  if (!api) return <div>Loading...</div>
+  if (!api) return <FullLoading />
 
   return <ApiContext.Provider value={{ api }}>{children}</ApiContext.Provider>
 }
