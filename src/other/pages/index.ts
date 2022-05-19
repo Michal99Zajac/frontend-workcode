@@ -6,3 +6,4 @@ import { Main } from './Main'
 export const NotFoundWithLayout = MainLayout(NotFound)
 export const MainWithLayout = MainLayout(Main)
 export { Error } from './Error'
+export { Mobile } from './Mobile'
