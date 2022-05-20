@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios, { AxiosInstance } from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useAuth } from 'common/store'
 import { useToast } from 'common/hooks'
@@ -21,11 +22,12 @@ export function Api(props: Props): JSX.Element {
   const navigate = useNavigate()
   const runToast = useToast()
   const [api, setApi] = useState<AxiosInstance | null>(null)
+  const { i18n } = useTranslation()
 
   useEffect(() => {
     setApi(() => {
       const headers: Record<string, string> = {
-        'Accept-Language': 'pl',
+        'Accept-Language': i18n.language,
       }
 
       if (token) headers['Authorization'] = `Bearer ${token}`

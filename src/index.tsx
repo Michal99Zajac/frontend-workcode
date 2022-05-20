@@ -4,8 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClientProvider, QueryClient } from 'react-query'
 
 import './index.scss'
+import './i18n'
 import App from './App'
-import 'date'
+import './date'
 
 export const queryClient = new QueryClient()
 
