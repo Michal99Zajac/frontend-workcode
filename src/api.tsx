@@ -59,7 +59,7 @@ export function Api(props: Props): JSX.Element {
 
       return newApi
     })
-  }, [token])
+  }, [token, i18n.language])
 
   if (!api) return <FullLoading />
 
