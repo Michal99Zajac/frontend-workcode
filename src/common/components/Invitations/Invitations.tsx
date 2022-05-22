@@ -16,6 +16,7 @@ import {
   Center,
 } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 
 import { NoMailIcon } from 'icons/common'
 import { InvitationSkeleton } from 'common/components/Skeletons'
@@ -25,6 +26,7 @@ import { useMode } from 'common/hooks'
 
 export function Invitations() {
   const mode = useMode()
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const { data, refetch, isFetched } = useInvitations()
 
@@ -46,7 +48,9 @@ export function Invitations() {
           />
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverHeader>Invitations</PopoverHeader>
+          <PopoverHeader>
+            {t('common.components.invitations.header')}
+          </PopoverHeader>
           <PopoverCloseButton />
           <PopoverBody maxH="400px" overflow="auto">
             <Stack>
@@ -71,7 +75,7 @@ export function Invitations() {
                 aria-label="refetch"
                 onClick={() => refetch()}
               >
-                refresh
+                {t('common.components.invitations.refresh_button')}
               </Button>
             </Flex>
           </PopoverFooter>

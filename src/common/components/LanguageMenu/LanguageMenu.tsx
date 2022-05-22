@@ -13,7 +13,7 @@ import { PolishFlagIcon, EnglishFlagIcon } from 'icons/flags'
 import { Language } from 'i18n'
 
 export function LanguageMenu(): JSX.Element {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const [lang, setLang] = useState<Language>(i18n.language as Language)
 
   const getLanguageIcon = useCallback(() => {
@@ -40,10 +40,12 @@ export function LanguageMenu(): JSX.Element {
       <MenuList>
         <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
           <MenuItemOption value={Language.enum.pl}>
-            <PolishFlagIcon /> Polish
+            <PolishFlagIcon />{' '}
+            {t('common.components.language_menu.options.polish')}
           </MenuItemOption>
           <MenuItemOption value={Language.enum.en}>
-            <EnglishFlagIcon /> English
+            <EnglishFlagIcon />{' '}
+            {t('common.components.language_menu.options.english')}
           </MenuItemOption>
         </MenuOptionGroup>
       </MenuList>

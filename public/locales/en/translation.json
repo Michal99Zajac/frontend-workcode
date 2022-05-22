@@ -194,5 +194,27 @@
         "window_title": "Sign Up"
       }
     }
+  },
+  "common": {
+    "components": {
+      "invitations": {
+        "header": "Invitations",
+        "refresh_button": "refresh"
+      },
+      "language_menu": {
+        "options": {
+          "polish": "Polish",
+          "english": "English"
+        }
+      },
+      "user_bucket": {
+        "options": {
+          "configuration": "Configuration",
+          "workspaces": "Workspaces",
+          "menu": "Menu",
+          "logout": "Logout"
+        }
+      }
+    }
   }
 }
