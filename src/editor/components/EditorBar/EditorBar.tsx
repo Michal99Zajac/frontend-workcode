@@ -6,6 +6,7 @@ import {
   ActiveContributors,
   EditorCompas,
   Chat,
+  WorkspaceLabel,
 } from 'editor/components'
 import { useEditor, useEditorSocket, useWorkspace } from 'editor/hooks'
 
@@ -24,6 +25,7 @@ export function EditorBar(): JSX.Element {
         }
         activeUsers={actives}
       />
+      <WorkspaceLabel mx={2} name={workspace.name} />
       <Spacer />
       <EditorCompas {...cursor} />
       <Chat />
