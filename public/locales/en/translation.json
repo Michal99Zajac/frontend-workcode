@@ -216,5 +216,154 @@
         }
       }
     }
+  },
+  "config": {
+    "api": {
+      "delete_me": {
+        "form": {
+          "password": {
+            "required": "Password is required"
+          }
+        }
+      },
+      "update_me": {
+        "form": {
+          "email": {
+            "required": "Email is required",
+            "email": "Email shoud have email form",
+            "empty": "Email is required"
+          },
+          "name": {
+            "required": "Firstname is required"
+          },
+          "lastname": {
+            "required": "Lastname is required"
+          }
+        }
+      },
+      "password_update": {
+        "form": {
+          "password": {
+            "required": "Password is required"
+          },
+          "repeatedPassword": {
+            "required": "Repeated password is required"
+          }
+        }
+      }
+    },
+    "components": {
+      "delete_account": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Success"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "Delete Account",
+        "delete_button": "Delete",
+        "modal": {
+          "header": "Delete Account",
+          "alert": {
+            "title": "Warrning!",
+            "description": "Remember, if you delete your account, you will not be able to restore it"
+          },
+          "form": {
+            "password": {
+              "label": "Password"
+            },
+            "submit_button": {
+              "content": "confirm"
+            }
+          }
+        }
+      },
+      "password_update": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "message": "Passwords are different",
+              "title": "Form"
+            },
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Password has been changed",
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "Password",
+        "form": {
+          "password": {
+            "label": "Password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      },
+      "user_data_update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Data has been changed",
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "User Data",
+        "form": {
+          "name": {
+            "label": "Firstname",
+            "placeholder": "firstname"
+          },
+          "lastname": {
+            "label": "Lastname",
+            "placeholder": "lastname"
+          },
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      }
+    },
+    "pages": {
+      "user_config": {
+        "heading": "User Configuration",
+        "basic_setting": {
+          "heading": "Basic Setting"
+        }
+      }
+    }
   }
 }

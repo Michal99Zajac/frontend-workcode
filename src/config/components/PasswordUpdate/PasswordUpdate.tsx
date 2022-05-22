@@ -13,11 +13,13 @@ import {
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { useUpdatePassword, Form } from 'config/api/useUpdatePassword'
 import { useToast } from 'common/hooks'
 
 export function PasswordUpdate(): JSX.Element {
+  const { t } = useTranslation()
   const runToast = useToast()
   const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
@@ -30,17 +32,37 @@ export function PasswordUpdate(): JSX.Element {
 
   const onSubmit = handleSubmit((data) => {
     if (data.password !== data.repeatedPassword) {
-      runToast({ Password: 'Passwords are different' }, 'Error', 'error')
+      runToast(
+        {
+          Password: t(
+            'config.components.password_update.toast.error.repeat.message'
+          ),
+        },
+        t('config.components.password_update.toast.error.repeat.title'),
+        'error'
+      )
       return
     }
 
     mutate(data, {
       onSuccess: () => {
-        runToast({ message: 'Password has been changed' }, 'Success', 'success')
+        runToast(
+          {
+            message: t(
+              'config.components.password_update.toast.success.api.message'
+            ),
+          },
+          t('config.components.password_update.toast.success.api.title'),
+          'success'
+        )
         reset()
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(
+          error.message,
+          t('config.components.password_update.toast.error.api.title'),
+          'error'
+        )
       },
     })
   })
@@ -48,7 +70,9 @@ export function PasswordUpdate(): JSX.Element {
   return (
     <form onSubmit={onSubmit}>
       <Flex align="center" mb={5}>
-        <Heading size="xl">Password</Heading>
+        <Heading size="xl">
+          {t('config.components.password_update.heading')}
+        </Heading>
         <Spacer />
         {formState.isDirty && (
           <IconButton
@@ -65,7 +89,9 @@ export function PasswordUpdate(): JSX.Element {
           name="password"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Password</Text>
+              <Text fontSize="sm">
+                {t('config.components.password_update.form.password.label')}
+              </Text>
               <Input
                 type="password"
                 isDisabled={isLoading}
@@ -82,7 +108,11 @@ export function PasswordUpdate(): JSX.Element {
           name="repeatedPassword"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Repeat Password</Text>
+              <Text fontSize="sm">
+                {t(
+                  'config.components.password_update.form.repeatedPassword.label'
+                )}
+              </Text>
               <Input
                 type="password"
                 isDisabled={isLoading}
@@ -100,9 +130,15 @@ export function PasswordUpdate(): JSX.Element {
             width="min-content"
             isLoading={isLoading}
             type="submit"
-            onClick={() => runToast(formState.errors, 'Error', 'error')}
+            onClick={() =>
+              runToast(
+                formState.errors,
+                t('config.components.password_update.toast.error.zod.title'),
+                'error'
+              )
+            }
           >
-            Submit
+            {t('config.components.password_update.form.submit_button.content')}
           </Button>
         )}
       </Stack>

@@ -13,12 +13,14 @@ import {
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { useMe } from 'config/api/useMe'
 import { useUpdateMe, Form } from 'config/api/useUpdateMe'
 import { useToast } from 'common/hooks'
 
 export function UserDataUpdate(): JSX.Element {
+  const { t } = useTranslation()
   const { isFetching, data } = useMe()
   const { isLoading, mutate } = useUpdateMe()
   const runToast = useToast()
@@ -34,10 +36,22 @@ export function UserDataUpdate(): JSX.Element {
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: () => {
-        runToast({ message: 'Data has been changed' }, 'Success', 'success')
+        runToast(
+          {
+            message: t(
+              'config.components.user_data_update.toast.success.api.message'
+            ),
+          },
+          t('config.components.user_data_update.toast.success.api.title'),
+          'success'
+        )
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(
+          error.message,
+          t('config.components.user_data_update.toast.error.api.title'),
+          'error'
+        )
       },
     })
   })
@@ -55,7 +69,9 @@ export function UserDataUpdate(): JSX.Element {
   return (
     <form onSubmit={onSubmit}>
       <Flex align="center" mb={5}>
-        <Heading size="xl">User Data</Heading>
+        <Heading size="xl">
+          {t('config.components.user_data_update.heading')}
+        </Heading>
         <Spacer />
         {formState.isDirty && (
           <IconButton
@@ -72,10 +88,14 @@ export function UserDataUpdate(): JSX.Element {
           name="name"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Firstname</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.name.label')}
+              </Text>
               <Input
                 isDisabled={isFetching || isLoading}
-                placeholder="name"
+                placeholder={t(
+                  'config.components.user_data_update.form.name.placeholder'
+                )}
                 onChange={field.onChange}
                 value={field.value}
                 isInvalid={fieldState.invalid}
@@ -88,10 +108,14 @@ export function UserDataUpdate(): JSX.Element {
           name="lastname"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Lastname</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.lastname.label')}
+              </Text>
               <Input
                 isDisabled={isFetching || isLoading}
-                placeholder="lastname"
+                placeholder={t(
+                  'config.components.user_data_update.form.lastname.placeholder'
+                )}
                 onChange={field.onChange}
                 value={field.value}
                 isInvalid={fieldState.invalid}
@@ -104,7 +128,9 @@ export function UserDataUpdate(): JSX.Element {
           name="email"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Email</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.email.label')}
+              </Text>
               <Input
                 isDisabled={isFetching || isLoading}
                 placeholder="email@email.com"
@@ -120,9 +146,15 @@ export function UserDataUpdate(): JSX.Element {
             width="min-content"
             isLoading={isLoading}
             type="submit"
-            onClick={() => runToast(formState.errors, 'Error', 'error')}
+            onClick={() =>
+              runToast(
+                formState.errors,
+                t('config.components.user_data_update.toast.error.zod.title'),
+                'error'
+              )
+            }
           >
-            Submit
+            {t('config.components.user_data_update.form.submit_button.content')}
           </Button>
         )}
       </Stack>

@@ -23,11 +23,13 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { Form, useDeleteMe } from 'config/api/useDeleteMe'
 import { useToast } from 'common/hooks'
 
 export function DeleteAccount(): JSX.Element {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isLoading, mutate } = useDeleteMe()
   const { onOpen, onClose, isOpen } = useDisclosure()
@@ -42,11 +44,19 @@ export function DeleteAccount(): JSX.Element {
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: (response) => {
-        runToast(response, 'Success', 'success')
+        runToast(
+          response,
+          t('config.components.delete_account.toast.success.api.title'),
+          'success'
+        )
         navigate('/')
       },
       onError: (error) => {
-        runToast(error.message, 'Error', 'error')
+        runToast(
+          error.message,
+          t('config.components.delete_account.toast.error.api.title'),
+          'error'
+        )
         reset()
       },
     })
@@ -55,14 +65,18 @@ export function DeleteAccount(): JSX.Element {
   return (
     <Box>
       <Heading size="xl" mb={5}>
-        Delete Account
+        {t('config.components.delete_account.heading')}
       </Heading>
-      <Button onClick={onOpen}>Delete</Button>
+      <Button onClick={onOpen}>
+        {t('config.components.delete_account.delete_button')}
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Delete Account</ModalHeader>
+            <ModalHeader>
+              {t('config.components.delete_account.modal.header')}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Stack spacing={4}>
@@ -73,11 +87,14 @@ export function DeleteAccount(): JSX.Element {
                 >
                   <Flex>
                     <AlertIcon />
-                    <AlertTitle fontSize="xs">Warrning!</AlertTitle>
+                    <AlertTitle fontSize="xs">
+                      {t('config.components.delete_account.modal.alert.title')}
+                    </AlertTitle>
                   </Flex>
                   <AlertDescription fontSize="xs">
-                    Remember, if you delete your account, you will not be able
-                    to restore it
+                    {t(
+                      'config.components.delete_account.modal.alert.description'
+                    )}
                   </AlertDescription>
                 </Alert>
                 <Controller
@@ -85,7 +102,11 @@ export function DeleteAccount(): JSX.Element {
                   name="password"
                   render={({ field, fieldState }) => (
                     <Box>
-                      <Text fontSize="sm">Password</Text>
+                      <Text fontSize="sm">
+                        {t(
+                          'config.components.delete_account.modal.form.password.label'
+                        )}
+                      </Text>
                       <Input
                         type="password"
                         isDisabled={isLoading}
@@ -103,9 +124,17 @@ export function DeleteAccount(): JSX.Element {
               <Button
                 isLoading={isLoading}
                 type="submit"
-                onClick={() => runToast(formState.errors, 'Error', 'error')}
+                onClick={() =>
+                  runToast(
+                    formState.errors,
+                    t('config.components.delete_account.toast.error.zod.title'),
+                    'error'
+                  )
+                }
               >
-                confirm
+                {t(
+                  'config.components.delete_account.modal.form.submit_button.content'
+                )}
               </Button>
             </ModalFooter>
           </form>
