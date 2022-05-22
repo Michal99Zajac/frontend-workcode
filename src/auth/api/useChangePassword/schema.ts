@@ -1,11 +1,14 @@
 import { z } from 'zod'
 
+import i18n from 'i18n'
 import { User, ApiError } from 'common/schemas'
 
 export const Form = z.object({
-  password: z.string({ required_error: 'password is required' }),
+  password: z.string({
+    required_error: i18n.t('auth.api.change_password.form.password'),
+  }),
   repeatedPassword: z.string({
-    required_error: 'Repeated password is required',
+    required_error: i18n.t('auth.api.change_password.form.repeatedPassword'),
   }),
 })
 

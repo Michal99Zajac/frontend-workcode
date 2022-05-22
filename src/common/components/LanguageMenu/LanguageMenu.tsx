@@ -6,18 +6,21 @@ import {
   MenuList,
   MenuOptionGroup,
 } from '@chakra-ui/react'
+import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import { PolishFlagIcon, EnglishFlagIcon } from 'icons/flags'
-import { LanguageEnum } from 'common/schemas'
+import { Language } from 'i18n'
 
 export function LanguageMenu(): JSX.Element {
-  const [lang, setLang] = useState<LanguageEnum>(LanguageEnum.enum.ENGLISH)
+  const { i18n, t } = useTranslation()
+  const [lang, setLang] = useState<Language>(i18n.language as Language)
 
   const getLanguageIcon = useCallback(() => {
     switch (lang) {
-      case LanguageEnum.enum.ENGLISH:
+      case 'en':
         return <EnglishFlagIcon fontSize="2rem" />
-      case LanguageEnum.enum.POLISH:
+      case 'pl':
         return <PolishFlagIcon fontSize="2rem" />
       default:
         throw new Error('Set unknown language')
@@ -25,7 +28,10 @@ export function LanguageMenu(): JSX.Element {
   }, [lang])
 
   const onLangChange = (value: string | string[]) => {
-    setLang(LanguageEnum.parse(value))
+    const language = value as Language
+    setLang(language)
+    i18n.changeLanguage(language)
+    dayjs.locale(language)
   }
 
   return (
@@ -33,11 +39,13 @@ export function LanguageMenu(): JSX.Element {
       <MenuButton>{getLanguageIcon()}</MenuButton>
       <MenuList>
         <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
-          <MenuItemOption value={LanguageEnum.enum.POLISH}>
-            <PolishFlagIcon /> Polish
+          <MenuItemOption value={Language.enum.pl}>
+            <PolishFlagIcon />{' '}
+            {t('common.components.language_menu.options.polish')}
           </MenuItemOption>
-          <MenuItemOption value={LanguageEnum.enum.ENGLISH}>
-            <EnglishFlagIcon /> English
+          <MenuItemOption value={Language.enum.en}>
+            <EnglishFlagIcon />{' '}
+            {t('common.components.language_menu.options.english')}
           </MenuItemOption>
         </MenuOptionGroup>
       </MenuList>

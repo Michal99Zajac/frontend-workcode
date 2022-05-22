@@ -1,4 +1,3 @@
-export * from './LanguageEnum'
 export * from './User'
 export * from './ToastMessages'
 export * from './LocationState'

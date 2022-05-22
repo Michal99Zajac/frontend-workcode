@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuDivider,
 } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 
 import { User } from 'common/schemas'
 import { useAuth } from 'common/store'
@@ -24,6 +25,7 @@ interface UserBucketProps {
 
 export function UserBucket(props: UserBucketProps): JSX.Element | null {
   const { user } = props
+  const { t } = useTranslation()
   const logout = useAuth((store) => store.logout)
   const navigate = useNavigate()
 
@@ -56,15 +58,17 @@ export function UserBucket(props: UserBucketProps): JSX.Element | null {
         </Flex>
         <MenuDivider />
         <MenuItem as={Link} to="/config">
-          Configuration
+          {t('common.components.user_bucket.options.configuration')}
         </MenuItem>
         <MenuItem as={Link} to="/workspace">
-          Workspaces
+          {t('common.components.user_bucket.options.workspaces')}
         </MenuItem>
         <MenuItem as={Link} to="/">
-          Menu
+          {t('common.components.user_bucket.options.menu')}
         </MenuItem>
-        <MenuItem onClick={logoutUser}>Logout</MenuItem>
+        <MenuItem onClick={logoutUser}>
+          {t('common.components.user_bucket.options.logout')}
+        </MenuItem>
       </MenuList>
     </Menu>
   )

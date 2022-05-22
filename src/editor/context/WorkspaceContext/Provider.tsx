@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { _ID } from 'common/schemas'
 import { useEditorWorkspace } from 'editor/api/useEditorWorkspace'
@@ -15,6 +16,7 @@ interface WorkspaceProviderProps {
 
 export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
   const { children, workspaceId } = props
+  const { t } = useTranslation()
   const { isLoading, data, isError, error } = useEditorWorkspace({
     workspaceId,
   })
@@ -22,7 +24,11 @@ export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
 
   useEffect(() => {
     if (isError && error?.error) {
-      toast(error.error, 'Editor', 'error')
+      toast(
+        error.error,
+        t('editor.context.workspace.provider.toast.error.api.title'),
+        'error'
+      )
     }
   }, [isError])
 

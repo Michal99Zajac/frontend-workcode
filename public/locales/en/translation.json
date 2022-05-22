@@ -1,0 +1,612 @@
+{
+  "auth": {
+    "api": {
+      "change_password": {
+        "form": {
+          "password": "Password is required",
+          "repeatedPassword": "Repeated password is required"
+        }
+      },
+      "forgot_password": {
+        "form": {
+          "email": "Email is required"
+        }
+      },
+      "sign_in": {
+        "form": {
+          "email": "Email is required",
+          "password": "Password is required"
+        }
+      },
+      "sign_up": {
+        "form": {
+          "email": {
+            "required": "Email is required",
+            "email": "Email shoud have email form",
+            "empty": "Email is required"
+          },
+          "name": {
+            "required": "Firstname is required"
+          },
+          "lastname": {
+            "required": "Lastname is required"
+          },
+          "password": {
+            "required": "Password is required",
+            "min": "Password has to have more then 8 letters",
+            "empty": "Password is required"
+          },
+          "repeatedPassword": {
+            "required": "Repeated password is required"
+          }
+        }
+      }
+    },
+    "pages": {
+      "change_password": {
+        "toast": {
+          "error": {
+            "zod": {
+              "title": "Form"
+            },
+            "api": {
+              "title": "Form"
+            },
+            "repeat": {
+              "title": "Form",
+              "message": "Passwords are different"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Password has been changed"
+            }
+          }
+        },
+        "window_title": "Change Password",
+        "form": {
+          "password": {
+            "label": "Password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password"
+          },
+          "submit_button": {
+            "label": "change password"
+          }
+        }
+      },
+      "forgot_password": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success"
+            }
+          }
+        },
+        "alert": {
+          "title": "Important!",
+          "description": "If you forget password write your email address and we will send you link to page where you will able to reset your password."
+        },
+        "window_title": "Forget Password",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "label": "send request"
+          }
+        }
+      },
+      "sign_in": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Signing In!"
+            },
+            "zod": {
+              "title": "Signing In!"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Signing In!"
+            }
+          }
+        },
+        "window_title": "Sign In",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "password"
+          },
+          "submit_button": {
+            "label": "sign in"
+          }
+        },
+        "forgot_link": "Forgot your password?",
+        "signup": {
+          "label": "sign up",
+          "title": "Don't have an account?"
+        }
+      },
+      "sign_up": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "title": "Form",
+              "message": "Passwords are not the same"
+            },
+            "api": {
+              "title": "Sign Up"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sign Up",
+              "message": "User has been created"
+            }
+          }
+        },
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "name": {
+            "label": "Name",
+            "placeholder": "Jhon"
+          },
+          "lastname": {
+            "label": "Lastname",
+            "placeholder": "Snow"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password",
+            "placeholder": "repeated password"
+          },
+          "submit_button": {
+            "content": "sign up"
+          }
+        },
+        "signin_button": {
+          "label": "Have an account?",
+          "content": "sign in"
+        },
+        "window_title": "Sign Up"
+      }
+    }
+  },
+  "common": {
+    "components": {
+      "invitations": {
+        "header": "Invitations",
+        "refresh_button": "refresh"
+      },
+      "language_menu": {
+        "options": {
+          "polish": "Polish",
+          "english": "English"
+        }
+      },
+      "user_bucket": {
+        "options": {
+          "configuration": "Configuration",
+          "workspaces": "Workspaces",
+          "menu": "Menu",
+          "logout": "Logout"
+        }
+      }
+    }
+  },
+  "config": {
+    "api": {
+      "delete_me": {
+        "form": {
+          "password": {
+            "required": "Password is required"
+          }
+        }
+      },
+      "update_me": {
+        "form": {
+          "email": {
+            "required": "Email is required",
+            "email": "Email shoud have email form",
+            "empty": "Email is required"
+          },
+          "name": {
+            "required": "Firstname is required"
+          },
+          "lastname": {
+            "required": "Lastname is required"
+          }
+        }
+      },
+      "password_update": {
+        "form": {
+          "password": {
+            "required": "Password is required"
+          },
+          "repeatedPassword": {
+            "required": "Repeated password is required"
+          }
+        }
+      }
+    },
+    "components": {
+      "delete_account": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Success"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "Delete Account",
+        "delete_button": "Delete",
+        "modal": {
+          "header": "Delete Account",
+          "alert": {
+            "title": "Warrning!",
+            "description": "Remember, if you delete your account, you will not be able to restore it"
+          },
+          "form": {
+            "password": {
+              "label": "Password"
+            },
+            "submit_button": {
+              "content": "confirm"
+            }
+          }
+        }
+      },
+      "password_update": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "message": "Passwords are different",
+              "title": "Form"
+            },
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Password has been changed",
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "Password",
+        "form": {
+          "password": {
+            "label": "Password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      },
+      "user_data_update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Data has been changed",
+              "title": "Success"
+            }
+          }
+        },
+        "heading": "User Data",
+        "form": {
+          "name": {
+            "label": "Firstname",
+            "placeholder": "firstname"
+          },
+          "lastname": {
+            "label": "Lastname",
+            "placeholder": "lastname"
+          },
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      }
+    },
+    "pages": {
+      "user_config": {
+        "heading": "User Configuration",
+        "basic_setting": {
+          "heading": "Basic Setting"
+        }
+      }
+    }
+  },
+  "editor": {
+    "components": {
+      "active_contributors": {
+        "header": "Contributors"
+      },
+      "chat": {
+        "header": "Chat"
+      },
+      "chat_send": {
+        "form": {
+          "message": {
+            "placeholder": "message"
+          }
+        }
+      },
+      "editor_compas": {
+        "ch": "ch",
+        "line": "line"
+      }
+    },
+    "context": {
+      "workspace": {
+        "provider": {
+          "toast": {
+            "error": {
+              "api": {
+                "title": "Editor"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "other": {
+    "pages": {
+      "404": {
+        "button": {
+          "content": "menu"
+        }
+      },
+      "error": {
+        "accordion": {
+          "button": "details",
+          "alert": {
+            "title": "message"
+          }
+        },
+        "button": {
+          "content": "go menu"
+        }
+      },
+      "main": {
+        "workspaces": "Workspaces",
+        "signin": "Sign In",
+        "signup": "Sign Up"
+      }
+    }
+  },
+  "workspace": {
+    "api": {
+      "create_workspace": {
+        "form": {
+          "name": {
+            "min": "Name should be at least one characters",
+            "max": "Name cant be longer then 255 characters"
+          }
+        }
+      },
+      "update_workspace": {
+        "form": {
+          "name": {
+            "min": "Name should be at least one characters",
+            "max": "Name cant be longer then 255 characters"
+          }
+        }
+      }
+    },
+    "components": {
+      "invite_strap": {
+        "error": "Invitation already has been sent"
+      },
+      "no_workspaces": {
+        "button": {
+          "content": "Add workspace"
+        }
+      },
+      "record_menu": {
+        "menu": {
+          "update": "Update",
+          "invite": "Invite",
+          "contributors": "Contributors",
+          "copy": {
+            "before": "Copy Link",
+            "after": "Copied"
+          },
+          "delete": "Delete",
+          "leave": "Leave"
+        }
+      },
+      "workspace_filters": {
+        "tooltip_label": "Clear Filter",
+        "search_button": "Search",
+        "form": {
+          "name": {
+            "placeholder": "Workspace"
+          },
+          "owner": {
+            "placeholder": "Owner"
+          },
+          "code": {
+            "placeholder": "Code"
+          },
+          "self": {
+            "label": "only my"
+          }
+        }
+      }
+    },
+    "hooks": {
+      "workspace_copy": {
+        "toast": {
+          "success": {
+            "standard": {
+              "title": "Success",
+              "message": "Copied to clipboard"
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "contributors": {
+        "header": "Contributors",
+        "not_found": {
+          "heading": "No contributors"
+        }
+      },
+      "create": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Workspace has been created"
+            }
+          }
+        },
+        "header": "Create Workspace",
+        "form": {
+          "name": {
+            "label": "Name",
+            "placeholder": "My workspace name"
+          },
+          "code": {
+            "label": "Code"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      },
+      "invite": {
+        "header": "Invite",
+        "input": {
+          "placeholder": "Search..."
+        },
+        "not_found": {
+          "heading": "No Results"
+        }
+      },
+      "menu": {
+        "header": {
+          "add": {
+            "tooltip_label": "Add Workspace"
+          }
+        },
+        "table": {
+          "header": {
+            "title": "Title",
+            "code": "Code",
+            "owner": "Owner",
+            "contributors": "Contributors",
+            "created_at": "Created At",
+            "action": "Action"
+          }
+        }
+      },
+      "update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Workspace has been updated"
+            }
+          }
+        },
+        "header": "Update Workspace",
+        "form": {
+          "name": {
+            "label": "Name",
+            "placeholder": "My workspace name"
+          },
+          "code": {
+            "label": "Code"
+          },
+          "submit_button": {
+            "content": "Update"
+          }
+        }
+      }
+    }
+  },
+  "api": {
+    "toast": {
+      "warning": {
+        "message": "You are not logged",
+        "title": "Authorization"
+      }
+    }
+  },
+  "guardian": {
+    "toast": {
+      "warning": {
+        "title": "Forbbiden"
+      }
+    }
+  }
+}

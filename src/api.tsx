@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios, { AxiosInstance } from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useAuth } from 'common/store'
 import { useToast } from 'common/hooks'
@@ -18,14 +19,16 @@ export function Api(props: Props): JSX.Element {
     logout: store.logout,
     token: store.token,
   }))
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const runToast = useToast()
   const [api, setApi] = useState<AxiosInstance | null>(null)
+  const { i18n } = useTranslation()
 
   useEffect(() => {
     setApi(() => {
       const headers: Record<string, string> = {
-        'Accept-Language': 'pl',
+        'Accept-Language': i18n.language,
       }
 
       if (token) headers['Authorization'] = `Bearer ${token}`
@@ -44,8 +47,8 @@ export function Api(props: Props): JSX.Element {
             error.config.url !== '/auth/signin'
           ) {
             runToast(
-              { message: 'You are not logged' },
-              'Authorization',
+              { message: t('api.toast.warning.message') },
+              t('api.toast.warning.title'),
               'warning'
             )
             navigate('/auth/signin')
@@ -57,7 +60,7 @@ export function Api(props: Props): JSX.Element {
 
       return newApi
     })
-  }, [token])
+  }, [token, i18n.language])
 
   if (!api) return <FullLoading />
 

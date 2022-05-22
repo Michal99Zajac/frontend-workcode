@@ -15,12 +15,14 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { Window } from 'common/components'
 import { useToast } from 'common/hooks'
 import { useForgotPassword, Form } from 'auth/api/useForgotPassword'
 
 export function ForgotPassword(): JSX.Element {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const runToast = useToast()
   const { control, handleSubmit, formState } = useForm<Form>({
@@ -30,24 +32,38 @@ export function ForgotPassword(): JSX.Element {
 
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
-      onSuccess: (response) => runToast(response, 'Success', 'success'),
-      onError: (error) => runToast(error.error, 'Error', 'error'),
+      onSuccess: (response) =>
+        runToast(
+          response,
+          t('auth.pages.forgot_password.toast.success.api.title'),
+          'success'
+        ),
+      onError: (error) =>
+        runToast(
+          error.error,
+          t('auth.pages.forgot_password.toast.error.api.title'),
+          'error'
+        ),
     })
   })
 
   return (
     <Center w="100%" h="100%">
-      <Window title="Forget Password" onClick={() => navigate('/auth/signin')}>
+      <Window
+        title={t('auth.pages.forgot_password.window_title')}
+        onClick={() => navigate('/auth/signin')}
+      >
         <form onSubmit={onSubmit}>
           <Stack mt={4} minW="340px" w="340px" spacing={5}>
             <Alert status="info" flexDirection="column" alignItems="flex-start">
               <Flex>
                 <AlertIcon />
-                <AlertTitle fontSize="xs">Important!</AlertTitle>
+                <AlertTitle fontSize="xs">
+                  {t('auth.pages.forgot_password.alert.title')}
+                </AlertTitle>
               </Flex>
               <AlertDescription fontSize="xs">
-                If you forget password write your email address and we will send
-                you link to page where you will able to reset your password.
+                {t('auth.pages.forgot_password.alert.description')}
               </AlertDescription>
             </Alert>
             <Controller
@@ -55,7 +71,9 @@ export function ForgotPassword(): JSX.Element {
               name="email"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Email</Text>
+                  <Text fontSize="sm">
+                    * {t('auth.pages.forgot_password.form.email.label')}
+                  </Text>
                   <Input
                     isDisabled={isLoading}
                     placeholder="email@email.com"
@@ -69,9 +87,15 @@ export function ForgotPassword(): JSX.Element {
             <Button
               isLoading={isLoading}
               type="submit"
-              onClick={() => runToast(formState.errors, 'Error', 'error')}
+              onClick={() =>
+                runToast(
+                  formState.errors,
+                  t('auth.pages.forgot_password.toast.error.zod.title'),
+                  'error'
+                )
+              }
             >
-              send request
+              {t('auth.pages.forgot_password.form.submit_button.label')}
             </Button>
           </Stack>
         </form>

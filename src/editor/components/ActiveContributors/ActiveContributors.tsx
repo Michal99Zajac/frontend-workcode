@@ -12,6 +12,7 @@ import {
   Wrap,
   Tooltip,
 } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 
 import { ActiveUser } from 'editor/schemas'
 import { Contributor, _ID } from 'common/schemas'
@@ -28,6 +29,7 @@ interface ActiveContributorsProps {
 export function ActiveContributors(
   props: ActiveContributorsProps
 ): JSX.Element {
+  const { t } = useTranslation()
   const { contributors, activeUsers, isLoading } = props
   const mode = useMode()
 
@@ -55,7 +57,9 @@ export function ActiveContributors(
         </Circle>
       </PopoverTrigger>
       <PopoverContent>
-        <PopoverHeader>Contributors</PopoverHeader>
+        <PopoverHeader>
+          {t('editor.components.active_contributors.header')}
+        </PopoverHeader>
         <PopoverCloseButton />
         <PopoverBody>
           <Wrap>

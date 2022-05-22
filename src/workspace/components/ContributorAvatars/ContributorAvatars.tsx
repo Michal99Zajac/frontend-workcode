@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
-import { Contributor } from '../../../common/schemas'
-import { MoreIcon } from '../../../icons/common'
+import { Contributor } from 'common/schemas'
+import { MoreIcon } from 'icons/common'
 
 import classes from './ContributorAvatars.module.scss'
 

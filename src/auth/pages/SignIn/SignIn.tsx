@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useSignIn, Form } from 'auth/api/useSignIn'
 import { Window } from 'common/components'
@@ -19,6 +20,7 @@ import { useAuth } from 'common/store'
 import { useToast } from 'common/hooks'
 
 export function SignIn(): JSX.Element {
+  const { t } = useTranslation()
   const login = useAuth((state) => state.login)
   const runToast = useToast()
   const navigation = useNavigate()
@@ -31,18 +33,28 @@ export function SignIn(): JSX.Element {
     mutate(data, {
       onSuccess: (data) => {
         login(data.user, data.token)
-        runToast({ message: data.message }, 'Sign In!')
+        runToast(
+          { message: data.message },
+          t('auth.pages.sign_in.toast.success.api.title')
+        )
         navigation('/workspace')
       },
       onError: (error) => {
-        runToast(error.error, 'Sign In!', 'error')
+        runToast(
+          error.error,
+          t('auth.pages.sign_in.toast.error.api.title'),
+          'error'
+        )
       },
     })
   })
 
   return (
     <Center w="100%" h="100%">
-      <Window title="Sign In" onClick={() => navigation('/')}>
+      <Window
+        title={t('auth.pages.sign_in.window_title')}
+        onClick={() => navigation('/')}
+      >
         <form onSubmit={onSubmit}>
           <Stack mt={4} minW="340px" spacing={5}>
             <Controller
@@ -50,7 +62,9 @@ export function SignIn(): JSX.Element {
               name="email"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Email</Text>
+                  <Text fontSize="sm">
+                    * {t('auth.pages.sign_in.form.email.label')}
+                  </Text>
                   <Input
                     isDisabled={isLoading}
                     placeholder="email@email.com"
@@ -66,11 +80,15 @@ export function SignIn(): JSX.Element {
               name="password"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Password</Text>
+                  <Text fontSize="sm">
+                    * {t('auth.pages.sign_in.form.password.label')}
+                  </Text>
                   <Input
                     isDisabled={isLoading}
                     type="password"
-                    placeholder="password"
+                    placeholder={t(
+                      'auth.pages.sign_in.form.password.placeholder'
+                    )}
                     onChange={field.onChange}
                     isInvalid={fieldState.invalid}
                     ref={field.ref}
@@ -82,9 +100,15 @@ export function SignIn(): JSX.Element {
               isFullWidth
               isLoading={isLoading}
               type="submit"
-              onClick={() => runToast(formState.errors, 'Sign In', 'error')}
+              onClick={() =>
+                runToast(
+                  formState.errors,
+                  t('auth.pages.sign_in.toast.error.zod.title'),
+                  'error'
+                )
+              }
             >
-              sign in
+              {t('auth.pages.sign_in.form.submit_button.label')}
             </Button>
             <Link
               mt={3}
@@ -93,12 +117,12 @@ export function SignIn(): JSX.Element {
               fontSize="xs"
               to="/auth/forgot-password"
             >
-              Forgot your password?
+              {t('auth.pages.sign_in.forgot_link')}
             </Link>
           </Stack>
           <Divider mb={5} />
           <Text alignSelf="flex-start" mb={1} fontSize="xs">
-            Don&apos;t have an account?
+            {t('auth.pages.sign_in.signup.title')}
           </Text>
           <Button
             colorScheme="gray"
@@ -106,7 +130,7 @@ export function SignIn(): JSX.Element {
             alignSelf="flex-start"
             onClick={() => navigation('/auth/signup')}
           >
-            sign up
+            {t('auth.pages.sign_in.signup.label')}
           </Button>
         </form>
       </Window>

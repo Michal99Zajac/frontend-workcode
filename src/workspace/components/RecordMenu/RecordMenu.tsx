@@ -16,6 +16,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useWorkspaceCopy } from 'workspace/hooks'
 import {
@@ -31,6 +32,7 @@ interface RecordMenuProps {
 
 export function RecordMenu(props: RecordMenuProps): JSX.Element {
   const { workspaceId, isOwner } = props
+  const { t } = useTranslation()
   const fill = useColorModeValue('black', 'white')
   const [copy, hasCopied] = useWorkspaceCopy(workspaceId)
   const deletion = useDelete.useWorkspaceDelete({ workspaceId })
@@ -49,19 +51,25 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
       <MenuList>
         {isOwner && (
           <MenuItem as={Link} to={`${workspaceId}/update`}>
-            <EditIcon mr={4} /> Update
+            <EditIcon mr={4} />{' '}
+            {t('workspace.components.record_menu.menu.update')}
           </MenuItem>
         )}
         {isOwner && (
           <MenuItem as={Link} to={`${workspaceId}/invite`}>
-            <PlusSquareIcon mr={4} /> Invite
+            <PlusSquareIcon mr={4} />{' '}
+            {t('workspace.components.record_menu.menu.invite')}
           </MenuItem>
         )}
         <MenuItem as={Link} to={`${workspaceId}/contributors`}>
-          <SettingsIcon mr={4} /> Contributors
+          <SettingsIcon mr={4} />{' '}
+          {t('workspace.components.record_menu.menu.contributors')}
         </MenuItem>
         <MenuItem onClick={copy}>
-          <CopyIcon mr={4} /> {!hasCopied ? 'Copy Link' : 'Copied'}
+          <CopyIcon mr={4} />{' '}
+          {!hasCopied
+            ? t('workspace.components.record_menu.menu.copy.before')
+            : t('workspace.components.record_menu.menu.copy.after')}
         </MenuItem>
         {isOwner ? (
           <MenuItem
@@ -70,7 +78,8 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
             }}
             onClick={() => deletion.mutate()}
           >
-            <DeleteIcon mr={4} /> Delete
+            <DeleteIcon mr={4} />{' '}
+            {t('workspace.components.record_menu.menu.delete')}
           </MenuItem>
         ) : (
           <MenuItem
@@ -79,7 +88,8 @@ export function RecordMenu(props: RecordMenuProps): JSX.Element {
             }}
             onClick={() => leave.mutate()}
           >
-            <LeaveIcon fill={fill} mr={4} /> Leave
+            <LeaveIcon fill={fill} mr={4} />{' '}
+            {t('workspace.components.record_menu.menu.leave')}
           </MenuItem>
         )}
       </MenuList>

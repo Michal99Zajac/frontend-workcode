@@ -12,6 +12,7 @@ import {
 import { AddIcon, QuestionOutlineIcon, RepeatIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { errorConnect } from 'common/utils'
 import { User } from 'common/schemas'
@@ -29,6 +30,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
   const hoverStrap = useColorModeValue('gray.50', 'gray.600')
 
   const { user, workspaceId } = props
+  const { t } = useTranslation()
   const [status, setStatus] = useState<InviteStatusType>('NOT_INVITED')
   const { mutate, isLoading, error } = useInvite(workspaceId)
   const { handleSubmit } = useForm<Form>({
@@ -73,7 +75,7 @@ export function InviteStrap(props: InviteStrapProps): JSX.Element {
         <Tooltip
           label={
             error.error.key
-              ? 'Invitation already has been sent'
+              ? t('workspace.components.invite_strap.error')
               : errorConnect(error.error)
           }
         >

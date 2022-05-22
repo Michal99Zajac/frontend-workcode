@@ -1,11 +1,16 @@
 import { z } from 'zod'
 
+import i18n from 'i18n'
 import { ApiError } from 'common/schemas'
 import { AuthUser, Token } from 'auth/schemas'
 
 export const Form = z.object({
-  email: z.string({ required_error: 'email is required' }).email(),
-  password: z.string({ required_error: 'password is required' }),
+  email: z
+    .string({ required_error: i18n.t('auth.api.sign_in.form.email') })
+    .email(),
+  password: z.string({
+    required_error: i18n.t('auth.api.sign_in.form.password'),
+  }),
 })
 
 export const Response = z.object({
