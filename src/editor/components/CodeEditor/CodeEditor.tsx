@@ -10,6 +10,7 @@ import {
   useContentUpdate,
   useCursor,
 } from 'editor/connection'
+import { chooseMode } from 'editor/utils'
 
 import { Editor } from './styled'
 
@@ -20,13 +21,17 @@ import 'codemirror/theme/material.css'
 // modes
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/python/python'
+import 'codemirror/mode/shell/shell'
 // addons
 import 'codemirror/addon/edit/closebrackets'
 
 // use replace for updating and deleting content
 // get cursor coords and send to the other teammates
 export function CodeEditor() {
-  const { content: initContent } = useWorkspace()
+  const {
+    content: initContent,
+    workspace: { code },
+  } = useWorkspace()
   const { colorMode } = useColorMode()
   const { setEditor, editor, setCursor } = useEditor()
   const type = useType()
@@ -63,7 +68,7 @@ export function CodeEditor() {
         editorDidMount={(editor) => setEditor(editor)}
         options={{
           mode: {
-            name: 'javascript',
+            name: chooseMode(code),
           },
           theme: 'material',
           lineNumbers: true,
