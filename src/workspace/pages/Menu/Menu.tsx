@@ -18,6 +18,7 @@ import {
 import { Link, Outlet } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { useWorkspaces, Form } from 'workspace/api/useWorkspaces'
 import {
@@ -34,6 +35,7 @@ export function Menu(): JSX.Element {
   const tableHeaderBG = useColorModeValue('blue.500', 'blue.200')
   const tableHeaderColor = useColorModeValue('white', 'gray.800')
 
+  const { t } = useTranslation()
   const updateQuery = useWorkspaceQuery((store) => store.update)
   const userId = useAuth((state) => state.user?._id)
   const filters = useQueryForm<Form>({
@@ -59,8 +61,6 @@ export function Menu(): JSX.Element {
     updateQuery(filters.getValues())
   }, [])
 
-  // TODO: add all area link click
-
   return (
     <Box h="100%" w="100%">
       <Stack p={5} spacing={5} h="100%">
@@ -68,7 +68,10 @@ export function Menu(): JSX.Element {
         <Flex align="center">
           <WorkspaceFilters form={filters} onSubmit={onSubmit} />
           <Spacer />
-          <Tooltip label="Add Workspace" placement="top">
+          <Tooltip
+            label={t('workspace.pages.menu.header.add.tooltip_label')}
+            placement="top"
+          >
             <IconButton
               size="md"
               aria-label="add workspace"
@@ -83,22 +86,22 @@ export function Menu(): JSX.Element {
             <Thead bg={tableHeaderBG} position="sticky" top={0} zIndex="banner">
               <Tr>
                 <Th color={tableHeaderColor} w="25%" maxW="25%">
-                  Title
+                  {t('workspace.pages.menu.table.header.title')}
                 </Th>
                 <Th color={tableHeaderColor} w="auto">
-                  Code
+                  {t('workspace.pages.menu.table.header.code')}
                 </Th>
                 <Th color={tableHeaderColor} w="20%">
-                  Owner
+                  {t('workspace.pages.menu.table.header.owner')}
                 </Th>
                 <Th color={tableHeaderColor} w="20%">
-                  Contributors
+                  {t('workspace.pages.menu.table.header.contributors')}
                 </Th>
                 <Th color={tableHeaderColor} isNumeric w="max-content">
-                  Created At
+                  {t('workspace.pages.menu.table.header.created_at')}
                 </Th>
                 <Th color={tableHeaderColor} isNumeric w="auto">
-                  Action
+                  {t('workspace.pages.menu.table.header.action')}
                 </Th>
               </Tr>
             </Thead>

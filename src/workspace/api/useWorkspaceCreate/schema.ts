@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import i18n from 'i18n'
 import { CodeType, ApiError } from 'common/schemas'
 import { Workspace } from 'workspace/schemas'
 
@@ -7,9 +8,11 @@ export const Form = z.object({
   name: z
     .string()
     .min(1, {
-      message: 'Name should be at least one characters',
+      message: i18n.t('workspace.api.create_workspace.form.name.min'),
     })
-    .max(255, { message: 'Name cant be longer then 255 characters' }),
+    .max(255, {
+      message: i18n.t('workspace.api.create_workspace.form.name.max'),
+    }),
   code: CodeType,
 })
 

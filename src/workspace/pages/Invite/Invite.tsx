@@ -18,6 +18,7 @@ import { SearchIcon } from '@chakra-ui/icons'
 import { useNavigate, useParams } from 'react-router-dom'
 import { produce } from 'immer'
 import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import { Pagination, StrapSkeleton } from 'common/components'
 import { useUsersToInvite, Query } from 'workspace/api/useUsersToInvite'
@@ -30,6 +31,7 @@ export function Invite(): JSX.Element {
   const mode = useMode()
   const { workspaceId } = useParams()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const [query, setQuery] = useState<Query>({
     query: '',
@@ -65,7 +67,7 @@ export function Invite(): JSX.Element {
     <Modal isOpen={true} onClose={() => navigate(`/workspace${lastQuery}`)}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Invite</ModalHeader>
+        <ModalHeader>{t('workspace.pages.invite.header')}</ModalHeader>
         <ModalCloseButton />
         <ModalBody minH="360px">
           <Box mb={5}>
@@ -75,7 +77,7 @@ export function Invite(): JSX.Element {
                   <SearchIcon />
                 </InputLeftElement>
                 <Input
-                  placeholder="Search..."
+                  placeholder={t('workspace.pages.invite.input.placeholder')}
                   value={query.query}
                   onChange={(event) => {
                     setQuery(
@@ -105,7 +107,9 @@ export function Invite(): JSX.Element {
                     fill={mode('black', 'white')}
                     fontSize="150px"
                   />
-                  <Heading size="lg">No Results</Heading>
+                  <Heading size="lg">
+                    {t('workspace.pages.invite.not_found.heading')}
+                  </Heading>
                 </Stack>
               )}
             </StrapSkeleton>

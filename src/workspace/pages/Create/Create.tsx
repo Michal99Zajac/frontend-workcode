@@ -16,6 +16,7 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { FilterSelect } from 'common/components'
 import { useToast } from 'common/hooks'
@@ -28,6 +29,7 @@ export function Create(): JSX.Element {
   const lastQuery = useWorkspaceQuery((store) => store.q)
   const navigate = useNavigate()
   const runToast = useToast()
+  const { t } = useTranslation()
   const { mutate, isLoading } = useWorkspaceCreate()
   const { control, formState, handleSubmit, setValue } = useForm<Form>({
     resolver: zodResolver(Form),
@@ -41,14 +43,18 @@ export function Create(): JSX.Element {
     mutate(data, {
       onSuccess: () => {
         runToast(
-          { message: 'Workspace has been created' },
-          'Success',
+          { message: t('workspace.pages.create.toast.success.api.message') },
+          t('workspace.pages.create.toast.success.api.title'),
           'success'
         )
         navigate(`/workspace${lastQuery}`)
       },
       onError: (error) => {
-        runToast(error.error, 'Error', 'error')
+        runToast(
+          error.error,
+          t('workspace.pages.create.toast.error.api.title'),
+          'error'
+        )
       },
     })
   })
@@ -58,7 +64,7 @@ export function Create(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Create Workspace</ModalHeader>
+          <ModalHeader>{t('workspace.pages.create.header')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack spacing={3} align="flex-end">
@@ -67,10 +73,14 @@ export function Create(): JSX.Element {
                 name="name"
                 render={({ field, fieldState }) => (
                   <InputGroup display="flex" flexDirection="column">
-                    <Text fontSize="sm">* Name</Text>
+                    <Text fontSize="sm">
+                      * {t('workspace.pages.create.form.name.label')}
+                    </Text>
                     <Input
                       isDisabled={isLoading}
-                      placeholder="my workspace name"
+                      placeholder={t(
+                        'workspace.pages.create.form.name.placeholder'
+                      )}
                       onChange={field.onChange}
                       value={field.value}
                       isInvalid={fieldState.invalid}
@@ -84,7 +94,9 @@ export function Create(): JSX.Element {
                 name="code"
                 render={({ field }) => (
                   <InputGroup display="flex" flexDirection="column">
-                    <Text fontSize="sm">* Code</Text>
+                    <Text fontSize="sm">
+                      * {t('workspace.pages.create.form.code.label')}
+                    </Text>
                     <FilterSelect
                       isDisabled={isLoading}
                       identifer="value"
@@ -106,10 +118,16 @@ export function Create(): JSX.Element {
             <Button
               isLoading={isLoading}
               width="100px"
-              onClick={() => runToast(formState.errors, 'Error', 'error')}
+              onClick={() =>
+                runToast(
+                  formState.errors,
+                  t('workspace.pages.create.toast.error.zod.title'),
+                  'error'
+                )
+              }
               type="submit"
             >
-              submit
+              {t('workspace.pages.create.form.submit_button.content')}
             </Button>
           </ModalFooter>
         </form>

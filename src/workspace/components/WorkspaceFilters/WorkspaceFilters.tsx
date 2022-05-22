@@ -13,6 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 
 import { Form, Code } from 'workspace/api/useWorkspaces'
 import { FilterSelect } from 'common/components'
@@ -28,12 +29,16 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
   const hoverBG = useColorModeValue('gray.50', 'gray.700')
 
   const { form, onSubmit } = props
+  const { t } = useTranslation()
   const { control, reset, setValue, handleSubmit } = form
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <HStack>
-        <Tooltip label="Clear Filter" placement="top">
+        <Tooltip
+          label={t('workspace.components.workspace_filters.tooltip_label')}
+          placement="top"
+        >
           <IconButton
             colorScheme="gray"
             _hover={{
@@ -45,7 +50,9 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
             onClick={() => reset()}
           />
         </Tooltip>
-        <Button type="submit">search</Button>
+        <Button type="submit">
+          {t('workspace.components.workspace_filters.search_button')}
+        </Button>
         <Controller
           name="name"
           control={control}
@@ -54,7 +61,13 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <FolderIcon fill={iconFill} />
               </InputLeftElement>
-              <Input {...field} placeholder="Workspace" w="260px" />
+              <Input
+                {...field}
+                placeholder={t(
+                  'workspace.components.workspace_filters.form.name.placeholder'
+                )}
+                w="260px"
+              />
             </InputGroup>
           )}
         />
@@ -66,7 +79,13 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               <InputLeftElement>
                 <UserIcon fill={iconFill} />
               </InputLeftElement>
-              <Input {...field} placeholder="Owner" w="260px" />
+              <Input
+                {...field}
+                placeholder={t(
+                  'workspace.components.workspace_filters.form.owner.placeholder'
+                )}
+                w="260px"
+              />
             </InputGroup>
           )}
         />
@@ -76,7 +95,9 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
           render={({ field }) => (
             <InputGroup w="min-content">
               <FilterSelect
-                placeholder="Owner"
+                placeholder={t(
+                  'workspace.components.workspace_filters.form.code.placeholder'
+                )}
                 transition="all 0.3s"
                 identifer="value"
                 options={Code.options.map((option) => ({
@@ -100,7 +121,7 @@ export function WorkspaceFilters(props: WorkspaceFiltersProps): JSX.Element {
               isChecked={field.value}
               onChange={() => setValue('self', !field.value)}
             >
-              only my
+              {t('workspace.components.workspace_filters.form.self.label')}
             </Checkbox>
           )}
         />

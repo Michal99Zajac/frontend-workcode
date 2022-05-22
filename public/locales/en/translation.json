@@ -424,5 +424,174 @@
         "signup": "Sign Up"
       }
     }
+  },
+  "workspace": {
+    "api": {
+      "create_workspace": {
+        "form": {
+          "name": {
+            "min": "Name should be at least one characters",
+            "max": "Name cant be longer then 255 characters"
+          }
+        }
+      },
+      "update_workspace": {
+        "form": {
+          "name": {
+            "min": "Name should be at least one characters",
+            "max": "Name cant be longer then 255 characters"
+          }
+        }
+      }
+    },
+    "components": {
+      "invite_strap": {
+        "error": "Invitation already has been sent"
+      },
+      "no_workspaces": {
+        "button": {
+          "content": "Add workspace"
+        }
+      },
+      "record_menu": {
+        "menu": {
+          "update": "Update",
+          "invite": "Invite",
+          "contributors": "Contributors",
+          "copy": {
+            "before": "Copy Link",
+            "after": "Copied"
+          },
+          "delete": "Delete",
+          "leave": "Leave"
+        }
+      },
+      "workspace_filters": {
+        "tooltip_label": "Clear Filter",
+        "search_button": "Search",
+        "form": {
+          "name": {
+            "placeholder": "Workspace"
+          },
+          "owner": {
+            "placeholder": "Owner"
+          },
+          "code": {
+            "placeholder": "Code"
+          },
+          "self": {
+            "label": "only my"
+          }
+        }
+      }
+    },
+    "hooks": {
+      "workspace_copy": {
+        "toast": {
+          "success": {
+            "standard": {
+              "title": "Success",
+              "message": "Copied to clipboard"
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "contributors": {
+        "header": "Contributors",
+        "not_found": {
+          "heading": "No contributors"
+        }
+      },
+      "create": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Workspace has been created"
+            }
+          }
+        },
+        "header": "Create Workspace",
+        "form": {
+          "name": {
+            "label": "Name",
+            "placeholder": "My workspace name"
+          },
+          "code": {
+            "label": "Code"
+          },
+          "submit_button": {
+            "content": "Submit"
+          }
+        }
+      },
+      "invite": {
+        "header": "Invite",
+        "input": {
+          "placeholder": "Search..."
+        },
+        "not_found": {
+          "heading": "No Results"
+        }
+      },
+      "menu": {
+        "header": {
+          "add": {
+            "tooltip_label": "Add Workspace"
+          }
+        },
+        "table": {
+          "header": {
+            "title": "Title",
+            "code": "Code",
+            "owner": "Owner",
+            "contributors": "Contributors",
+            "created_at": "Created At",
+            "action": "Action"
+          }
+        }
+      },
+      "update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Workspace has been updated"
+            }
+          }
+        },
+        "header": "Update Workspace",
+        "form": {
+          "name": {
+            "label": "Name",
+            "placeholder": "My workspace name"
+          },
+          "code": {
+            "label": "Code"
+          },
+          "submit_button": {
+            "content": "Update"
+          }
+        }
+      }
+    }
   }
 }
