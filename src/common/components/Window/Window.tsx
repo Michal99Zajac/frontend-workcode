@@ -1,45 +1,44 @@
 import React from 'react'
-import { Box, Heading, useColorMode } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  Box,
+  Spacer,
+  IconButton,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
-import clsx from 'clsx'
 
-import { Surface } from '../Surface'
-
-import classes from './Window.module.scss'
+import { Surface } from 'common/components'
 
 interface WindowProps {
   children: React.ReactNode
   title: string
-  bg?: string
   onClick?: () => void
 }
 
 export function Window(props: WindowProps): JSX.Element {
-  const { children, title, bg, onClick } = props
-  const { barDark, barLight, bar } = classes
-  const { colorMode } = useColorMode()
-
-  const isDark = colorMode === 'dark'
+  const { children, title, onClick } = props
+  const buttonColor = useColorModeValue('black', 'white')
 
   return (
-    <Surface boxShadow={`3px 3px 0 1px ${isDark ? '#000' : '#FFF'}`}>
-      <Box
-        padding={1}
-        backgroundColor={bg}
-        className={clsx(isDark ? barDark : barLight, bar)}
-      >
-        <Heading whiteSpace="nowrap" size="md">
+    <Surface>
+      <Flex>
+        <Heading whiteSpace="nowrap" size="lg">
           {title}
         </Heading>
+        <Spacer />
         {onClick && (
-          <CloseIcon
-            w={4}
-            h={4}
-            _hover={{ cursor: 'pointer' }}
+          <IconButton
+            aria-label="close icon"
+            size="xs"
+            variant="ghost"
+            colorScheme="blue"
             onClick={onClick}
+            icon={<CloseIcon color={buttonColor} />}
           />
         )}
-      </Box>
+      </Flex>
       <Box>{children}</Box>
     </Surface>
   )

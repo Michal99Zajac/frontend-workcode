@@ -1,115 +1,76 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import clsx from 'clsx'
 import {
   Avatar,
-  useColorMode,
-  Spinner,
   Flex,
   Heading,
-  Box,
   Stack,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 
-import { Accordion, AccordionItem } from '../Accordion'
-import { MenuWindow } from '../MenuWindow'
-import { useAuth } from '../../store'
-import { fetchUser } from '../../api'
-import { UserType } from '../../schemas/UserSchema'
+import { User } from 'common/schemas'
+import { useAuth } from 'common/store'
 
-import classes from './UserBucket.module.scss'
+import { AvatarButtonStyle } from './styles'
 
-export function UserBucket(): JSX.Element | null {
-  const { colorMode } = useColorMode()
-  const { user, logout } = useAuth((state) => ({
-    user: state.user,
-    logout: state.logout,
-  }))
+interface UserBucketProps {
+  user: User
+}
+
+export function UserBucket(props: UserBucketProps): JSX.Element | null {
+  const { user } = props
+  const { t } = useTranslation()
+  const logout = useAuth((store) => store.logout)
   const navigate = useNavigate()
-  const [loggedUser, setLoggedUser] = useState<UserType | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const isDark = colorMode === 'dark'
-
-  const fetchImage = useCallback(async () => {
-    setIsLoading(true)
-    try {
-      if (!user) throw new Error('User is not logged')
-      const response = await fetchUser({ id: user.id })
-
-      setLoggedUser(response)
-    } catch (error) {
-      console.error(error)
-    }
-    setIsLoading(false)
-  }, [user])
-
-  useEffect(() => {
-    fetchImage()
-  }, [])
 
   const logoutUser = useCallback(async () => {
     logout()
     navigate('/')
   }, [user, logout])
 
-  const menuButton = useMemo(
-    () => (
-      <Avatar
-        size="sm"
-        fontSize="1.2rem"
-        src={loggedUser?.src || undefined}
-        name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-        className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
-      />
-    ),
-    [loggedUser]
-  )
-
-  if (isLoading) return <Spinner />
-
   return (
-    <MenuWindow
-      title="User"
-      placement="right-end"
-      menuButton={menuButton}
-      menuButtonClassName={clsx(
-        classes.menu,
-        isDark ? classes.darkMenu : classes.lightMenu
-      )}
-    >
-      <Flex py={2} px={3} alignItems="center">
+    <Menu placement="right-start">
+      <MenuButton>
         <Avatar
-          size="xs"
-          fontSize="1.2rem"
-          src={loggedUser?.src || undefined}
-          name={`${loggedUser?.firstname} ${loggedUser?.lastname}`}
-          className={clsx(isDark ? classes.darkAvatar : classes.lightAvatar)}
-          mr={2}
+          {...AvatarButtonStyle}
+          src={user.src || undefined}
+          name={`${user.name} ${user.lastname}`}
         />
-        <Stack spacing={0}>
-          <Heading size="sm">{`${loggedUser?.firstname} ${loggedUser?.lastname}`}</Heading>
-          <Text fontSize="xs">{loggedUser?.email}</Text>
-        </Stack>
-      </Flex>
-      <Accordion isInitialOpen title="Actions">
-        <AccordionItem isClickable>
-          <Box fontSize="xs" as={Link} to="/config">
-            config
-          </Box>
-        </AccordionItem>
-        <AccordionItem isClickable>
-          <Box fontSize="xs" as={Link} to="/workspace/menu">
-            menu
-          </Box>
-        </AccordionItem>
-        <AccordionItem isClickable={true}>
-          <Box fontSize="xs" onClick={logoutUser}>
-            logout
-          </Box>
-        </AccordionItem>
-      </Accordion>
-    </MenuWindow>
+      </MenuButton>
+      <MenuList zIndex="modal">
+        <Flex py={2} px={3} alignItems="center">
+          <Avatar
+            size="sm"
+            src={user?.src || undefined}
+            name={`${user.name} ${user.lastname}`}
+            mr={2}
+          />
+          <Stack spacing={0}>
+            <Heading size="sm">{`${user.name} ${user.lastname}`}</Heading>
+            <Text fontSize="xs">{user.email}</Text>
+          </Stack>
+        </Flex>
+        <MenuDivider />
+        <MenuItem as={Link} to="/config">
+          {t('common.components.user_bucket.options.configuration')}
+        </MenuItem>
+        <MenuItem as={Link} to="/workspace">
+          {t('common.components.user_bucket.options.workspaces')}
+        </MenuItem>
+        <MenuItem as={Link} to="/">
+          {t('common.components.user_bucket.options.menu')}
+        </MenuItem>
+        <MenuItem onClick={logoutUser}>
+          {t('common.components.user_bucket.options.logout')}
+        </MenuItem>
+      </MenuList>
+    </Menu>
   )
 }
 

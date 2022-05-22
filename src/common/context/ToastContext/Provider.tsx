@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react'
 import { useToast, Box, Text } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
+
+import { ToastMessages } from 'common/schemas'
 
 import { ToastContext, RunToastType } from './Context'
-import { ValidToastError } from '../../schemas/ValidToastError'
 
 interface ToastProviderProps {
   children: React.ReactNode
@@ -11,23 +13,28 @@ interface ToastProviderProps {
 export const ToastProvider = (props: ToastProviderProps): JSX.Element => {
   const { children } = props
   const toast = useToast()
+  const { t } = useTranslation()
 
-  const runToast = useCallback<RunToastType>(function (errors, title, type) {
+  const runToast = useCallback<RunToastType>(function (
+    messageObject,
+    title,
+    type
+  ) {
     let messages: string[] = []
-    if (ValidToastError.safeParse(errors).success) {
-      messages = Object.values(errors)
+    if (ToastMessages.safeParse(messageObject).success) {
+      messages = Object.values(messageObject)
     } else {
-      messages = Object.values(errors).map((error) => error.message)
+      messages = Object.values(messageObject).map((message) => message.message)
     }
 
     if (!messages.length) return
 
     toast({
-      title: title,
+      title: t(title),
       description: (
         <Box>
           {messages.map((message) => (
-            <Text key={message}>{message}</Text>
+            <Text key={message}>{t(message)}</Text>
           ))}
         </Box>
       ),
@@ -36,7 +43,8 @@ export const ToastProvider = (props: ToastProviderProps): JSX.Element => {
       isClosable: true,
       position: 'top',
     })
-  }, [])
+  },
+  [])
 
   return (
     <ToastContext.Provider

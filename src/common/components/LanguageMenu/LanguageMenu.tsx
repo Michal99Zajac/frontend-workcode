@@ -1,18 +1,26 @@
 import React, { useState, useCallback } from 'react'
-import { MenuItemOption, MenuOptionGroup } from '@chakra-ui/react'
+import {
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+} from '@chakra-ui/react'
+import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
-import { MenuWindow } from '../MenuWindow'
-import { PolishFlagIcon, EnglishFlagIcon } from '../../../assets/icons/flags'
-import { LanguageEnum, LanguageEnumType } from '../../schemas/LanguageSchema'
+import { PolishFlagIcon, EnglishFlagIcon } from 'icons/flags'
+import { Language } from 'i18n'
 
 export function LanguageMenu(): JSX.Element {
-  const [lang, setLang] = useState<LanguageEnumType>(LanguageEnum.enum.ENGLISH)
+  const { i18n, t } = useTranslation()
+  const [lang, setLang] = useState<Language>(i18n.language as Language)
 
   const getLanguageIcon = useCallback(() => {
     switch (lang) {
-      case LanguageEnum.enum.ENGLISH:
+      case 'en':
         return <EnglishFlagIcon fontSize="2rem" />
-      case LanguageEnum.enum.POLISH:
+      case 'pl':
         return <PolishFlagIcon fontSize="2rem" />
       default:
         throw new Error('Set unknown language')
@@ -20,20 +28,28 @@ export function LanguageMenu(): JSX.Element {
   }, [lang])
 
   const onLangChange = (value: string | string[]) => {
-    setLang(LanguageEnum.parse(value))
+    const language = value as Language
+    setLang(language)
+    i18n.changeLanguage(language)
+    dayjs.locale(language)
   }
 
   return (
-    <MenuWindow title="language" menuButton={getLanguageIcon()}>
-      <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
-        <MenuItemOption value={LanguageEnum.enum.POLISH}>
-          <PolishFlagIcon /> Polish
-        </MenuItemOption>
-        <MenuItemOption value={LanguageEnum.enum.ENGLISH}>
-          <EnglishFlagIcon /> English
-        </MenuItemOption>
-      </MenuOptionGroup>
-    </MenuWindow>
+    <Menu>
+      <MenuButton>{getLanguageIcon()}</MenuButton>
+      <MenuList>
+        <MenuOptionGroup value={lang} type="radio" onChange={onLangChange}>
+          <MenuItemOption value={Language.enum.pl}>
+            <PolishFlagIcon />{' '}
+            {t('common.components.language_menu.options.polish')}
+          </MenuItemOption>
+          <MenuItemOption value={Language.enum.en}>
+            <EnglishFlagIcon />{' '}
+            {t('common.components.language_menu.options.english')}
+          </MenuItemOption>
+        </MenuOptionGroup>
+      </MenuList>
+    </Menu>
   )
 }
 

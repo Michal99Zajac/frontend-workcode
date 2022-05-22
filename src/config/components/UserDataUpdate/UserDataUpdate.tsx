@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Flex,
@@ -13,78 +13,89 @@ import {
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
-import { Form, FormType, updateUserData, Fail } from '../../api/updateUserData'
-import { useToast } from '../../../common/hooks'
-import { fetchUser } from '../../../common/api'
-import { useAuth } from '../../../common/store'
+import { useMe } from 'config/api/useMe'
+import { useUpdateMe, Form } from 'config/api/useUpdateMe'
+import { useToast } from 'common/hooks'
 
 export function UserDataUpdate(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
-  const userId = useAuth((state) => state.user?.id)
+  const { t } = useTranslation()
+  const { isFetching, data } = useMe()
+  const { isLoading, mutate } = useUpdateMe()
   const runToast = useToast()
-  const [formCopy, setFormCopy] = useState<FormType | null>(null)
-  const { control, formState, handleSubmit, reset } = useForm<FormType>({
+  const { control, formState, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(Form),
     defaultValues: {
-      email: '',
-      firstname: '',
-      lastname: '',
+      email: data ? data.email : '',
+      lastname: data ? data.lastname : '',
+      name: data ? data.name : '',
     },
   })
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
-    setIsLoading(true)
-    try {
-      const response = await updateUserData(data)
-      setFormCopy(data)
-      reset(data)
-      runToast(response, 'Success', 'success')
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: () => {
+        runToast(
+          {
+            message: t(
+              'config.components.user_data_update.toast.success.api.message'
+            ),
+          },
+          t('config.components.user_data_update.toast.success.api.title'),
+          'success'
+        )
+      },
+      onError: (error) => {
+        runToast(
+          error.message,
+          t('config.components.user_data_update.toast.error.api.title'),
+          'error'
+        )
+      },
+    })
   })
 
-  const fetchInitialData = useCallback(async () => {
-    if (!userId) throw new Error('User is not authenticated')
-    setIsLoading(true)
-    const response = await fetchUser({ id: userId })
-    const initialForm = Form.parse(response)
-    setFormCopy(initialForm)
-    reset(initialForm)
-    setIsLoading(false)
-  }, [userId, reset])
-
   useEffect(() => {
-    fetchInitialData()
-  }, [])
+    if (data) {
+      reset({
+        email: data.email,
+        lastname: data.lastname,
+        name: data.name,
+      })
+    }
+  }, [data])
 
   return (
     <form onSubmit={onSubmit}>
       <Flex align="center" mb={5}>
-        <Heading size="xl">User Data</Heading>
+        <Heading size="xl">
+          {t('config.components.user_data_update.heading')}
+        </Heading>
         <Spacer />
         {formState.isDirty && (
           <IconButton
             aria-label="close user data"
             size="md"
             icon={<CloseIcon />}
-            onClick={() => formCopy && reset(formCopy)}
+            onClick={() => data && reset()}
           />
         )}
       </Flex>
       <Stack spacing={5}>
         <Controller
           control={control}
-          name="firstname"
+          name="name"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Firstname</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.name.label')}
+              </Text>
               <Input
-                isDisabled={isLoading}
-                placeholder="firstname"
+                isDisabled={isFetching || isLoading}
+                placeholder={t(
+                  'config.components.user_data_update.form.name.placeholder'
+                )}
                 onChange={field.onChange}
                 value={field.value}
                 isInvalid={fieldState.invalid}
@@ -97,10 +108,14 @@ export function UserDataUpdate(): JSX.Element {
           name="lastname"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Lastname</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.lastname.label')}
+              </Text>
               <Input
-                isDisabled={isLoading}
-                placeholder="lastname"
+                isDisabled={isFetching || isLoading}
+                placeholder={t(
+                  'config.components.user_data_update.form.lastname.placeholder'
+                )}
                 onChange={field.onChange}
                 value={field.value}
                 isInvalid={fieldState.invalid}
@@ -113,9 +128,11 @@ export function UserDataUpdate(): JSX.Element {
           name="email"
           render={({ field, fieldState }) => (
             <Box>
-              <Text fontSize="sm">Email</Text>
+              <Text fontSize="sm">
+                {t('config.components.user_data_update.form.email.label')}
+              </Text>
               <Input
-                isDisabled={isLoading}
+                isDisabled={isFetching || isLoading}
                 placeholder="email@email.com"
                 onChange={field.onChange}
                 value={field.value}
@@ -129,9 +146,15 @@ export function UserDataUpdate(): JSX.Element {
             width="min-content"
             isLoading={isLoading}
             type="submit"
-            onClick={() => runToast(formState.errors, 'Error', 'error')}
+            onClick={() =>
+              runToast(
+                formState.errors,
+                t('config.components.user_data_update.toast.error.zod.title'),
+                'error'
+              )
+            }
           >
-            Submit
+            {t('config.components.user_data_update.form.submit_button.content')}
           </Button>
         )}
       </Stack>

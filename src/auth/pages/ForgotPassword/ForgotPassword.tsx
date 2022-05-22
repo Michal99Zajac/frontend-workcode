@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  Box,
   Button,
   Input,
   InputGroup,
@@ -10,103 +9,98 @@ import {
   AlertDescription,
   AlertTitle,
   Flex,
+  Center,
+  Stack,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
-import { DragPocket, Window } from '../../../common/components'
-import { useToast } from '../../../common/hooks'
-import {
-  sendForgottenEmail,
-  Form,
-  FormType,
-  Fail,
-} from '../../api/sendForgottenEmail'
-
-import classes from './ForgotPassword.module.scss'
+import { Window } from 'common/components'
+import { useToast } from 'common/hooks'
+import { useForgotPassword, Form } from 'auth/api/useForgotPassword'
 
 export function ForgotPassword(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const runToast = useToast()
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm<Form>({
     resolver: zodResolver(Form),
   })
+  const { mutate, isLoading } = useForgotPassword()
 
-  const onSubmit = handleSubmit<FormType>(async (data) => {
-    setIsLoading(true)
-    try {
-      await sendForgottenEmail(data)
-      runToast(
-        { success: 'Email for password change has been sent' },
-        'Success',
-        'success'
-      )
-    } catch (error) {
-      const fail = Fail.parse(error)
-      runToast(fail, 'Error', 'error')
-    }
-    setIsLoading(false)
+  const onSubmit = handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: (response) =>
+        runToast(
+          response,
+          t('auth.pages.forgot_password.toast.success.api.title'),
+          'success'
+        ),
+      onError: (error) =>
+        runToast(
+          error.error,
+          t('auth.pages.forgot_password.toast.error.api.title'),
+          'error'
+        ),
+    })
   })
 
   return (
-    <Box className={classes.page}>
-      <DragPocket>
-        <Box position="absolute">
-          <Window
-            title="Forget Password"
-            onClick={() => navigate('/auth/signin')}
-          >
-            <form className={classes.windowContent} onSubmit={onSubmit}>
-              <Alert
-                status="info"
-                flexDirection="column"
-                alignItems="flex-start"
-                mb={5}
-              >
-                <Flex>
-                  <AlertIcon />
-                  <AlertTitle fontSize="xs">Important!</AlertTitle>
-                </Flex>
-                <AlertDescription fontSize="xs">
-                  If you forget password write your email address and we will
-                  send you link to page where you will able to reset your
-                  password.
-                </AlertDescription>
-              </Alert>
-              <Controller
-                control={control}
-                name="email"
-                render={({ field, fieldState }) => (
-                  <InputGroup
-                    display="flex"
-                    flexDirection="column"
-                    marginBottom={5}
-                  >
-                    <Text fontSize="sm">* Email</Text>
-                    <Input
-                      isDisabled={isLoading}
-                      placeholder="email@email.com"
-                      onChange={field.onChange}
-                      isInvalid={fieldState.invalid}
-                      ref={field.ref}
-                    />
-                  </InputGroup>
-                )}
-              />
-              <Button
-                isLoading={isLoading}
-                type="submit"
-                onClick={() => runToast(formState.errors, 'Error', 'error')}
-              >
-                send request
-              </Button>
-            </form>
-          </Window>
-        </Box>
-      </DragPocket>
-    </Box>
+    <Center w="100%" h="100%">
+      <Window
+        title={t('auth.pages.forgot_password.window_title')}
+        onClick={() => navigate('/auth/signin')}
+      >
+        <form onSubmit={onSubmit}>
+          <Stack mt={4} minW="340px" w="340px" spacing={5}>
+            <Alert status="info" flexDirection="column" alignItems="flex-start">
+              <Flex>
+                <AlertIcon />
+                <AlertTitle fontSize="xs">
+                  {t('auth.pages.forgot_password.alert.title')}
+                </AlertTitle>
+              </Flex>
+              <AlertDescription fontSize="xs">
+                {t('auth.pages.forgot_password.alert.description')}
+              </AlertDescription>
+            </Alert>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field, fieldState }) => (
+                <InputGroup display="flex" flexDirection="column">
+                  <Text fontSize="sm">
+                    * {t('auth.pages.forgot_password.form.email.label')}
+                  </Text>
+                  <Input
+                    isDisabled={isLoading}
+                    placeholder="email@email.com"
+                    onChange={field.onChange}
+                    isInvalid={fieldState.invalid}
+                    ref={field.ref}
+                  />
+                </InputGroup>
+              )}
+            />
+            <Button
+              isLoading={isLoading}
+              type="submit"
+              onClick={() =>
+                runToast(
+                  formState.errors,
+                  t('auth.pages.forgot_password.toast.error.zod.title'),
+                  'error'
+                )
+              }
+            >
+              {t('auth.pages.forgot_password.form.submit_button.label')}
+            </Button>
+          </Stack>
+        </form>
+      </Window>
+    </Center>
   )
 }
 
