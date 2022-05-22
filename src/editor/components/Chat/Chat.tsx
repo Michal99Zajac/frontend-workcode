@@ -10,6 +10,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 
 import useMode from 'common/hooks/useMode'
 import { ChatStatus } from 'editor/schemas'
@@ -20,6 +21,7 @@ import { ChatSend } from './ChatSend'
 import { Styled } from './styled'
 
 export function Chat(): JSX.Element {
+  const { t } = useTranslation()
   const [status, setStatus] = useState<ChatStatus>('READED')
   const [isOpen, setIsOpen] = useState(false)
   const mode = useMode()
@@ -54,7 +56,9 @@ export function Chat(): JSX.Element {
         </Circle>
       </PopoverTrigger>
       <PopoverContent>
-        <PopoverHeader fontWeight="semibold">Chat</PopoverHeader>
+        <PopoverHeader fontWeight="semibold">
+          {t('editor.components.chat.header')}
+        </PopoverHeader>
         <PopoverCloseButton />
         <Styled.PopoverBody>
           <Stack>

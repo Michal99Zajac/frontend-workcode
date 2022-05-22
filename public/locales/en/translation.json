@@ -365,5 +365,39 @@
         }
       }
     }
+  },
+  "editor": {
+    "components": {
+      "active_contributors": {
+        "header": "Contributors"
+      },
+      "chat": {
+        "header": "Chat"
+      },
+      "chat_send": {
+        "form": {
+          "message": {
+            "placeholder": "message"
+          }
+        }
+      },
+      "editor_compas": {
+        "ch": "ch",
+        "line": "line"
+      }
+    },
+    "context": {
+      "workspace": {
+        "provider": {
+          "toast": {
+            "error": {
+              "api": {
+                "title": "Editor"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

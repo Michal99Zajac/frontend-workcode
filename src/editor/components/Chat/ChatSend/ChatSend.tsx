@@ -3,6 +3,7 @@ import { Flex, IconButton, Input } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import { SendIcon } from 'icons/common'
 import { useSend } from 'editor/connection'
@@ -10,6 +11,7 @@ import { useSend } from 'editor/connection'
 import { Form } from './schema'
 
 export function ChatSend(): JSX.Element {
+  const { t } = useTranslation()
   const { register, handleSubmit, setValue } = useForm<Form>({
     defaultValues: {
       message: '',
@@ -31,7 +33,7 @@ export function ChatSend(): JSX.Element {
       <Input
         autoComplete="off"
         {...register('message')}
-        placeholder="message"
+        placeholder={t('editor.components.chat_send.form.message.placeholder')}
         size="sm"
       />
       <IconButton
