@@ -23,10 +23,12 @@ import {
 } from '@chakra-ui/react'
 import { FallbackProps } from 'react-error-boundary'
 import { RepeatIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 
 import { Surface } from 'common/components'
 
 export function Error(props: FallbackProps): JSX.Element {
+  const { t } = useTranslation()
   const { error, resetErrorBoundary } = props
   const schema = useColorModeValue('blackAlpha', 'whiteAlpha')
   const color = useColorModeValue('black', 'white')
@@ -56,7 +58,7 @@ export function Error(props: FallbackProps): JSX.Element {
                 <AccordionButton
                   _focus={{ boxShadow: 'none', bg: 'blackAlpha.50' }}
                 >
-                  <Text>details</Text>
+                  <Text>{t('other.pages.error.accordion.button')}</Text>
                   <Spacer />
                   <AccordionIcon />
                 </AccordionButton>
@@ -64,7 +66,9 @@ export function Error(props: FallbackProps): JSX.Element {
                   <Alert status="error">
                     <AlertIcon />
                     <Box w="100%">
-                      <AlertTitle>message</AlertTitle>
+                      <AlertTitle>
+                        {t('other.pages.error.accordion.alert.title')}
+                      </AlertTitle>
                       <AlertDescription>{error.message}</AlertDescription>
                     </Box>
                   </Alert>
@@ -80,7 +84,7 @@ export function Error(props: FallbackProps): JSX.Element {
               color="white"
               w="min-content"
             >
-              go menu
+              {t('other.pages.error.button.content')}
             </Button>
           </Stack>
         </Surface>

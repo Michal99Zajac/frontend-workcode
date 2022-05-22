@@ -399,5 +399,30 @@
         }
       }
     }
+  },
+  "other": {
+    "pages": {
+      "404": {
+        "button": {
+          "content": "menu"
+        }
+      },
+      "error": {
+        "accordion": {
+          "button": "details",
+          "alert": {
+            "title": "message"
+          }
+        },
+        "button": {
+          "content": "go menu"
+        }
+      },
+      "main": {
+        "workspaces": "Workspaces",
+        "signin": "Sign In",
+        "signup": "Sign Up"
+      }
+    }
   }
 }
