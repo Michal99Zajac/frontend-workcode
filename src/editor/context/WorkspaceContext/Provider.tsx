@@ -17,7 +17,7 @@ interface WorkspaceProviderProps {
 export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
   const { children, workspaceId } = props
   const { t } = useTranslation()
-  const { isLoading, data, isError, error } = useEditorWorkspace({
+  const { isLoading, data, isError, error, remove } = useEditorWorkspace({
     workspaceId,
   })
   const toast = useToast()
@@ -29,6 +29,10 @@ export const WorkspaceProvider = (props: WorkspaceProviderProps) => {
         t('editor.context.workspace.provider.toast.error.api.title'),
         'error'
       )
+    }
+
+    return () => {
+      remove()
     }
   }, [isError])
 
