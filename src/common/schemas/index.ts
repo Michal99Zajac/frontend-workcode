@@ -1,6 +1,5 @@
 export * from './User'
 export * from './ToastMessages'
-export * from './LocationState'
 export * from './Pagination'
 export * from './CodeType'
 export * from './Contributor'

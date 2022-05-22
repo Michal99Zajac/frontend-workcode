@@ -1,4 +1,3 @@
-export * from './Caption'
 export * from './WorkspaceRecord'
 export * from './AvatarTag'
 export * from './InviteStrap'
