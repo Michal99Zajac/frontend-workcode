@@ -1,1 +1,198 @@
-{}
+{
+  "auth": {
+    "api": {
+      "change_password": {
+        "form": {
+          "password": "Password is required",
+          "repeatedPassword": "Repeated password is required"
+        }
+      },
+      "forgot_password": {
+        "form": {
+          "email": "Email is required"
+        }
+      },
+      "sign_in": {
+        "form": {
+          "email": "Email is required",
+          "password": "Password is required"
+        }
+      },
+      "sign_up": {
+        "form": {
+          "email": {
+            "required": "Email is required",
+            "email": "Email shoud have email form",
+            "empty": "Email is required"
+          },
+          "name": {
+            "required": "Firstname is required"
+          },
+          "lastname": {
+            "required": "Lastname is required"
+          },
+          "password": {
+            "required": "Password is required",
+            "min": "Password has to have more then 8 letters",
+            "empty": "Password is required"
+          },
+          "repeatedPassword": {
+            "required": "Repeated password is required"
+          }
+        }
+      }
+    },
+    "pages": {
+      "change_password": {
+        "toast": {
+          "error": {
+            "zod": {
+              "title": "Form"
+            },
+            "api": {
+              "title": "Form"
+            },
+            "repeat": {
+              "title": "Form",
+              "message": "Passwords are different"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success",
+              "message": "Password has been changed"
+            }
+          }
+        },
+        "window_title": "Change Password",
+        "form": {
+          "password": {
+            "label": "Password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password"
+          },
+          "submit_button": {
+            "label": "change password"
+          }
+        }
+      },
+      "forgot_password": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Form"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Success"
+            }
+          }
+        },
+        "alert": {
+          "title": "Important!",
+          "description": "If you forget password write your email address and we will send you link to page where you will able to reset your password."
+        },
+        "window_title": "Forget Password",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "label": "send request"
+          }
+        }
+      },
+      "sign_in": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Signing In!"
+            },
+            "zod": {
+              "title": "Signing In!"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Signing In!"
+            }
+          }
+        },
+        "window_title": "Sign In",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "password"
+          },
+          "submit_button": {
+            "label": "sign in"
+          }
+        },
+        "forgot_link": "Forgot your password?",
+        "signup": {
+          "label": "sign up",
+          "title": "Don't have an account?"
+        }
+      },
+      "sign_up": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "title": "Form",
+              "message": "Passwords are not the same"
+            },
+            "api": {
+              "title": "Sign Up"
+            },
+            "zod": {
+              "title": "Form"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sign Up",
+              "message": "User has been created"
+            }
+          }
+        },
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "name": {
+            "label": "Name",
+            "placeholder": "Jhon"
+          },
+          "lastname": {
+            "label": "Lastname",
+            "placeholder": "Snow"
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "password"
+          },
+          "repeatedPassword": {
+            "label": "Repeat Password",
+            "placeholder": "repeated password"
+          },
+          "submit_button": {
+            "content": "sign up"
+          }
+        },
+        "signin_button": {
+          "label": "Have an account?",
+          "content": "sign in"
+        },
+        "window_title": "Sign Up"
+      }
+    }
+  }
+}

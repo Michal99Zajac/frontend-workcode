@@ -10,12 +10,14 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 
 import { Window } from 'common/components'
 import { useToast } from 'common/hooks'
 import { useChangePassword, Form } from 'auth/api/useChangePassword'
 
 export function ChangePassword(): JSX.Element {
+  const { t } = useTranslation()
   const runToast = useToast()
   const navigate = useNavigate()
   const { token } = useParams()
@@ -26,24 +28,43 @@ export function ChangePassword(): JSX.Element {
 
   const onSubmit = handleSubmit((data) => {
     if (data.password !== data.repeatedPassword) {
-      runToast({ Password: 'Passwords are different' }, 'Error', 'error')
+      runToast(
+        {
+          Password: t('auth.pages.change_password.toast.error.repeat.message'),
+        },
+        t('auth.pages.change_password.toast.error.repeat.title'),
+        'error'
+      )
       return
     }
 
     mutate(data, {
       onSuccess: () => {
-        runToast({ message: 'Password has been changed' }, 'Success', 'success')
+        runToast(
+          {
+            message: t('auth.pages.change_password.toast.success.api.message'),
+          },
+          t('auth.pages.change_password.toast.success.api.title'),
+          'success'
+        )
         navigate('/auth/signin')
       },
       onError: (error) => {
-        runToast(error.error, 'Error', 'error')
+        runToast(
+          error.error,
+          t('auth.pages.change_password.toast.error.api.title'),
+          'error'
+        )
       },
     })
   })
 
   return (
     <Center w="100%" h="100%">
-      <Window title="Change Password" onClick={() => navigate('/')}>
+      <Window
+        title={t('auth.pages.window_title')}
+        onClick={() => navigate('/')}
+      >
         <form onSubmit={onSubmit}>
           <Stack mt={4} minW="340px" w="340px" spacing={5}>
             <Controller
@@ -51,7 +72,9 @@ export function ChangePassword(): JSX.Element {
               name="password"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* New Password</Text>
+                  <Text fontSize="sm">
+                    * {t('auth.pages.form.password.label')}
+                  </Text>
                   <Input
                     type="password"
                     isDisabled={isLoading}
@@ -68,7 +91,9 @@ export function ChangePassword(): JSX.Element {
               name="repeatedPassword"
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
-                  <Text fontSize="sm">* Repeat Password</Text>
+                  <Text fontSize="sm">
+                    * {t('auth.pages.form.repeatedPassword.label')}
+                  </Text>
                   <Input
                     type="password"
                     isDisabled={isLoading}
@@ -83,9 +108,15 @@ export function ChangePassword(): JSX.Element {
             <Button
               isLoading={isLoading}
               type="submit"
-              onClick={() => runToast(formState.errors, 'Error', 'error')}
+              onClick={() =>
+                runToast(
+                  formState.errors,
+                  t('auth.pages.change_password.toast.error.zod.title'),
+                  'error'
+                )
+              }
             >
-              change password
+              {t('auth.pages.form.submit_button.label')}
             </Button>
           </Stack>
         </form>

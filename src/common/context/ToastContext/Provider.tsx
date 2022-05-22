@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { useToast, Box, Text } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 
 import { ToastMessages } from 'common/schemas'
 
@@ -12,6 +13,7 @@ interface ToastProviderProps {
 export const ToastProvider = (props: ToastProviderProps): JSX.Element => {
   const { children } = props
   const toast = useToast()
+  const { t } = useTranslation()
 
   const runToast = useCallback<RunToastType>(function (
     messageObject,
@@ -28,11 +30,11 @@ export const ToastProvider = (props: ToastProviderProps): JSX.Element => {
     if (!messages.length) return
 
     toast({
-      title: title,
+      title: t(title),
       description: (
         <Box>
           {messages.map((message) => (
-            <Text key={message}>{message}</Text>
+            <Text key={message}>{t(message)}</Text>
           ))}
         </Box>
       ),

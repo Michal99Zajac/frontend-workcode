@@ -12,8 +12,8 @@ import './App.scss'
 
 export function App(): JSX.Element {
   return (
-    <Suspense fallback={<FullLoading />}>
-      <ThemeProvider theme={workcodeTheme}>
+    <ThemeProvider theme={workcodeTheme}>
+      <Suspense fallback={<FullLoading />}>
         <Mobile>
           <ErrorBoundary FallbackComponent={Error}>
             <ToastProvider>
@@ -23,8 +23,8 @@ export function App(): JSX.Element {
             </ToastProvider>
           </ErrorBoundary>
         </Mobile>
-      </ThemeProvider>
-    </Suspense>
+      </Suspense>
+    </ThemeProvider>
   )
 }
 

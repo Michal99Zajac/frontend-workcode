@@ -1,9 +1,12 @@
 import { z } from 'zod'
 
 import { ApiError } from 'common/schemas'
+import i18n from 'i18n'
 
 export const Form = z.object({
-  email: z.string({ required_error: 'email is required' }).email(),
+  email: z
+    .string({ required_error: i18n.t('auth.api.forgot_password.form.email') })
+    .email(),
 })
 
 export const Response = z.object({

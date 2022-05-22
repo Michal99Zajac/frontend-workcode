@@ -1,1 +1,17 @@
-{}
+{
+  "auth": {
+    "api": {
+      "change_password": {
+        "form": {
+          "password": "Hasło jest wymagane",
+          "repeatedPassword": "Powtórzone hasło jest wymagane"
+        }
+      }
+    },
+    "pages": {
+      "change_password": {
+        "different_passwords": "Hasła są różne"
+      }
+    }
+  }
+}
