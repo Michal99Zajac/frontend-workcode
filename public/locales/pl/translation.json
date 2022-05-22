@@ -6,11 +6,606 @@
           "password": "Hasło jest wymagane",
           "repeatedPassword": "Powtórzone hasło jest wymagane"
         }
+      },
+      "forgot_password": {
+        "form": {
+          "email": "Email jest wymagany"
+        }
+      },
+      "sign_in": {
+        "form": {
+          "email": "Email jest wymagany",
+          "password": "Hasło jest wymagane"
+        }
+      },
+      "sign_up": {
+        "form": {
+          "email": {
+            "required": "Email jest wymagany",
+            "email": "Email musi mieć forme emaila",
+            "empty": "Email jest wymagany"
+          },
+          "name": {
+            "required": "Imię jest wymagane"
+          },
+          "lastname": {
+            "required": "Nazwisko jest wymagane"
+          },
+          "password": {
+            "required": "Hasło jest wymagane",
+            "min": "Hasło musi mieć conajmniej 8 liter",
+            "empty": "Hasło jest wymagane"
+          },
+          "repeatedPassword": {
+            "required": "Powtórzone hasło jest wymagane"
+          }
+        }
       }
     },
     "pages": {
       "change_password": {
-        "different_passwords": "Hasła są różne"
+        "toast": {
+          "error": {
+            "zod": {
+              "title": "Formularz"
+            },
+            "api": {
+              "title": "Formularz"
+            },
+            "repeat": {
+              "title": "Formularz",
+              "message": "Hasła różnią się od siebie"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sukces",
+              "message": "Hasło zostało zmienione"
+            }
+          }
+        },
+        "window_title": "Zmień hasło",
+        "form": {
+          "password": {
+            "label": "Hasło"
+          },
+          "repeatedPassword": {
+            "label": "Powtórz hasło"
+          },
+          "submit_button": {
+            "label": "Zmień hasło"
+          }
+        }
+      },
+      "forgot_password": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Formularz"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sukces"
+            }
+          }
+        },
+        "alert": {
+          "title": "Ważne!",
+          "description": "Jeżeli zapomniałeś hasła, napisz swój email, a my wyślemy ci link do zmiany hasła."
+        },
+        "window_title": "Zapomniałem Hasła",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "label": "Wyśli prośbę"
+          }
+        }
+      },
+      "sign_in": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Logowanie!"
+            },
+            "zod": {
+              "title": "Logowanie!"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Logowanie!"
+            }
+          }
+        },
+        "window_title": "Zaloguj się",
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "password": {
+            "label": "Hasło",
+            "placeholder": "hasło"
+          },
+          "submit_button": {
+            "label": "Zaloguj"
+          }
+        },
+        "forgot_link": "Zapomniałeś hasła?",
+        "signup": {
+          "label": "Zarejestruj się",
+          "title": "Nie masz konta?"
+        }
+      },
+      "sign_up": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "title": "Formularz",
+              "message": "Hasła różnią się od siebie"
+            },
+            "api": {
+              "title": "Rejestracja"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Rejestracja",
+              "message": "Urzytkownik został stworzony"
+            }
+          }
+        },
+        "form": {
+          "email": {
+            "label": "Email"
+          },
+          "name": {
+            "label": "Imię",
+            "placeholder": "Jacek"
+          },
+          "lastname": {
+            "label": "Nazwisko",
+            "placeholder": "Śnieg"
+          },
+          "password": {
+            "label": "Hasło",
+            "placeholder": "hasło"
+          },
+          "repeatedPassword": {
+            "label": "Powtórz Hasło",
+            "placeholder": "powtórzone hasło"
+          },
+          "submit_button": {
+            "content": "Zarejestruj się"
+          }
+        },
+        "signin_button": {
+          "label": "Masz konto?",
+          "content": "Zaloguj się"
+        },
+        "window_title": "Rejestracja"
+      }
+    }
+  },
+  "common": {
+    "components": {
+      "invitations": {
+        "header": "Zaproszenia",
+        "refresh_button": "Odśwież"
+      },
+      "language_menu": {
+        "options": {
+          "polish": "Polski",
+          "english": "Angielski"
+        }
+      },
+      "user_bucket": {
+        "options": {
+          "configuration": "Konfiguracja",
+          "workspaces": "Workspaces",
+          "menu": "Menu",
+          "logout": "Wyloguj się"
+        }
+      }
+    }
+  },
+  "config": {
+    "api": {
+      "delete_me": {
+        "form": {
+          "password": {
+            "required": "Hasło jest wymagane"
+          }
+        }
+      },
+      "update_me": {
+        "form": {
+          "email": {
+            "required": "Email jest wymagany",
+            "email": "Email powinien mieć forme emaila",
+            "empty": "Email jest wymagany"
+          },
+          "name": {
+            "required": "Imię jest wymagane"
+          },
+          "lastname": {
+            "required": "Nazwisko jest wymagane"
+          }
+        }
+      },
+      "password_update": {
+        "form": {
+          "password": {
+            "required": "Hasło jest wymagane"
+          },
+          "repeatedPassword": {
+            "required": "Powtórzone hasło jest wymagane"
+          }
+        }
+      }
+    },
+    "components": {
+      "delete_account": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Sukces"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sukces"
+            }
+          }
+        },
+        "heading": "Usuń Konto",
+        "delete_button": "Usuń",
+        "modal": {
+          "header": "Usuń Konto",
+          "alert": {
+            "title": "Ostrzeżenie!",
+            "description": "Pamiętaj, jeżeli usuniesz konto, nie będziesz mógł go odzyskać"
+          },
+          "form": {
+            "password": {
+              "label": "Hasło"
+            },
+            "submit_button": {
+              "content": "Potwierdź"
+            }
+          }
+        }
+      },
+      "password_update": {
+        "toast": {
+          "error": {
+            "repeat": {
+              "message": "Hasła różnią się od siebie",
+              "title": "Formularz"
+            },
+            "api": {
+              "title": "Formularz"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Hasło zostało zmienione",
+              "title": "Sukces"
+            }
+          }
+        },
+        "heading": "Hasło",
+        "form": {
+          "password": {
+            "label": "Hasło"
+          },
+          "repeatedPassword": {
+            "label": "Powtórz Hasło"
+          },
+          "submit_button": {
+            "content": "Potwierdź"
+          }
+        }
+      },
+      "user_data_update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Formularz"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "message": "Dane zostały zmienione",
+              "title": "Sukces"
+            }
+          }
+        },
+        "heading": "Dane Użytkownika",
+        "form": {
+          "name": {
+            "label": "Imię",
+            "placeholder": "imię"
+          },
+          "lastname": {
+            "label": "Nazwisko",
+            "placeholder": "nazwisko"
+          },
+          "email": {
+            "label": "Email"
+          },
+          "submit_button": {
+            "content": "Potwierdź"
+          }
+        }
+      }
+    },
+    "pages": {
+      "user_config": {
+        "heading": "Konfiguracja Użytkownika",
+        "basic_setting": {
+          "heading": "Podstawowe Ustawienia"
+        }
+      }
+    }
+  },
+  "editor": {
+    "components": {
+      "active_contributors": {
+        "header": "Współtwórcy"
+      },
+      "chat": {
+        "header": "Czat"
+      },
+      "chat_send": {
+        "form": {
+          "message": {
+            "placeholder": "wiadomość"
+          }
+        }
+      },
+      "editor_compas": {
+        "ch": "znak",
+        "line": "linia"
+      }
+    },
+    "context": {
+      "workspace": {
+        "provider": {
+          "toast": {
+            "error": {
+              "api": {
+                "title": "Edytor"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "other": {
+    "pages": {
+      "404": {
+        "button": {
+          "content": "menu"
+        }
+      },
+      "error": {
+        "accordion": {
+          "button": "detale",
+          "alert": {
+            "title": "wiadomość"
+          }
+        },
+        "button": {
+          "content": "idź do menu"
+        }
+      },
+      "main": {
+        "workspaces": "Workspaces",
+        "signin": "Logowanie",
+        "signup": "Rejestacja"
+      }
+    }
+  },
+  "workspace": {
+    "api": {
+      "create_workspace": {
+        "form": {
+          "name": {
+            "min": "Imię powinno mieć conajmniej jeden znak",
+            "max": "Imię powinno nie przekraczać 255 znaków"
+          }
+        }
+      },
+      "update_workspace": {
+        "form": {
+          "name": {
+            "min": "Imię powinno mieć conajmniej jeden znak",
+            "max": "Imię powinno nie przekraczać 255 znaków"
+          }
+        }
+      }
+    },
+    "components": {
+      "invite_strap": {
+        "error": "Zaproszenie zostało wysłane"
+      },
+      "no_workspaces": {
+        "button": {
+          "content": "Dodaj workspace"
+        }
+      },
+      "record_menu": {
+        "menu": {
+          "update": "Aktualizuj",
+          "invite": "Zaproś",
+          "contributors": "Współtwórcy",
+          "copy": {
+            "before": "Kopiuj Link",
+            "after": "Skopiowano"
+          },
+          "delete": "Usuń",
+          "leave": "Opóść"
+        }
+      },
+      "workspace_filters": {
+        "tooltip_label": "Wyczyść Filtry",
+        "search_button": "Szukaj",
+        "form": {
+          "name": {
+            "placeholder": "Workspace"
+          },
+          "owner": {
+            "placeholder": "Właściciel"
+          },
+          "code": {
+            "placeholder": "Kod"
+          },
+          "self": {
+            "label": "tylko moje"
+          }
+        }
+      }
+    },
+    "hooks": {
+      "workspace_copy": {
+        "toast": {
+          "success": {
+            "standard": {
+              "title": "Sukces",
+              "message": "Skopiowano do schowka"
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "contributors": {
+        "header": "Współtwórcy",
+        "not_found": {
+          "heading": "Brak Współtwórców"
+        }
+      },
+      "create": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Formularz"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sukces",
+              "message": "Workspace został stworzony"
+            }
+          }
+        },
+        "header": "Stwórz workspace",
+        "form": {
+          "name": {
+            "label": "Imię",
+            "placeholder": "nazwa workspace'u"
+          },
+          "code": {
+            "label": "Kod"
+          },
+          "submit_button": {
+            "content": "Zatwierdź"
+          }
+        }
+      },
+      "invite": {
+        "header": "Zaproś",
+        "input": {
+          "placeholder": "Szukaj..."
+        },
+        "not_found": {
+          "heading": "Brak Rezultatów"
+        }
+      },
+      "menu": {
+        "header": {
+          "add": {
+            "tooltip_label": "Dodaj Workspace"
+          }
+        },
+        "table": {
+          "header": {
+            "title": "Tytuł",
+            "code": "Kod",
+            "owner": "Właściciel",
+            "contributors": "Współtwórcy",
+            "created_at": "Stworzono",
+            "action": "Akcja"
+          }
+        }
+      },
+      "update": {
+        "toast": {
+          "error": {
+            "api": {
+              "title": "Formularz"
+            },
+            "zod": {
+              "title": "Formularz"
+            }
+          },
+          "success": {
+            "api": {
+              "title": "Sukces",
+              "message": "Workspace został zaktualizowany"
+            }
+          }
+        },
+        "header": "Zaktualizuj Workspace",
+        "form": {
+          "name": {
+            "label": "Imię",
+            "placeholder": "nazwa workspace'u"
+          },
+          "code": {
+            "label": "Kod"
+          },
+          "submit_button": {
+            "content": "Aktualizacja"
+          }
+        }
+      }
+    }
+  },
+  "api": {
+    "toast": {
+      "warning": {
+        "message": "Nie jesteś zalogowany",
+        "title": "Autoryzacja"
+      }
+    }
+  },
+  "guardian": {
+    "toast": {
+      "warning": {
+        "title": "Niedozwolone"
       }
     }
   }

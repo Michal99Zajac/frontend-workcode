@@ -62,7 +62,7 @@ export function ChangePassword(): JSX.Element {
   return (
     <Center w="100%" h="100%">
       <Window
-        title={t('auth.pages.window_title')}
+        title={t('auth.pages.change_password.window_title')}
         onClick={() => navigate('/')}
       >
         <form onSubmit={onSubmit}>
@@ -73,7 +73,7 @@ export function ChangePassword(): JSX.Element {
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">
-                    * {t('auth.pages.form.password.label')}
+                    * {t('auth.pages.change_password.form.password.label')}
                   </Text>
                   <Input
                     type="password"
@@ -92,7 +92,10 @@ export function ChangePassword(): JSX.Element {
               render={({ field, fieldState }) => (
                 <InputGroup display="flex" flexDirection="column">
                   <Text fontSize="sm">
-                    * {t('auth.pages.form.repeatedPassword.label')}
+                    *{' '}
+                    {t(
+                      'auth.pages.change_password.form.repeatedPassword.label'
+                    )}
                   </Text>
                   <Input
                     type="password"
@@ -116,7 +119,7 @@ export function ChangePassword(): JSX.Element {
                 )
               }
             >
-              {t('auth.pages.form.submit_button.label')}
+              {t('auth.pages.change_password.form.submit_button.label')}
             </Button>
           </Stack>
         </form>
