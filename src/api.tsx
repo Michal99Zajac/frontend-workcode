@@ -19,6 +19,7 @@ export function Api(props: Props): JSX.Element {
     logout: store.logout,
     token: store.token,
   }))
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const runToast = useToast()
   const [api, setApi] = useState<AxiosInstance | null>(null)
@@ -46,8 +47,8 @@ export function Api(props: Props): JSX.Element {
             error.config.url !== '/auth/signin'
           ) {
             runToast(
-              { message: 'You are not logged' },
-              'Authorization',
+              { message: t('api.toast.warning.message') },
+              t('api.toast.warning.title'),
               'warning'
             )
             navigate('/auth/signin')

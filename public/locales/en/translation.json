@@ -593,5 +593,20 @@
         }
       }
     }
+  },
+  "api": {
+    "toast": {
+      "warning": {
+        "message": "You are not logged",
+        "title": "Authorization"
+      }
+    }
+  },
+  "guardian": {
+    "toast": {
+      "warning": {
+        "title": "Forbbiden"
+      }
+    }
   }
 }

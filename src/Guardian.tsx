@@ -1,8 +1,10 @@
 import { useCallback, useMemo } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { Outlet, Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
-import { useAuth } from './common/store'
+import { useAuth } from 'common/store'
+
 import { RoleArrayType } from './role'
 
 interface GuardianProps {
@@ -18,6 +20,7 @@ interface GuardianProps {
 export const Guardian = (props: GuardianProps): JSX.Element => {
   const { permissions, redirect, notLogged, auth, message, children, outlet } =
     props
+  const { t } = useTranslation()
   const { token, user } = useAuth()
   const hasPermission = useMemo<boolean>(
     () =>
@@ -35,7 +38,7 @@ export const Guardian = (props: GuardianProps): JSX.Element => {
 
   const disallow = useCallback(() => {
     toast({
-      title: 'Forbbiden',
+      title: t('guardian.toast.warning.title'),
       description: message,
       status: 'warning',
       duration: 3000,
