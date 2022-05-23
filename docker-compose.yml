@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  frontend:
+    container_name: workcode-frontend
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.production
+    networks:
+      - workcode-front
+
+networks:
+  workcode-front:
+    driver: bridge
